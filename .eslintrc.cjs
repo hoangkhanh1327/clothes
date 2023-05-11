@@ -1,4 +1,4 @@
-const path = require('path')
+import path from 'path'
 
 module.exports = {
   env: { browser: true, es2020: true },
@@ -34,6 +34,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-no-target-blank': 'warn',
+    'jsx-a11y/anchor-is-valid': 0,
     'prettier/prettier': [
       'warn',
       {

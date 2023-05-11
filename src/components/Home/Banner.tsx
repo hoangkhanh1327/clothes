@@ -1,8 +1,9 @@
 import React from 'react'
 import { config } from '~/utils'
+import { Carousel, Image, Typography } from 'antd'
 import { Link } from 'react-router-dom'
-import { Carousel, Image } from 'antd'
 
+const { Title, Paragraph } = Typography
 interface BannerDataProps {
   key: React.Key
   bgUrlImage: string
@@ -13,19 +14,19 @@ interface BannerDataProps {
 const BannerData: BannerDataProps[] = [
   {
     key: 0,
-    bgUrlImage: 'slider1.jpg',
+    bgUrlImage: 'banner1.webp',
     contentUrlImage: 'content1.png',
     title: 'the wooboom clothing summer collection is back at half price'
   },
   {
     key: 1,
-    bgUrlImage: 'slider2.jpg',
+    bgUrlImage: 'banner2.webp',
     contentUrlImage: 'content2.png',
     title: 'the wooboom clothing summer collection is back at half price'
   },
   {
     key: 2,
-    bgUrlImage: 'slider3.jpg',
+    bgUrlImage: 'banner3.webp',
     contentUrlImage: 'content3.png',
     title: 'the wooboom clothing summer collection is back at half price'
   }
@@ -44,41 +45,48 @@ const ContentTextClass: string[] = [
 ]
 function Banner() {
   return (
-    <section className='tw-mb-[30px]'>
-      <Carousel>
-        {BannerData.map((item: BannerDataProps) => {
-          return (
-            <div id={`slider-${item.key}`} key={item.key} className={`tw-w-full tw-relative`}>
-              <div className='tw-w-full tw-h-full tw-absolute tw-top-0 tw-left-0 -tw-z-10'>
-                <Image
-                  src={`${config.publicUrl}/images/banner/${item.bgUrlImage}`}
-                  alt={`background-${item.key}`}
-                  preview={false}
-                />
-              </div>
-              <div className='tw-container'>
-                <div className='tw-h-[780px] tw-flex tw-items-center'>
-                  <div className='tw-flex-1 tw-text-center p-0 tw-relative'>
-                    <img
-                      className={ContentImageClass[item.key as number]}
-                      src={`${config.publicUrl}/images/banner/${item.contentUrlImage}`}
-                      alt={`content-${item.key}`}
-                    />
-                    <p className={ContentTextClass[item.key as number]}>{item.title}</p>
-                    <Link
-                      className='slider-btn tw-opacity-0 tw-animate-fadeInUp tw-inline-block tw-text-[16px] tw-capitalize tw-pb-[2px] tw-border-b-[2px] tw-border-solid tw-border-white tw-text-white hover:tw-text-[#ff6a28] hover:tw-border-[#ff6a28] tw-transition-all tw-duration-300'
-                      to='/san-pham'
-                    >
-                      Khám Phá Ngay
-                    </Link>
-                  </div>
-                </div>
+    <Carousel>
+      {BannerData.map((item: BannerDataProps) => {
+        return (
+          <div
+            id={`slider-${item.key}`}
+            key={item.key}
+            className={`tw-w-full tw-relative tw-h-[380px] lg:tw-h-[747px]`}
+          >
+            <div className='tw-w-full tw-h-full tw-absolute tw-top-0 tw-left-0 -tw-z-10'>
+              <img
+                className='tw-max-w-full tw-h-auto tw-w-full tw-object-cover'
+                src={`${config.publicUrl}/images/banner/${item.bgUrlImage}`}
+                alt={`background-${item.key}`}
+              />
+            </div>
+            <div className='tw-table tw-w-full tw-h-full'>
+              <div className='tw-table-cell tw-align-middle tw-pl-[90px]'>
+                <Title level={2} className='tw-text-xl tw-capitalize tw-text-tertiary tw-font-medium tw-mb-2.5'>
+                  top trending
+                </Title>
+                <Title
+                  level={1}
+                  className='tw-uppercase tw-text-emerald-[#232323] tw-font-semibold tw-text-[45px] lg:tw-text-[80px] tw-mb-[15px] tw-mt-0'
+                >
+                  handbag
+                </Title>
+                <Paragraph className='tw-text-tertiary tw-text-base tw-font-medium tw-pr-[120px] tw-mb-0'>
+                  {`Lorem ipsum dolor amet, consectetur adipisicing`} <br />
+                  {` elit. Vel similique perspiciatis, tempore unde `}
+                </Paragraph>
+                <Link
+                  className='tw-text-base tw-text-tertiary tw-capitalize tw-mt-[30px] tw-pb-[5px] tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b-2 tw-border-solid tw-border-tertiary tw-font-semibold tw-inline-block hover:tw-text-primary hover:tw-border-primary'
+                  to={'/san-pham'}
+                >
+                  Discover Now
+                </Link>
               </div>
             </div>
-          )
-        })}
-      </Carousel>
-    </section>
+          </div>
+        )
+      })}
+    </Carousel>
   )
 }
 

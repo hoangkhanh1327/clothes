@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ProductCard } from '../Generals/Products'
+import { ProductCard, ProductSkeleton } from '../Generals/Products'
 import { Carousel, Skeleton } from 'antd'
 // import { ProductServices } from '../../services'
 import { ProductType } from '~/interfaces'
@@ -34,16 +34,25 @@ const BigSizeProductCarousel: React.FC<{
 
   const settings = {
     infinite: true,
-    slidesToShow: 4,
+    slidesToShow: 5,
     speed: 500,
     rows: 2,
     slidesPerRow: 1,
-    slidesToScroll: 4,
+    slidesToScroll: 5,
+    swipeToSlide: true,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
           slidesToScroll: 1,
           infinite: true
         }
@@ -51,25 +60,18 @@ const BigSizeProductCarousel: React.FC<{
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
+          slidesToShow: 2,
+          slidesToScroll: 2
         }
       }
     ]
   }
 
-  console.log('products', products)
   return (
     <div>
       <Carousel {...settings} draggable>
         {loading || !products.length
-          ? [...Array(10)].map((_, index) => (
-              <div key={`blog-skeleton-${index}`} className='tw-p-4'>
-                <div className='tw-relative tw-mb-[22px]'>
-                  <Skeleton.Image active className='!tw-w-full tw-block tw-max-w-[100%] tw-h-auto tw-min-h-[320px]' />
-                </div>
-              </div>
-            ))
+          ? [...Array(10)].map((_, index) => <ProductSkeleton key={`product-skeleton-${index}`} />)
           : products.map((product, index) => {
               return <ProductCard {...product} key={`product-${index}`} />
             })}

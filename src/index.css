@@ -2,14 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  .banner {
+    @apply before:tw-absolute before:tw-content-[''] before:tw-w-full before:tw-h-full before:tw-bg-banner before:tw-top-0 before:tw-left-0 before:tw-duration-300 before:tw-opacity-0 before:tw-pointer-events-none hover:before:tw-opacity-100;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+body {
+  line-height: 24px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  visibility: visible;
+  font-family: 'Libre Franklin', sans-serif !important;
+  color: #747474;
 }

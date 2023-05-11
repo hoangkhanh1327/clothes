@@ -12,4 +12,15 @@ interface AuthUser {
   updatedBy: string
 }
 
-export type { AuthUser }
+interface User {
+  id: string
+  fullname: string
+  email: string
+  photo?: string
+  verified: boolean
+  status: string
+  created_at: string
+  updated_at: string
+}
+
+export type { AuthUser, User }

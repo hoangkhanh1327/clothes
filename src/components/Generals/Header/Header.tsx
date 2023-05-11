@@ -1,145 +1,92 @@
-import Link from 'next/link';
-import { Searchbar, Nav, Cart, AccountDropdown } from '.';
-import { config } from '../../../utils';
-import { Col, Image, Menu, Row, Space } from 'antd';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/redux/reduxHooks';
+import { Searchbar, Cart, AccountDropdown, Nav, StickyHeader } from '.'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { config } from '../../../utils'
+import { Button, Col, Image, Row, Space } from 'antd'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { Icon, MobileNav } from '..'
+import { useAppDispatch } from '~/redux/hooks'
+import { toggleMobileSiderVisible } from '~/redux/reducers/appSlice'
 
-export default function Header() {
-    const router = useRouter();
-    const { asPath } = router;
-    const [currentPage, setCurrentPage] = useState<string>('/');
-    const { user } = useAppSelector((state) => state.auth);
+export default function CommonHeader() {
+  const { pathname } = useLocation()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const [currentPage, setCurrentPage] = useState<string>('/')
+  const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false)
+  useEffect(() => {
+    setCurrentPage(pathname.split('?')[0])
+  }, [pathname])
 
-    useEffect(() => {
-        setCurrentPage(asPath.split('?')[0]);
-    }, [asPath]);
+  useLayoutEffect(() => {
+    window.addEventListener('scroll', handleScroll)
 
-    return (
-        <>
-            <div className='tw-h-10 tw-bg-black tw-fixed tw-inset-x-0 tw-top-0 tw-z-[999]'>
-                <div className='tw-relative tw-full tw-px-3'>
-                    <Row gutter={[12, 12]}>
-                        <Col span={24} className='tw-text-right'>
-                            {user ? (
-                                <AccountDropdown />
-                            ) : (
-                                <Space size={12}>
-                                    <Link
-                                        className='tw-text-sm tw-leading-10 hover:tw-text-primary'
-                                        href={'/dang-nhap'}
-                                    >
-                                        Đăng nhập
-                                    </Link>
-                                    <Link
-                                        className='tw-text-sm tw-leading-10 hover:tw-text-primary'
-                                        href={'/dang-ky'}
-                                    >
-                                        Đăng ký
-                                    </Link>
-                                </Space>
-                            )}
-                        </Col>
-                    </Row>
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+  const handleScroll = (e: Event) => {
+    if (window.scrollY > 100) {
+      setShowStickyHeader(true)
+    } else {
+      setShowStickyHeader(false)
+    }
+  }
+
+  return (
+    <header className='tw-py-5 lg:tw-p-0' id='header'>
+      <div className='lg:tw-px-[30px]' id='header-mid'>
+        <div className='tw-container-fluid'>
+          <div className='tw-p-0 lg:tw-py-[43px]' id='mid-inner'>
+            <Row gutter={[24, 24]} className='tw-items-center'>
+              <Col span={4}>
+                <div>
+                  <Link to='/'>
+                    <Image
+                      width={120}
+                      height={38}
+                      src={`${config.publicUrl}/images/logo/logo.png`}
+                      alt='logo'
+                      className='tw-max-w-full tw-h-auto'
+                      preview={false}
+                    />
+                  </Link>
                 </div>
-            </div>
-            <div className='tw-fixed tw-inset-x-0 tw-top-10 tw-z-50 tw-bg-white tw-shadow-lg tw-px-8 tw-pt-10'>
-                <div className='tw-relative tw-full tw-px-3'>
-                    <div className='tw-pb-10'>
-                        <Row gutter={[12, 12]}>
-                            <Col span={8}></Col>
-                            <Col span={8}></Col>
-                            <Col span={8} className='tw-text-right'>
-                                <Space>
-                                    <Searchbar />
-                                    <Cart />
-                                </Space>
-                            </Col>
-                        </Row>
+              </Col>
+              <Col span={20}>
+                <div className='tw-justify-end tw-items-center tw-hidden lg:tw-flex'>
+                  <Space size={30}>
+                    <Searchbar />
+                    <div>
+                      <AccountDropdown />
                     </div>
-                    <div className='tw-flex tw-items-center tw-justify-center tw-max-w-[1190px] tw-absolute tw-left-[50%] tw-top-[calc(50%-25px)] -tw-translate-x-1/2 -tw-translate-y-1/2  !z-[999]'>
-                        <Menu
-                            mode='horizontal'
-                            className='tw-flex-1 !tw-border-none'
-                            selectedKeys={[currentPage]}
-                        >
-                            <Menu.Item
-                                key={'/'}
-                                className={`!tw-min-w-[56px] hover:!tw-text-primary after:tw-border-none !tw-text-base !tw-leading-6 tw-font-bold hover:after:!tw-border-b-primary after:!-tw-bottom-1.5 after:!tw-border-b-[3px] after:!tw-w-1/2 after:tw-transition-all ${
-                                    currentPage === '/' &&
-                                    '!tw-text-primary after:!tw-border-b-primary'
-                                }`}
-                                onClick={() => router.push('/')}
-                            >
-                                Trang chủ
-                            </Menu.Item>
-                            <Menu.Item
-                                key={'/san-pham'}
-                                className={`!tw-min-w-[56px] hover:!tw-text-primary after:tw-border-none !tw-text-base !tw-leading-6 tw-font-bold  hover:after:!tw-border-b-primary after:!-tw-bottom-1.5 after:!tw-border-b-[3px] after:!tw-w-1/2 after:tw-transition-all ${
-                                    currentPage === '/san-pham' &&
-                                    '!tw-text-primary after:!tw-border-b-primary'
-                                }`}
-                                onClick={() => router.push('/san-pham')}
-                            >
-                                Sản phẩm
-                            </Menu.Item>
-                            <Menu.Item
-                                key={'#'}
-                                className={`!tw-min-w-[56px] hover:!tw-text-primary after:tw-border-none !tw-text-base !tw-leading-6 tw-font-bold hover:after:!tw-border-b-primary after:!-tw-bottom-1.5 after:!tw-border-b-[3px] after:!tw-w-1/2 after:tw-transition-all`}
-                                onClick={() => {}}
-                            ></Menu.Item>
-                        </Menu>
-                        <Link
-                            href={'/'}
-                            className=' tw-px-28 tw-text-center tw-h-full tw-flex tw-items-center'
-                        >
-                            <Image
-                                src={`${config.publicUrl}/images/logo.png`}
-                                alt='logo'
-                                title='logo'
-                                preview={false}
-                            />
-                        </Link>
-                        <Menu
-                            mode='horizontal'
-                            className='tw-flex-1 !tw-border-none'
-                            selectedKeys={[currentPage]}
-                        >
-                            <Menu.Item
-                                key={'/bai-viet'}
-                                className={`!tw-min-w-[56px] hover:!tw-text-primary after:tw-border-none !tw-text-base !tw-leading-6 tw-font-bold hover:after:!tw-border-b-primary after:!-tw-bottom-1.5 after:!tw-border-b-[3px] after:!tw-w-1/2 after:tw-transition-all ${
-                                    currentPage === '/bai-viet' &&
-                                    '!tw-text-primary after:!tw-border-b-primary'
-                                }`}
-                                onClick={() => router.push('/bai-viet')}
-                            >
-                                Tin tức
-                            </Menu.Item>
-                            <Menu.Item
-                                key={'/ve-chung-toi'}
-                                className={`!tw-min-w-[56px] hover:!tw-text-primary after:tw-border-none !tw-text-base !tw-leading-6 tw-font-bold hover:after:!tw-border-b-primary after:!-tw-bottom-1.5 after:!tw-border-b-[3px] after:!tw-w-1/2 after:tw-transition-all ${
-                                    currentPage === '/ve-chung-toi' &&
-                                    '!tw-text-primary after:!tw-border-b-primary'
-                                }`}
-                                onClick={() => router.push('/ve-chung-toi')}
-                            >
-                                Về chúng tôi
-                            </Menu.Item>
-                            <Menu.Item
-                                key={'/lien-he'}
-                                className={`!tw-min-w-[56px] hover:!tw-text-primary after:tw-border-none !tw-text-base !tw-leading-6 tw-font-bold hover:after:!tw-border-b-primary after:!-tw-bottom-1.5 after:!tw-border-b-[3px] after:!tw-w-1/2 after:tw-transition-all ${
-                                    currentPage === '/lien-he' &&
-                                    '!tw-text-primary after:!tw-border-b-primary'
-                                }`}
-                                onClick={() => router.push('/lien-he')}
-                            >
-                                Liên hệ
-                            </Menu.Item>
-                        </Menu>
-                    </div>
+                    <Cart />
+                  </Space>
                 </div>
+              </Col>
+            </Row>
+          </div>
+          <div
+            style={{
+              display: 'inherit',
+              right: 'inherit'
+            }}
+            className='tw-absolute tw-left-[279px] tw-top-[39px] tw-z-[999] tw-max-w-[1190px] tw-hidden lg:tw-block'
+          >
+            <div>
+              <nav>
+                <Nav />
+              </nav>
             </div>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+      <Button
+        onClick={() => dispatch(toggleMobileSiderVisible(true))}
+        icon={<Icon name='BarsOutlined' />}
+        className='tw-fixed tw-right-[33px] tw-top-[27px] tw-block lg:tw-hidden'
+      />
+      <StickyHeader visible={showStickyHeader} />
+      <MobileNav />
+    </header>
+  )
 }
