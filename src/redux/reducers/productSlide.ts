@@ -32,6 +32,9 @@ export const productSlice = createSlice({
   reducers: {
     setFilters: (state, action) => {
       state.filters = action.payload
+    },
+    setQuickViewProduct: (state, action) => {
+      state.quickViewProduct = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -40,6 +43,11 @@ export const productSlice = createSlice({
     })
     builder.addCase(getCategoriesAsync.rejected, (state, action) => {
       state.productCategories = [
+        {
+          id: 99,
+          name: 'Total',
+          count: 60
+        },
         {
           id: 1,
           name: 'Womens',
@@ -75,6 +83,6 @@ export const productSlice = createSlice({
 })
 
 export const productState = (state: RootState) => state.product
-export const { setFilters } = productSlice.actions
+export const { setFilters, setQuickViewProduct } = productSlice.actions
 
 export default productSlice.reducer

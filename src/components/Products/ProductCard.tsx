@@ -3,26 +3,30 @@ import { config, format3P } from '~/utils'
 import { Link } from 'react-router-dom'
 import { Button, Image, Typography } from 'antd'
 import { ProductType } from '~/interfaces'
+import { useAppDispatch } from '~/redux/hooks'
+import { setQuickViewProduct } from '~/redux/reducers/productSlide'
 
 const { Title } = Typography
-const ProductCard: React.FC<ProductType> = ({
-  id,
-  name,
-  tags,
-  types,
-  brand,
-  discount_amount,
-  discount_percent = 0,
-  gender,
-  price,
-  description,
-  photos,
-  avr_rate
-}) => {
+const ProductCard: React.FC<ProductType> = (product) => {
+  const {
+    id,
+    name,
+    tags,
+    types,
+    brand,
+    discount_amount,
+    discount_percent = 0,
+    gender,
+    price,
+    description,
+    photos,
+    avr_rate
+  } = product
+  const dispatch = useAppDispatch()
+
   const costAfterSale = useMemo(() => {
     return price - (price * discount_percent) / 100
   }, [price, discount_percent])
-  console.log('photos', discount_percent, discount_amount)
   return (
     <div className='tw-px-3 tw-mb-10 xl:tw-mb-[33px]'>
       <div className='tw-relative tw-mb-[14px]'>
@@ -53,6 +57,7 @@ const ProductCard: React.FC<ProductType> = ({
             <a
               href='#'
               className='tw-leading-[45px] tw-bg-white tw-text-primary tw-px-[10px] tw-font-normal tw-rounded-sm tw-text-[13px] tw-capitalize tw-w-full tw-block tw-text-center'
+              onClick={() => dispatch(setQuickViewProduct(product))}
             >
               Xem nhanh
             </a>

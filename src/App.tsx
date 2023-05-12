@@ -22,6 +22,7 @@ const LandingPage = lazy(() => import('./pages/Landing'))
 
 // ProductPage
 const ProductsPage = lazy(() => import('./pages/Products'))
+const DetailProductPage = lazy(() => import('./pages/Products/DetailProduct'))
 
 function App() {
   const dispatch = useAppDispatch()
@@ -66,6 +67,7 @@ function App() {
 
         <Route path='/' element={<PageLayout />}>
           <Route path='/san-pham' element={<ProductsPage />} />
+          <Route path='/san-pham/:id' element={<DetailProductPage />} />
         </Route>
 
         <Route path='*' element={<_404 />} />
