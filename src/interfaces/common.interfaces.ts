@@ -13,6 +13,12 @@ enum Breakpoints {
   XXL = 'xxl'
 }
 
+interface RouteType {
+  key: string
+  label: string
+  path: string
+}
+
 interface ListParams {
   page: number
   pageSize: number
@@ -26,4 +32,4 @@ interface AppState {
   mobileNavVisible: boolean
 }
 export { Breakpoints, StatusTypes }
-export type { ListParams, AppState }
+export type { ListParams, AppState, RouteType }

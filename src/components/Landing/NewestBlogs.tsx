@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Carousel, Skeleton } from 'antd'
-import { BlogCard, BlogSkeleton } from '../Generals/Blogs'
+import { BlogCard, BlogSkeleton } from '../Blogs'
 
 import type { BlogItemType } from '~/interfaces'
 const NewestBlog = () => {

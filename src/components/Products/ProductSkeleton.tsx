@@ -5,7 +5,7 @@ const ProductSkeleton = () => {
       <div className='tw-relative tw-mb-[22px]'>
         <Skeleton.Image
           active
-          className='!tw-w-full tw-max-w-[100%] tw-h-auto tw-min-h-[415px] tw-flex tw-items-center tw-justify-center'
+          className='!tw-w-full tw-max-w-[100%] tw-h-auto tw-min-h-[385px] tw-flex tw-items-center tw-justify-center'
         />
       </div>
     </div>

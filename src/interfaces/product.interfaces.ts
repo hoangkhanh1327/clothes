@@ -3,6 +3,21 @@ enum GenderEnnumType {
   FEMALE = 'FEMALE'
 }
 
+interface ProductCategory {
+  id: string | number
+  name: string
+  count: number
+}
+
+interface ProductState {
+  productCategories: ProductCategory[]
+  productTags: string[]
+  products: ProductType[]
+  totalProducts: number
+  filters?: any
+  loading: boolean
+}
+
 interface ProductType {
   id: string
   name: string
@@ -19,4 +34,4 @@ interface ProductType {
 }
 
 export { GenderEnnumType }
-export type { ProductType }
+export type { ProductType, ProductState }

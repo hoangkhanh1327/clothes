@@ -51,7 +51,7 @@ function Banner() {
           <div
             id={`slider-${item.key}`}
             key={item.key}
-            className={`tw-w-full tw-relative tw-h-[380px] lg:tw-h-[747px]`}
+            className={`tw-w-full tw-relative tw-h-[380px] lg:tw-h-[362px] xl:tw-h-[747px]`}
           >
             <div className='tw-w-full tw-h-full tw-absolute tw-top-0 tw-left-0 -tw-z-10'>
               <img
@@ -67,7 +67,7 @@ function Banner() {
                 </Title>
                 <Title
                   level={1}
-                  className='tw-uppercase tw-text-emerald-[#232323] tw-font-semibold tw-text-[45px] lg:tw-text-[80px] tw-mb-[15px] tw-mt-0'
+                  className='tw-uppercase tw-text-emerald-[#232323] tw-font-semibold tw-text-[45px] lg:tw-text-[45px] xl:tw-text-[80px] tw-mb-[15px] tw-mt-0'
                 >
                   handbag
                 </Title>

@@ -52,8 +52,8 @@ const Nav: React.FC<{}> = ({}) => {
         return (
           <Menu.Item
             key={item.key}
-            className={`tw-inline-block tw-relative tw-py-[15px] tw-px-[26px] tw-text-tertiary tw-text-[13px] tw-leading-[26px] tw-font-medium hover:!tw-text-primary after:tw-border-none ${
-              isActive && '!tw-text-primary'
+            className={`tw-inline-block tw-relative tw-py-[15px] tw-px-[26px]  tw-text-[13px] tw-leading-[26px] tw-font-medium hover:!tw-text-primary after:tw-border-none ${
+              isActive ? 'tw-text-primary' : 'tw-text-tertiary'
             }`}
             onClick={() => navigate(item.path)}
           >

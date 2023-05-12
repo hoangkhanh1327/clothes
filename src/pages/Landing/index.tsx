@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { Banner, BestSellerProducts, BigSizeProductCarousel, NewestBlog, ProductTabs } from '~/components/Home'
+import { Banner, BestSellerProducts, BigSizeProductCarousel, NewestBlog, ProductTabs } from '~/components/Landing'
 import { Col, Layout, Row, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { config } from '~/utils'
@@ -14,7 +14,7 @@ const LandingPage = () => {
 
   return (
     <Content>
-      <section className='tw-mb-[51px] lg:tw-mb-[92px] tw-px-[20px] lg:tw-px-[30px]'>
+      <section className='tw-mb-[51px] lg:tw-mb-[70px] xl:tw-mb-[92px] tw-px-[20px] lg:tw-px-[30px]'>
         {/* Banner 1 */}
         <div className='tw-container-fluid'>
           <Row gutter={24}>
@@ -39,13 +39,16 @@ const LandingPage = () => {
                         <div className='tw-absolute tw-top-[14%] tw-left-5'>
                           <Title
                             level={2}
-                            className='tw-text-tertiary tw-text-[28px] tw-mb-5 tw-font-medium tw-leading-none'
+                            className='tw-text-tertiary lg:tw-text-[15px] xl:tw-text-xl xl:tw-text-[28px] tw-mb-5 tw-font-medium tw-leading-none'
                           >
                             {`Men's`}
                             <br />
                             {` Summer Sneaker`}
                           </Title>
-                          <Title level={3} className='tw-text-base tw-text-tertiary tw-leading-[30px] tw-font-normal'>
+                          <Title
+                            level={3}
+                            className='lg:tw-text-xs xl:tw-text-base tw-text-tertiary tw-leading-[30px] tw-font-normal'
+                          >
                             Big Sale Off This Week
                           </Title>
                         </div>
@@ -126,7 +129,7 @@ const LandingPage = () => {
           </Row>
           <div>
             <div>
-              <BigSizeProductCarousel category='1' isActive='1' />
+              <BigSizeProductCarousel />
             </div>
           </div>
         </div>
@@ -152,7 +155,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] xl:tw-pb-[46px]'>
+      <section className='lg:tw-mb-8 xl:tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] xl:tw-pb-[46px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>
@@ -175,7 +178,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] xl:tw-pb-[94px]'>
+      <section className='lg:tw-mb-0 tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] lg:tw-pb-[75px] xl:tw-pb-[94px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>

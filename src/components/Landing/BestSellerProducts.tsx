@@ -1,29 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import { ProductCard, ProductSkeleton } from '../Generals/Products'
+import React, { useEffect, useState } from 'react'
 import { Carousel, Skeleton } from 'antd'
+import { ProductCard, ProductSkeleton } from '../Products'
 // import { ProductServices } from '../../services'
 import { ProductType } from '~/interfaces'
-
-const BigSizeProductCarousel: React.FC<{
-  category: string
-  isActive: string
-}> = ({ category, isActive }) => {
-  const [products, setProducts] = useState<ProductType[]>([])
+const BestSellerProducts = () => {
+  const [bestSellerProducts, setBestSellerProducts] = useState<ProductType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    getProducts()
+    getBestSellerProducts()
   }, [])
-  console.log('?', category, isActive)
-  const getProducts = async () => {
+
+  const getBestSellerProducts = async () => {
     try {
       setLoading(true)
       // const res = await ProductServices.getProducts({
       //   page: 1,
-      //   page_size: 10,
-      //   genders: category.toUpperCase()
+      //   page_size: 5
       // })
-      // setProducts(res.data)
+      // setBestSellerProducts(res.data)
+      // console.log('res', res)
     } catch (error) {
       console.log('bestSellerProducts', error)
       // dispatch(NotificationActions.setNotification({ }))
@@ -31,12 +27,10 @@ const BigSizeProductCarousel: React.FC<{
       setLoading(false)
     }
   }
-
   const settings = {
     infinite: true,
     slidesToShow: 5,
     speed: 500,
-    rows: 2,
     slidesPerRow: 1,
     slidesToScroll: 5,
     swipeToSlide: true,
@@ -68,16 +62,12 @@ const BigSizeProductCarousel: React.FC<{
   }
 
   return (
-    <div>
-      <Carousel {...settings} draggable>
-        {loading || !products.length
-          ? [...Array(10)].map((_, index) => <ProductSkeleton key={`product-skeleton-${index}`} />)
-          : products.map((product, index) => {
-              return <ProductCard {...product} key={`product-${index}`} />
-            })}
-      </Carousel>
-    </div>
+    <Carousel draggable {...settings}>
+      {loading || !bestSellerProducts.length
+        ? [...Array(6)].map((_, index) => <ProductSkeleton key={`bestseller-product-skeleton-${index}`} />)
+        : bestSellerProducts?.map((product, index) => <ProductCard key={`newest-blog-${index}`} {...product} />)}
+    </Carousel>
   )
 }
 
-export default BigSizeProductCarousel
+export default BestSellerProducts

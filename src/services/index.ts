@@ -1,2 +1,2 @@
-export { default as AuthServices } from './auth.services';
-export { default as AccountSerivces } from './account.services';
+export { default as AuthServices } from './auth.services'
+export * as ProductServices from './product.services'

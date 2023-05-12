@@ -8,6 +8,7 @@ import { Grid } from 'antd'
 const { useBreakpoint } = Grid
 
 const HomeLayout = lazy(() => import('./layouts/home.layout'))
+const PageLayout = lazy(() => import('./layouts/page.layout'))
 
 const Authentication = lazy(() => import('./pages/Authentication'))
 
@@ -18,6 +19,9 @@ const _403 = lazy(() => import('./pages/Errors/_403'))
 
 // LandingPage
 const LandingPage = lazy(() => import('./pages/Landing'))
+
+// ProductPage
+const ProductsPage = lazy(() => import('./pages/Products'))
 
 function App() {
   const dispatch = useAppDispatch()
@@ -57,11 +61,16 @@ function App() {
         <Route path='/dang-nhap' element={<Authentication />} />
 
         <Route path='/' element={<HomeLayout />}>
-          <Route path='*' element={<_404 />} />
-          <Route path='/403' element={<_403 />} />
-          <Route path='/500' element={<_500 />} />
           <Route index element={<LandingPage />} />
         </Route>
+
+        <Route path='/' element={<PageLayout />}>
+          <Route path='/san-pham' element={<ProductsPage />} />
+        </Route>
+
+        <Route path='*' element={<_404 />} />
+        <Route path='/403' element={<_403 />} />
+        <Route path='/500' element={<_500 />} />
       </Routes>
     </Suspense>
   )

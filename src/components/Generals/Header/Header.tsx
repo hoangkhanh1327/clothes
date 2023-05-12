@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { config } from '../../../utils'
 import { Button, Col, Image, Row, Space } from 'antd'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import { Icon, MobileNav } from '..'
+import { Icon } from '..'
+import { MobileNav } from '.'
 import { useAppDispatch } from '~/redux/hooks'
 import { toggleMobileSiderVisible } from '~/redux/reducers/appSlice'
 
@@ -33,7 +34,10 @@ export default function CommonHeader() {
   }
 
   return (
-    <header className='tw-py-5 lg:tw-p-0' id='header'>
+    <header
+      className='tw-py-5 lg:tw-p-0 tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b tw-border-solid tw-border-[#ddd]'
+      id='header'
+    >
       <div className='lg:tw-px-[30px]' id='header-mid'>
         <div className='tw-container-fluid'>
           <div className='tw-p-0 lg:tw-py-[43px]' id='mid-inner'>

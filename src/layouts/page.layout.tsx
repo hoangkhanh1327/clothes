@@ -3,7 +3,7 @@ import { useLayoutEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Header, Footer } from '~/components'
 import { Icon } from '~/components/Generals'
-const HomeLayout = () => {
+const PageLayout = () => {
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false)
 
   useLayoutEffect(() => {
@@ -22,7 +22,7 @@ const HomeLayout = () => {
     }
   }
   return (
-    <Layout id='root-layout' className='tw-relative'>
+    <Layout id='root-layout'>
       <Layout className='tw-flex-1 tw-bg-white'>
         <Header />
         <Outlet />
@@ -40,11 +40,11 @@ const HomeLayout = () => {
           }
           shape='circle'
           size='large'
-          className='tw-absolute tw-z-[2147483647] tw-bottom-[85px] tw-text-lg tw-cursor-pointer tw-h-[45px] tw-bg-black tw-text-white tw-right-[12px] tw-text-center'
+          className='tw-fixed tw-z-[2147483647] tw-bottom-[85px] tw-text-lg tw-cursor-pointer tw-h-[45px] tw-bg-black tw-text-white tw-right-[12px] tw-text-center'
         />
       ) : null}
     </Layout>
   )
 }
 
-export default HomeLayout
+export default PageLayout

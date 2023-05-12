@@ -1,6 +1,5 @@
 import { Col, Row } from 'antd'
-import { Nav } from '..'
-
+import { Nav } from '.'
 const StickyHeader = ({ visible }: { visible: boolean }) => {
   if (!visible) return null
   return (

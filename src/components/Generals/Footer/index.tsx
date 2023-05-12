@@ -5,8 +5,8 @@ const { Title, Text, Paragraph } = Typography
 
 const Footer = () => {
   return (
-    <footer className='xl:tw-px-[120px]'>
-      <div className='xl:tw-pb-[92px] tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b tw-border-solid tw-border-[#ddd]'>
+    <footer className='md:tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px]'>
+      <div className='lg:tw-pb-[80px] xl:tw-pb-[92px] tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b tw-border-solid tw-border-[#ddd]'>
         <Row gutter={24}>
           <Col span={12} lg={{ span: 4 }}>
             <div>
@@ -162,7 +162,7 @@ const Footer = () => {
           </Col>
         </Row>
       </div>
-      <div className='xl:tw-py-[30px]'>
+      <div className='lg:tw-py-[30px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={12}>

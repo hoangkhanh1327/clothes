@@ -5,13 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ProductCard from './ProductCard'
 import { ProductType } from '~/interfaces'
 import 'moment/locale/vi'
+import { useAppDispatch, useAppSelector } from '~/redux/hooks'
+import { getProductAsync, productState } from '~/redux/reducers/productSlide'
+
 const BlogList = () => {
-  const [products, setProducts] = useState<ProductType[]>([])
+  const { filters, products, loading } = useAppSelector(productState)
+  const dispatch = useAppDispatch()
   const [page, setPage] = useState<number>(1)
 
   useEffect(() => {
-    setProducts([])
-  }, [page])
+    dispatch(getProductAsync(filters))
+  }, [filters])
 
   const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
     if (type === 'prev') {
@@ -34,6 +38,7 @@ const BlogList = () => {
   return (
     <List
       header={false}
+      loading={loading}
       dataSource={products}
       itemLayout='vertical'
       grid={{ gutter: 24, column: 4 }}
