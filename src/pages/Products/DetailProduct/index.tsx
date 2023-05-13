@@ -83,12 +83,10 @@ const DetailBlog = () => {
       // console.log('res', res)
       // setProduct(res.data)
     } catch (error) {
-      console.log('Lỗi chi tiết', error)
     } finally {
       setLoading(false)
     }
   }
-  console.log('product', product)
   const addItemToCard = (values: any) => {
     const item = {
       id: product?.id,

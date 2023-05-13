@@ -11,30 +11,30 @@ const { Title, Text } = Typography
 const Tax = 10
 
 const Cart: React.FC<{}> = ({}) => {
-  const cart = useAppSelector((state) => state.cart)
+  const { items } = useAppSelector((state) => state.cart)
   const [products, setProducts] = useState<CartItem[]>([])
   const [isDropdownCartVisible, setDropdownCartVisible] = useState<boolean>(false)
   const cartContentRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (cart.items.length > 0) {
-      setProducts(cart.items)
+    if (items.length > 0) {
+      setProducts(items)
     }
-  }, [cart.items])
+  }, [items])
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (cartContentRef.current && !cartContentRef.current.contains(e.target as Element)) {
-        setDropdownCartVisible(false)
-      }
-    }
-    window.addEventListener('mousedown', handleClickOutside)
+  // useEffect(() => {
+  //   const handleClickOutside = (e: MouseEvent) => {
+  //     if (cartContentRef.current && !cartContentRef.current.contains(e.target as Element)) {
+  //       setDropdownCartVisible(false)
+  //     }
+  //   }
+  //   window.addEventListener('mousedown', handleClickOutside)
 
-    return () => {
-      window.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [cartContentRef.current])
+  //   return () => {
+  //     window.removeEventListener('mousedown', handleClickOutside)
+  //   }
+  // }, [cartContentRef.current])
 
   const calculateTotalBeforeTax = useMemo(() => {
     let total = 0
@@ -238,7 +238,7 @@ const Cart: React.FC<{}> = ({}) => {
     >
       <a className='tw-text-xs tw-font-light tw-capitalize tw-text-secondary tw-border tw-border-solid tw-border-[#ddd] tw-pt-[10px] tw-pb-2 tw-px-[17px] tw-block tw-rounded-[30px] hover:tw-text-primary'>
         <FontAwesomeIcon icon={faShoppingBasket} className='tw-mr-2 tw-text-[17px]' />
-        {`2 items`}
+        {`${products.length} sản phẩm`}
       </a>
     </Dropdown>
   )

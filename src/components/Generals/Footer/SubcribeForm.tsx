@@ -6,7 +6,6 @@ const SubcribeForm = () => {
   const [messageApi, contextHolder] = message.useMessage()
 
   const onFinish = (values: any) => {
-    console.log('Success:', values)
     messageApi.info('Đăng ký thành công!')
     form.resetFields()
   }

@@ -22,7 +22,6 @@ const Products = () => {
     )
   }
 
-  console.log('filters', filters)
   return (
     <Fragment>
       <div className='xl:tw-py-10'>

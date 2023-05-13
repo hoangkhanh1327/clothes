@@ -6,6 +6,10 @@
   .banner {
     @apply before:tw-absolute before:tw-content-[''] before:tw-w-full before:tw-h-full before:tw-bg-banner before:tw-top-0 before:tw-left-0 before:tw-duration-300 before:tw-opacity-0 before:tw-pointer-events-none hover:before:tw-opacity-100;
   }
+
+  .product-action {
+    @apply tw-h-[41px] tw-leading-[41px] tw-w-[50px] tw-text-center tw-bg-white tw-text-tertiary tw-text-[15px] tw-relative tw-block tw-transition-all tw-divide-red-300 before:tw-absolute tw-content-[''] before:tw-bg-[#ddd] before:tw-h-[1px] before:tw-w-[25px] before:tw-bottom-0 before:tw-left-[13px];
+  }
 }
 
 body {

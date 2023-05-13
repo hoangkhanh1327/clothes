@@ -1,7 +1,7 @@
 import instance from './api'
 
 export const getProductCategory = (params: any) => {
-  return instance.get('/', {
+  return instance.get('/category', {
     params
   })
 }
@@ -13,6 +13,9 @@ export const getProductTags = (params: any) => {
 }
 
 export const getProducts = (params: any) => {
+  return instance.get('/products', {
+    params
+  })
   return new Promise((resolve) =>
     setTimeout(() => {
       resolve({

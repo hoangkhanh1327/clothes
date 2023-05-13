@@ -23,4 +23,13 @@ interface User {
   updated_at: string
 }
 
-export type { AuthUser, User }
+interface WishlistItem {
+  created_at: string
+  id: string
+  product_id: string
+  status: string
+  updated_at: string
+  user_id: string
+}
+
+export type { AuthUser, User, WishlistItem }

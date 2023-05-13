@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ProductCard, ProductSkeleton } from '../Products'
 import { Carousel } from 'antd'
-// import { ProductServices } from '../../services'
+import { ProductServices } from '../../services'
 import { ProductType } from '~/interfaces'
 
 const BigSizeProductCarousel = () => {
@@ -11,17 +11,16 @@ const BigSizeProductCarousel = () => {
   useEffect(() => {
     getProducts()
   }, [])
+
   const getProducts = async () => {
     try {
       setLoading(true)
-      // const res = await ProductServices.getProducts({
-      //   page: 1,
-      //   page_size: 10,
-      //   genders: category.toUpperCase()
-      // })
-      // setProducts(res.data)
+      const res: any = await ProductServices.getProducts({
+        page: 1,
+        page_size: 10
+      })
+      setProducts(res.data.data)
     } catch (error) {
-      console.log('bestSellerProducts', error)
       // dispatch(NotificationActions.setNotification({ }))
     } finally {
       setLoading(false)

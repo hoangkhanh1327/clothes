@@ -44,3 +44,27 @@ export const generateSlug = (value: string) => {
     .replace(/[^\w\-]+/g, '') // Remove all non-word chars
     .replace(/\-\-+/g, '-') // Replace multiple - with single -
 }
+
+// check if two object have same attributes with same value
+export function checkObjectIsEqual(
+  obj1: any,
+  obj2: any,
+  attrs?: string[] // array of attributes will not be used to check equality
+): boolean {
+  const cloneObjec1 = Object.assign({}, obj1)
+  const cloneObjec2 = Object.assign({}, obj2)
+  attrs?.map((attr) => {
+    cloneObjec1[attr] && delete cloneObjec1[attr]
+    cloneObjec2[attr] && delete cloneObjec2[attr]
+  })
+  return JSON.stringify(cloneObjec1) === JSON.stringify(cloneObjec2)
+}
+
+// Stringify object to JSON without useless attributes
+export function getJSONStringFromObject(obj: any, unusedAttrs?: string[]): string {
+  const cloneObject = Object.assign({}, obj)
+  unusedAttrs?.map((attr) => {
+    cloneObject[attr] && delete cloneObject[attr]
+  })
+  return JSON.stringify(cloneObject)
+}

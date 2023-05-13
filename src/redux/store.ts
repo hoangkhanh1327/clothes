@@ -4,7 +4,7 @@ import accountReducer from './reducers/accountSlice'
 import cartReducer from './reducers/cartSlice'
 import appSlice from './reducers/appSlice'
 import productSlide from './reducers/productSlide'
-
+import userSlice from './reducers/userSlice'
 export enum StatusTypes {
   SUCCESS = 'success',
   ERROR = 'error',
@@ -15,8 +15,9 @@ export const store = configureStore({
   reducer: {
     app: appSlice,
     auth: authReducer,
-    account: accountReducer,
+    user: userSlice,
     cart: cartReducer,
+    account: accountReducer,
     product: productSlide
   }
 })

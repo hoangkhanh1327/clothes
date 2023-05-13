@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Carousel, Skeleton } from 'antd'
+import { Carousel } from 'antd'
 import { ProductCard, ProductSkeleton } from '../Products'
-// import { ProductServices } from '../../services'
+import { ProductServices } from '../../services'
 import { ProductType } from '~/interfaces'
 const BestSellerProducts = () => {
   const [bestSellerProducts, setBestSellerProducts] = useState<ProductType[]>([])
@@ -14,15 +14,12 @@ const BestSellerProducts = () => {
   const getBestSellerProducts = async () => {
     try {
       setLoading(true)
-      // const res = await ProductServices.getProducts({
-      //   page: 1,
-      //   page_size: 5
-      // })
-      // setBestSellerProducts(res.data)
-      // console.log('res', res)
+      const res: any = await ProductServices.getProducts({
+        page: 1,
+        page_size: 5
+      })
+      setBestSellerProducts(res.data.data)
     } catch (error) {
-      console.log('bestSellerProducts', error)
-      // dispatch(NotificationActions.setNotification({ }))
     } finally {
       setLoading(false)
     }
