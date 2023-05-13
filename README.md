@@ -15,26 +15,28 @@
 - Run yarn install command to install dependencies
 - Run yarn start to run app on http://localhost:3001
 
-### Todos
+## Todos
 
-- FE:
-  [x] Landing Page
-  [x] Product Page
-  [ ] Detail ProductPage
-  [ ] Blog Page
-  [ ] Detail Blog Page
-  [x] AboutUs Page
-  [x] ContactMe Page
-  [x] Cart Page
-  [x] Checkout Page
-  [x] SignIn Page
-  [x] SignUp Page
-  [ ] User's Order Page
-  [ ] User's Wishlist Page
-  [ ] User Information Page
+### FE:
 
-- API:
-  [ ] CORS errors
-  [ ] API categories
-  [ ] API brands
-  [ ] API colors
+- [x] Landing Page
+- [x] Product Page
+- [ ] Detail ProductPage
+- [ ] Blog Page
+- [ ] Detail Blog Page
+- [x] AboutUs Page
+- [x] ContactMe Page
+- [x] Cart Page
+- [x] Checkout Page
+- [x] SignIn Page
+- [x] SignUp Page
+- [ ] User's Order Page
+- [ ] User's Wishlist Page
+- [ ] User Information Page
+
+## API:
+
+- [ ] CORS errors
+- [ ] API categories
+- [ ] API brands
+- [ ] API colors
