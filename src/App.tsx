@@ -24,6 +24,9 @@ const LandingPage = lazy(() => import('./pages/Landing'))
 const ProductsPage = lazy(() => import('./pages/Products'))
 const DetailProductPage = lazy(() => import('./pages/Products/DetailProduct'))
 
+const AboutUsePage = lazy(() => import('./pages/AboutUs'))
+const ContactUsPage = lazy(() => import('./pages/Contact'))
+
 function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -63,6 +66,8 @@ function App() {
 
         <Route path='/' element={<HomeLayout />}>
           <Route index element={<LandingPage />} />
+          <Route path='/gioi-thieu' element={<AboutUsePage />} />
+          <Route path='/lien-he' element={<ContactUsPage />} />
         </Route>
 
         <Route path='/' element={<PageLayout />}>

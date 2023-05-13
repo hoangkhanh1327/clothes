@@ -5,8 +5,9 @@ import { Button, Col, Image, Row, Space } from 'antd'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { Icon } from '..'
 import { MobileNav } from '.'
-import { useAppDispatch } from '~/redux/hooks'
+import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { toggleMobileSiderVisible } from '~/redux/reducers/appSlice'
+import { authState } from '~/redux/authSlice'
 
 export default function CommonHeader() {
   const { pathname } = useLocation()
@@ -14,6 +15,7 @@ export default function CommonHeader() {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState<string>('/')
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false)
+  const { user } = useAppSelector(authState)
   useEffect(() => {
     setCurrentPage(pathname.split('?')[0])
   }, [pathname])
@@ -61,7 +63,15 @@ export default function CommonHeader() {
                   <Space size={30}>
                     <Searchbar />
                     <div>
-                      <AccountDropdown />
+                      {user ? (
+                        <AccountDropdown />
+                      ) : (
+                        <Space size={12}>
+                          <Link className='tw-text-tertiary hover:tw-text-primary' to={'/dang-nhap'}>
+                            Đăng nhập
+                          </Link>
+                        </Space>
+                      )}
                     </div>
                     <Cart />
                   </Space>

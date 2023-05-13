@@ -19,9 +19,9 @@ const menus = [
     path: '/bai-viet'
   },
   {
-    key: '/ve-chung-toi',
+    key: '/gioi-thieu',
     label: 'Về chúng tôi',
-    path: '/ve-chung-toi'
+    path: '/gioi-thieu'
   },
   {
     key: '/lien-he',
