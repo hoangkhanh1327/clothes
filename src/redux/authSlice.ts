@@ -28,12 +28,14 @@ export const getCurrentUserAsync = createAsyncThunk('/user/me', async (_, { disp
 
 export interface AuthState {
   user: AuthUser | null
+  isLoggedIn: boolean
   status?: StatusTypes
   error?: string
 }
 
 const initialState: AuthState = {
-  user: null
+  user: null,
+  isLoggedIn: true
 }
 
 export const authSlice = createSlice({
@@ -46,12 +48,14 @@ export const authSlice = createSlice({
     })
     builder.addCase(signinAsync.fulfilled, (state, action) => {
       state.user = action.payload.data
+      state.isLoggedIn = true
       state.status = StatusTypes.SUCCESS
     })
     builder.addCase(signinAsync.rejected, (state, action) => {
       state.user = null
       state.status = StatusTypes.ERROR
       state.error = action.error.message
+      state.isLoggedIn = false
     })
 
     builder.addCase(getCurrentUserAsync.pending, (state) => {
@@ -64,6 +68,7 @@ export const authSlice = createSlice({
       state.user = null
       state.status = StatusTypes.ERROR
       state.error = action.error.message
+      state.isLoggedIn = false
     })
   }
 })

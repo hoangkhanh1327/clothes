@@ -2,9 +2,10 @@ import React, { Fragment, lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { history } from './utils'
 import './App.css'
-import { useAppDispatch } from './redux/hooks'
+import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { setBreakpoint } from './redux/reducers/appSlice'
 import { Grid } from 'antd'
+import { authState, getCurrentUserAsync } from './redux/authSlice'
 const { useBreakpoint } = Grid
 
 const HomeLayout = lazy(() => import('./layouts/home.layout'))
@@ -30,9 +31,21 @@ const ContactUsPage = lazy(() => import('./pages/Contact'))
 function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { isLoggedIn, user } = useAppSelector(authState)
   const screens = useBreakpoint()
   history.location = useLocation()
   history.navigate = navigate
+
+  useEffect(() => {
+    dispatch(getCurrentUserAsync())
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [user])
+
   useEffect(() => {
     getDeviceBreakPoint(screens)
   }, [screens])
