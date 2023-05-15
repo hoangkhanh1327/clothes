@@ -83,7 +83,7 @@ const ProductCard: React.FC<ProductType> = (product) => {
                         name,
                         price,
                         quantity: 1,
-                        image: photos && photos[0],
+                        image: photos ? photos[0] : '',
                         size: 'M',
                         color: 'color',
                         discount_amount,
