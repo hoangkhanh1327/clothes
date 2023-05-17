@@ -24,19 +24,22 @@ const ProtectedLayout = () => {
   }
   return (
     <Layout id='root-layout'>
-      <Layout className='tw-block tw-bg-white'>
+      <Layout className=' tw-h-screen tw-overflow-hidden tw-flex tw-flex-col tw-bg-white'>
         <Header showSearchBar={false} />
-        <div className='tw-container tw-py-10'>
-          <Row gutter={24}>
+        <div className='tw-container tw-my-3 tw-flex-1'>
+          <Row gutter={24} className='tw-min-h-full'>
             <Col span={6}>
-              <ProtectedSider />
+              <div className='tw-min-h-full tw-shadow-lg tw-rounded-lg'>
+                <ProtectedSider />
+              </div>
             </Col>
             <Col span={18}>
-              <Outlet />
+              <div className=' tw-h-full tw-shadow-lg tw-rounded-lg'>
+                <Outlet />
+              </div>
             </Col>
           </Row>
         </div>
-        <Footer />
       </Layout>
       {showStickyHeader ? (
         <Button
