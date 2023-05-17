@@ -15,7 +15,6 @@ const HomeBreadcrumb: React.FC<{}> = ({}) => {
   }, [pathname])
   return (
     <Breadcrumb
-      style={{ margin: '16px 0' }}
       items={[
         {
           title: 'Trang chủ',

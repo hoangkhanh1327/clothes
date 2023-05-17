@@ -31,7 +31,7 @@ const Categories = () => {
               className='tw-mb-2 tw-cursor-pointer group-[] tw-group'
               key={category.id}
               onClick={() => {
-                dispatch(setFilters({ ...filters, categoryId: category.id }))
+                dispatch(setFilters({ ...filters, genders: category.value }))
               }}
             >
               <Text
@@ -40,13 +40,13 @@ const Categories = () => {
                 }`}
               >
                 {category.name}
-                <span
+                {/* <span
                   className={`tw-float-right ${
                     isActive ? 'tw-bg-primary tw-text-white' : 'tw-bg-[#ebebeb] tw-text-[#c3c3c3]'
                   }  tw-text-xs tw-w-[29px] tw-h-[29px] tw-leading-[29px] tw-text-center tw-rounded-full tw-duration-300 group-hover:tw-bg-primary group-hover:tw-text-white`}
                 >
                   {category.count}
-                </span>
+                </span> */}
               </Text>
             </li>
           )

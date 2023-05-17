@@ -8,6 +8,7 @@ interface AuthUser {
   address: string
   createdAt: string
   createdBy: string
+  photo?: string
   updatedAt: string
   updatedBy: string
 }

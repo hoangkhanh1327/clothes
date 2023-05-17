@@ -6,13 +6,13 @@ enum GenderEnnumType {
 interface ProductCategory {
   id: string | number
   name: string
+  value: string
   count: number
 }
 
 interface ProductState {
   productCategories: ProductCategory[]
   productTags: string[]
-  products: ProductType[]
   totalProducts: number
   filters?: any
   loading: boolean

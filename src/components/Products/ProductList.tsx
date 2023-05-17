@@ -6,16 +6,36 @@ import ProductCard from './ProductCard'
 import { ProductType } from '~/interfaces'
 import 'moment/locale/vi'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { getProductAsync, productState } from '~/redux/reducers/productSlide'
+import { productState, setFilters } from '~/redux/reducers/productSlide'
+import { ProductServices } from '~/services'
 
 const BlogList = () => {
-  const { filters, products, loading } = useAppSelector(productState)
+  const { filters } = useAppSelector(productState)
   const dispatch = useAppDispatch()
-  const [page, setPage] = useState<number>(1)
+  const [products, setProducts] = useState<ProductType[]>([])
+  const [total, setTotal] = useState()
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    dispatch(getProductAsync(filters))
+    if (filters) {
+      getProducts(filters)
+    } else {
+      getProducts({ page: 1, page_size: 8 })
+    }
   }, [filters])
+
+  const getProducts = async (params: any) => {
+    try {
+      setLoading(true)
+      const res: any = await ProductServices.getProducts(params)
+      setProducts(res.data || [])
+      setTotal(res.total || 0)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
     if (type === 'prev') {
@@ -45,14 +65,14 @@ const BlogList = () => {
       footer={
         <Pagination
           className='tw-text-center tw-py-2 tw-border tw-rounded-sm'
-          current={page}
+          current={filters?.page || 1}
           itemRender={itemRender}
-          total={0}
-          onChange={(page: number) => setPage(page)}
+          total={total}
+          onChange={(page: number) => dispatch(setFilters({ ...filters, page }))}
         />
       }
       renderItem={(item: ProductType) => {
-        return <ProductCard {...item} />
+        return <ProductCard product={item} />
       }}
     />
   )

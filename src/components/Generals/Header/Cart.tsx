@@ -1,11 +1,11 @@
 import React, { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingBasket, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { format3P, config } from '../../../utils'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { Badge, Button, Col, Divider, Dropdown, Image, List, Row, Space, Typography } from 'antd'
+import { Button, Col, Divider, Dropdown, Image, List, Row, Space, Typography } from 'antd'
 import { CartItem } from '~/interfaces'
 const { Title, Text } = Typography
 const Tax = 10
@@ -13,7 +13,7 @@ const Tax = 10
 const Cart: React.FC<{}> = ({}) => {
   const { items } = useAppSelector((state) => state.cart)
   const [products, setProducts] = useState<CartItem[]>([])
-  const [isDropdownCartVisible, setDropdownCartVisible] = useState<boolean>(false)
+  const navigate = useNavigate()
   const cartContentRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
@@ -22,19 +22,6 @@ const Cart: React.FC<{}> = ({}) => {
       setProducts(items)
     }
   }, [items])
-
-  // useEffect(() => {
-  //   const handleClickOutside = (e: MouseEvent) => {
-  //     if (cartContentRef.current && !cartContentRef.current.contains(e.target as Element)) {
-  //       setDropdownCartVisible(false)
-  //     }
-  //   }
-  //   window.addEventListener('mousedown', handleClickOutside)
-
-  //   return () => {
-  //     window.removeEventListener('mousedown', handleClickOutside)
-  //   }
-  // }, [cartContentRef.current])
 
   const calculateTotalBeforeTax = useMemo(() => {
     let total = 0
@@ -216,8 +203,11 @@ const Cart: React.FC<{}> = ({}) => {
             </div>
             <div className='tw-block tw-pb-[25px] '>
               <Button
+                block
                 className='tw-block tw-capitalize tw-font-semibold tw-text-[#242424] tw-bg-[#f6f6f6] tw-text-center tw-mb-0 tw-pt-[11px] tw-pb[9px] hover:!tw-text-white hover:!tw-bg-black'
-                href='/gio-hang'
+                onClick={() => {
+                  navigate('/gio-hang')
+                }}
                 size='large'
               >
                 Giỏ hàng
@@ -225,8 +215,11 @@ const Cart: React.FC<{}> = ({}) => {
             </div>
             <div className='tw-block tw-pb-[25px]'>
               <Button
+                block
                 size='large'
-                href='/thanh-toan'
+                onClick={() => {
+                  navigate('/thanh-toan')
+                }}
                 className='tw-block tw-capitalize tw-font-semibold tw-text-[#242424] tw-bg-[#f6f6f6] tw-text-center tw-mb-0 tw-pt-[11px] tw-pb[9px] hover:!tw-text-white hover:!tw-bg-black'
               >
                 Thanh toán
@@ -236,7 +229,12 @@ const Cart: React.FC<{}> = ({}) => {
         )
       }}
     >
-      <a className='tw-text-xs tw-font-light tw-capitalize tw-text-secondary tw-border tw-border-solid tw-border-[#ddd] tw-pt-[10px] tw-pb-2 tw-px-[17px] tw-block tw-rounded-[30px] hover:tw-text-primary'>
+      <a
+        onClick={(e) => {
+          e.preventDefault()
+        }}
+        className='tw-text-xs tw-font-light tw-capitalize tw-text-secondary tw-border tw-border-solid tw-border-[#ddd] tw-pt-[10px] tw-pb-2 tw-px-[17px] tw-block tw-rounded-[30px] hover:tw-text-primary'
+      >
         <FontAwesomeIcon icon={faShoppingBasket} className='tw-mr-2 tw-text-[17px]' />
         {`${products.length} sản phẩm`}
       </a>

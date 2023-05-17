@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd'
 import { Icon } from '../Generals'
-import { signinAsync } from '../../redux/authSlice'
+import { signinAsync } from '../../redux/reducers/authSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 const SignInForm: React.FC<{}> = ({}) => {
@@ -27,6 +27,7 @@ const SignInForm: React.FC<{}> = ({}) => {
           prefix={<Icon name='UserOutlined' className='site-form-item-icon' />}
           size='large'
           placeholder='Username'
+          autoComplete='username'
         />
       </Form.Item>
       <Form.Item
@@ -42,6 +43,7 @@ const SignInForm: React.FC<{}> = ({}) => {
           prefix={<Icon name='LockOutlined' className='site-form-item-icon' />}
           size='large'
           placeholder='Password'
+          autoComplete='current-password'
         />
       </Form.Item>
       <Form.Item>

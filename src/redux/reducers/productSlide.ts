@@ -13,15 +13,9 @@ export const getProductTagsAsync = createAsyncThunk('productTags', async (params
   return response.data
 })
 
-export const getProductAsync = createAsyncThunk('product', async (params: any) => {
-  const response: any = await ProductServices.getProducts(params)
-  return response.data
-})
-
 const initialState: ProductState = {
   productCategories: [],
   productTags: [],
-  products: [],
   totalProducts: 0,
   loading: false
 }
@@ -45,22 +39,26 @@ export const productSlice = createSlice({
       state.productCategories = [
         {
           id: 99,
-          name: 'Total',
+          name: 'Tất cả',
+          value: '',
           count: 60
         },
         {
           id: 1,
-          name: 'Womens',
+          name: 'Phụ nữ',
+          value: 'WOMEN',
           count: 10
         },
         {
           id: 2,
-          name: 'Men',
+          name: 'Đàn ông',
+          value: 'MEN',
           count: 20
         },
         {
           id: 3,
-          name: 'Kids',
+          name: 'Trẻ em',
+          value: 'KID',
           count: 30
         }
       ]
@@ -70,14 +68,6 @@ export const productSlice = createSlice({
     })
     builder.addCase(getProductTagsAsync.rejected, (state, action) => {
       state.productTags = ['tag1', 'tag2', 'tag3', 'tag4', 'tag5']
-    })
-    builder.addCase(getProductAsync.pending, (state, action) => {
-      state.loading = true
-    })
-    builder.addCase(getProductAsync.fulfilled, (state, action) => {
-      state.products = action.payload.data
-      state.totalProducts = action.payload.data.total
-      state.loading = false
     })
   }
 })

@@ -63,16 +63,16 @@ export const cartSlice = createSlice({
       })
     },
     removeItemFromCart: (state, action): void => {
-      state.items.filter((item) => item.keyInCart !== action.payload)
+      state.items = state.items.filter((item) => item.keyInCart !== action.payload)
     },
-    clearCart: (state, action): void => {
+    clearCart: (state): void => {
       state.items = []
     }
   },
   extraReducers: (builder) => {}
 })
 
-export const accountState = (state: RootState) => state.cart
+export const cartState = (state: RootState) => state.cart
 export const { addItemToCart, updateItemQuantity, removeItemFromCart, clearCart } = cartSlice.actions
 
 export default cartSlice.reducer

@@ -27,6 +27,7 @@ import { ProductType } from '~/interfaces'
 import { CarouselRef } from 'antd/es/carousel'
 import { ProductCard } from '~/components/Products'
 import { BestSellerProducts } from '~/components/Landing'
+import { ProductServices } from '~/services'
 // import { ProductServices } from '@/modules/common/services'
 
 const { Title, Text, Paragraph } = Typography
@@ -35,21 +36,32 @@ const DetailBlog = () => {
   const [form] = Form.useForm()
   const [product, setProduct] = useState<ProductType>()
   const [relativeProducts, setRelativeProducts] = useState<ProductType[]>([])
-  const { products } = useAppSelector(productState)
   const [loading, setLoading] = useState<boolean>(true)
   const imgRef = useRef<CarouselRef>(null)
 
   useEffect(() => {
     if (id) {
-      getProductDetail()
+      getDetailProduct(id)
     }
   }, [id])
 
-  useEffect(() => {
-    if (products.length) {
-      setRelativeProducts(products.slice(0, 5))
+  // useEffect(() => {
+  //   if (products.length) {
+  //     setRelativeProducts(products.slice(0, 5))
+  //   }
+  // }, [products])
+
+  const getDetailProduct = async (id: string) => {
+    try {
+      setLoading(true)
+      const res = await ProductServices.getDetailProduct(id)
+      console.log('res', res)
+      setProduct(res.data)
+    } catch (error) {
+    } finally {
+      setLoading(false)
     }
-  }, [products])
+  }
 
   const calcDiscountPrice = useCallback((originPrice?: number, discountAmount?: number, discountPercent?: number) => {
     if (originPrice) {
@@ -66,27 +78,6 @@ const DetailBlog = () => {
     }
   }, [])
 
-  const getProductDetail = async () => {
-    try {
-      setLoading(true)
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const product = products.find((product) => product.id === id)
-          if (product) {
-            setProduct(product)
-          }
-        }, 1000)
-      })
-      // const res = await ProductServices.getDetailProducts({
-      //   id: id as string
-      // })
-      // console.log('res', res)
-      // setProduct(res.data)
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
   const addItemToCard = (values: any) => {
     const item = {
       id: product?.id,
@@ -105,7 +96,7 @@ const DetailBlog = () => {
       <Row gutter={[24, 0]} className='tw-mb-9'>
         <Col span={24}>
           <Breadcrumb
-            className='tw-text-sm tw-py-10'
+            className='tw-text-sm tw-py-6'
             items={[
               {
                 title: 'Trang chủ',
@@ -150,7 +141,7 @@ const DetailBlog = () => {
             )}
 
             <div className='tw-grid tw-gap-1 tw-grid-cols-4 tw-mt-2'>
-              {product?.photos?.map((image, index) => {
+              {product?.photos?.slice(0, 4)?.map((image, index) => {
                 return (
                   <div
                     className='tw-col-span-1'
@@ -314,7 +305,7 @@ const DetailBlog = () => {
           <div className='tw-grid tw-grid-cols-5 tw-gap-3'>
             {relativeProducts?.map((product) => (
               <div key={`relative-product-${product.id}`} className='tw-col-span-1'>
-                <ProductCard {...product} />
+                <ProductCard product={product} />
               </div>
             ))}
           </div>

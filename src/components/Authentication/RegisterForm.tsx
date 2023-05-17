@@ -1,11 +1,9 @@
 import { Button, Form, Input } from 'antd'
 import { Icon } from '../Generals'
-import { useAppSelector } from '../../redux/hooks'
-import { signinAsync } from '../../redux/authSlice'
+import { signinAsync } from '../../redux/reducers/authSlice'
 
 const RegisterForm: React.FC<{}> = ({}) => {
   const [form] = Form.useForm()
-  const auth = useAppSelector((state) => state.auth)
 
   const onFinish = (values: any) => {
     signinAsync(values)

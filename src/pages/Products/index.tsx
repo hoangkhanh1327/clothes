@@ -17,14 +17,14 @@ const Products = () => {
     dispatch(
       setFilters({
         ...filters,
-        keyword: searchRef.current?.input?.value
+        name: searchRef.current?.input?.value
       })
     )
   }
 
   return (
     <Fragment>
-      <div className='xl:tw-py-10'>
+      <div className='2xl:tw-py-9'>
         <div className='tw-container'>
           <Breadcrumb />
         </div>
@@ -52,7 +52,7 @@ const Products = () => {
                 <Input
                   ref={searchRef}
                   placeholder='Nhập tên sản phẩm'
-                  defaultValue={filters?.keyword}
+                  defaultValue={filters?.name}
                   size='large'
                   suffix={<Icon name='SearchOutlined' />}
                   className=' tw-rounded-[50px]'

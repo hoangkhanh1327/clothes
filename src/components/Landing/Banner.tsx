@@ -32,17 +32,6 @@ const BannerData: BannerDataProps[] = [
   }
 ]
 
-const ContentImageClass: string[] = [
-  'slider-image !tw-w-[720px] tw-mx-[auto] !tw-block tw-animate-zoomIn',
-  'slider-image !tw-w-[800px] tw-mx-[auto] !tw-block tw-animate-zoomIn',
-  'slider-image !tw-w-[700px] tw-relative tw-top-[-85px] tw-mx-[auto] !tw-block tw-animate-zoomIn'
-]
-
-const ContentTextClass: string[] = [
-  'slider-caption tw-opacity tw-text-white tw-absolute tw-bottom-[130px] tw-left-0 tw-right-0 tw-text-center tw-m-0 tw-animate-fadeInUp',
-  'slider-caption tw-opacity tw-text-white tw-absolute tw-bottom-[110px] tw-left-0 tw-right-0 tw-text-center tw-m-0 tw-animate-fadeInUp',
-  'slider-caption tw-opacity tw-text-white tw-absolute tw-bottom-[80px] tw-left-0 tw-right-0 tw-text-center tw-m-0 tw-animate-fadeInUp'
-]
 function Banner() {
   return (
     <Carousel>
@@ -51,7 +40,7 @@ function Banner() {
           <div
             id={`slider-${item.key}`}
             key={item.key}
-            className={`tw-w-full tw-relative tw-h-[380px] lg:tw-h-[362px] xl:tw-h-[747px]`}
+            className={`tw-w-full tw-relative tw-h-[380px] lg:tw-h-[362px] xl:tw-h-[511px] 2xl:tw-h-[747px]`}
           >
             <div className='tw-w-full tw-h-full tw-absolute tw-top-0 tw-left-0 -tw-z-10'>
               <img

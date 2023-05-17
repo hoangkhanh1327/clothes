@@ -7,9 +7,9 @@ import { Icon } from '..'
 import { MobileNav } from '.'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { toggleMobileSiderVisible } from '~/redux/reducers/appSlice'
-import { authState } from '~/redux/authSlice'
+import { authState } from '~/redux/reducers/authSlice'
 
-export default function CommonHeader() {
+export default function CommonHeader({ showSearchBar = true }: { showSearchBar: boolean }) {
   const { pathname } = useLocation()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -61,7 +61,7 @@ export default function CommonHeader() {
               <Col span={20}>
                 <div className='tw-justify-end tw-items-center tw-hidden lg:tw-flex'>
                   <Space size={30}>
-                    <Searchbar />
+                    {showSearchBar ? <Searchbar /> : null}
                     <div>
                       {user ? (
                         <AccountDropdown />

@@ -13,7 +13,7 @@ const instance = axios.create({
 let refreshToken: any = null
 instance.interceptors.response.use(
   (res) => {
-    return res
+    return res.data
   },
   async (error: AxiosError) => {
     const status = error.response?.status

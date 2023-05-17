@@ -11,7 +11,12 @@ import { addItemToCart } from '~/redux/reducers/cartSlice'
 import { addItemToWishlistAsync, removeItemFromWishlistAsync, userState } from '~/redux/reducers/userSlice'
 
 const { Title, Text } = Typography
-const ProductCard: React.FC<ProductType> = (product) => {
+
+interface ProductCardType {
+  product: ProductType
+  isLandingPage?: boolean
+}
+const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
   const {
     id,
     name,
@@ -26,6 +31,7 @@ const ProductCard: React.FC<ProductType> = (product) => {
     photos,
     avr_rate
   } = product
+
   const dispatch = useAppDispatch()
   const { wishlist } = useAppSelector(userState)
 
@@ -46,7 +52,7 @@ const ProductCard: React.FC<ProductType> = (product) => {
           <Image
             src={photos?.length ? photos[0] : `${config.publicUrl}/images/products/product2.jpg`}
             alt={name}
-            className='tw-block tw-w-full tw-max-w-[100%] tw-h-auto'
+            className={isLandingPage ? 'product-image' : 'tw-w-full tw-h-auto  tw-object-cover'}
             placeholder
             preview={false}
           />
@@ -59,7 +65,7 @@ const ProductCard: React.FC<ProductType> = (product) => {
           <Image
             src={photos?.length ? photos[1] : `${config.publicUrl}/images/products/product1.jpg`}
             alt={name}
-            className='tw-block tw-w-full tw-max-w-[100%] tw-h-auto'
+            className={isLandingPage ? 'product-image' : 'tw-w-full tw-h-auto  tw-object-cover'}
             preview={false}
           />
         </Link>

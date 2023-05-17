@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { AuthUser } from '../interfaces'
-import { AuthServices } from '../services'
-import { RootState } from './store'
+import type { AuthUser } from '../../interfaces'
+import { AuthServices } from '../../services'
+import { RootState } from '../store'
+import { history } from '~/utils'
 
 export enum StatusTypes {
   SUCCESS = 'success',
@@ -41,13 +42,19 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    signOut: (state) => {
+      state.user = null
+      state.isLoggedIn = false
+      history.navigate('/')
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(signinAsync.pending, (state) => {
       state.status = StatusTypes.LOADING
     })
     builder.addCase(signinAsync.fulfilled, (state, action) => {
-      state.user = action.payload.data
+      state.user = action.payload
       state.isLoggedIn = true
       state.status = StatusTypes.SUCCESS
     })
@@ -72,6 +79,8 @@ export const authSlice = createSlice({
     })
   }
 })
+
+export const { signOut } = authSlice.actions
 
 export const authState = (state: RootState) => state.auth
 

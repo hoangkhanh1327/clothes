@@ -16,9 +16,9 @@ const BestSellerProducts = () => {
       setLoading(true)
       const res: any = await ProductServices.getProducts({
         page: 1,
-        page_size: 5
+        page_size: 6
       })
-      setBestSellerProducts(res.data.data)
+      setBestSellerProducts(res.data)
     } catch (error) {
     } finally {
       setLoading(false)
@@ -29,7 +29,7 @@ const BestSellerProducts = () => {
     slidesToShow: 5,
     speed: 500,
     slidesPerRow: 1,
-    slidesToScroll: 5,
+    slidesToScroll: 1,
     swipeToSlide: true,
     responsive: [
       {
@@ -52,7 +52,7 @@ const BestSellerProducts = () => {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2
+          slidesToScroll: 1
         }
       }
     ]
@@ -62,7 +62,9 @@ const BestSellerProducts = () => {
     <Carousel draggable {...settings}>
       {loading || !bestSellerProducts.length
         ? [...Array(6)].map((_, index) => <ProductSkeleton key={`bestseller-product-skeleton-${index}`} />)
-        : bestSellerProducts?.map((product, index) => <ProductCard key={`newest-blog-${index}`} {...product} />)}
+        : bestSellerProducts?.map((product, index) => (
+            <ProductCard product={product} isLandingPage={true} key={`newest-blog-${index}`} />
+          ))}
     </Carousel>
   )
 }

@@ -5,11 +5,12 @@ import './App.css'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { setBreakpoint } from './redux/reducers/appSlice'
 import { Grid } from 'antd'
-import { authState, getCurrentUserAsync } from './redux/authSlice'
+import { authState, getCurrentUserAsync } from './redux/reducers/authSlice'
 const { useBreakpoint } = Grid
 
 const HomeLayout = lazy(() => import('./layouts/home.layout'))
 const PageLayout = lazy(() => import('./layouts/page.layout'))
+const ProtectedLayout = lazy(() => import('./layouts/protected.layout'))
 
 const Authentication = lazy(() => import('./pages/Authentication'))
 
@@ -21,13 +22,22 @@ const _403 = lazy(() => import('./pages/Errors/_403'))
 // LandingPage
 const LandingPage = lazy(() => import('./pages/Landing'))
 
-// ProductPage
+// Product Pages
 const ProductsPage = lazy(() => import('./pages/Products'))
 const DetailProductPage = lazy(() => import('./pages/Products/DetailProduct'))
 
+// Static Pages
 const AboutUsePage = lazy(() => import('./pages/AboutUs'))
 const ContactUsPage = lazy(() => import('./pages/Contact'))
 
+// User Pages
+const InfocationPage = lazy(() => import('./pages/User/Infomation'))
+const OrderPage = lazy(() => import('./pages/User/OrderHistory'))
+const Whislist = lazy(() => import('./pages/User/Whistlist'))
+// Admin Pages
+
+// Cart & Checkout
+const CartPage = lazy(() => import('./pages/Cart'))
 function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -37,14 +47,16 @@ function App() {
   history.navigate = navigate
 
   useEffect(() => {
-    dispatch(getCurrentUserAsync())
+    if (!user) {
+      dispatch(getCurrentUserAsync())
+    }
   }, [])
 
-  useEffect(() => {
-    if (user) {
-      navigate('/')
-    }
-  }, [user])
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate('/')
+  //   }
+  // }, [user])
 
   useEffect(() => {
     getDeviceBreakPoint(screens)
@@ -77,6 +89,13 @@ function App() {
       <Routes>
         <Route path='/dang-nhap' element={<Authentication />} />
 
+        <Route path='/ca-nhan' element={<ProtectedLayout />}>
+          <Route path='/ca-nhan/thong-tin-tai-khoan' element={<InfocationPage />} />
+          <Route path='/ca-nhan/lich-su-mua-hang' element={<OrderPage />} />
+          <Route path='/ca-nhan/yeu-thich' element={<Whislist />} />
+          <Route index element={<InfocationPage />} />
+        </Route>
+
         <Route path='/' element={<HomeLayout />}>
           <Route index element={<LandingPage />} />
           <Route path='/gioi-thieu' element={<AboutUsePage />} />
@@ -86,11 +105,13 @@ function App() {
         <Route path='/' element={<PageLayout />}>
           <Route path='/san-pham' element={<ProductsPage />} />
           <Route path='/san-pham/:id' element={<DetailProductPage />} />
+          <Route path='/gio-hang' element={<CartPage />} />
+          <Route path='/thanh-toan' element={<CartPage />} />
         </Route>
 
-        <Route path='*' element={<_404 />} />
         <Route path='/403' element={<_403 />} />
         <Route path='/500' element={<_500 />} />
+        <Route path='*' element={<_404 />} />
       </Routes>
     </Suspense>
   )

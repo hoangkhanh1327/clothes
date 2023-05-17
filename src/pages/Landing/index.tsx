@@ -14,7 +14,7 @@ const LandingPage = () => {
 
   return (
     <Content>
-      <section className='tw-mb-[51px] lg:tw-mb-[70px] xl:tw-mb-[92px] tw-px-[20px] lg:tw-px-[30px]'>
+      <section className='tw-mb-[51px] lg:tw-mb-[70px] xl:tw-mb-[72px] 2xl:tw-mb-[92px] tw-px-[20px] lg:tw-px-[30px]'>
         {/* Banner 1 */}
         <div className='tw-container-fluid'>
           <Row gutter={24}>
@@ -110,7 +110,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] lg:tw-pb-[46px] xl:tw-pb-[54px]'>
+      <section className='tw-px-[20px] lg:tw-px-[30px] lg:tw-pb-[46px] xl:tw-px-[30px] xl:tw-pb-[38px] 2xl:tw-px-[120px] 2xl:tw-pb-[54px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>
@@ -155,7 +155,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='lg:tw-mb-8 xl:tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] xl:tw-pb-[46px]'>
+      <section className='lg:tw-mb-8 xl:tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[30px] xl:tw-pb-[31px] 2xl:tw-px-[120px] 2xl:tw-pb-[46px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>
@@ -178,7 +178,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='lg:tw-mb-0 tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px] lg:tw-pb-[75px] xl:tw-pb-[94px]'>
+      <section className='lg:tw-mb-0 tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[30px] 2xl:tw-px-[120px] lg:tw-pb-[75px] xl:tw-pb-[94px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>

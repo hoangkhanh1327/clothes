@@ -17,11 +17,11 @@ const BigSizeProductCarousel = () => {
       setLoading(true)
       const res: any = await ProductServices.getProducts({
         page: 1,
-        page_size: 10
+        page_size: 20
       })
-      setProducts(res.data.data)
+      setProducts(res.data || [])
     } catch (error) {
-      // dispatch(NotificationActions.setNotification({ }))
+      // dispatch()
     } finally {
       setLoading(false)
     }
@@ -33,7 +33,7 @@ const BigSizeProductCarousel = () => {
     speed: 500,
     rows: 2,
     slidesPerRow: 1,
-    slidesToScroll: 5,
+    slidesToScroll: 1,
     swipeToSlide: true,
     responsive: [
       {
@@ -56,7 +56,8 @@ const BigSizeProductCarousel = () => {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2
+          slidesToScroll: 2,
+          infinite: true
         }
       }
     ]
@@ -67,8 +68,12 @@ const BigSizeProductCarousel = () => {
       <Carousel {...settings} draggable>
         {loading || !products.length
           ? [...Array(10)].map((_, index) => <ProductSkeleton key={`product-skeleton-${index}`} />)
-          : products.map((product, index) => {
-              return <ProductCard {...product} key={`product-${index}`} />
+          : products.map((product: ProductType, index) => {
+              return (
+                <div>
+                  <ProductCard product={product} isLandingPage={true} key={`product-${index}`} />
+                </div>
+              )
             })}
       </Carousel>
     </div>
