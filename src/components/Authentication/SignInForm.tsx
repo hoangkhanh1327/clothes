@@ -1,11 +1,10 @@
 import { Button, Form, Input } from 'antd'
 import { Icon } from '../Generals'
 import { signinAsync } from '../../redux/reducers/authSlice'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { useAppDispatch } from '../../redux/hooks'
 
 const SignInForm: React.FC<{}> = ({}) => {
   const [form] = Form.useForm()
-  const auth = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
 
   const onFinish = (values: any) => {

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { setBreakpoint } from './redux/reducers/appSlice'
 import { Grid } from 'antd'
 import { authState, getCurrentUserAsync } from './redux/reducers/authSlice'
+import { getCartItems } from './redux/reducers/cartSlice'
 const { useBreakpoint } = Grid
 
 const HomeLayout = lazy(() => import('./layouts/home.layout'))
@@ -52,11 +53,12 @@ function App() {
     }
   }, [])
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate('/')
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (user) {
+      dispatch(getCartItems())
+      navigate('/')
+    }
+  }, [user])
 
   useEffect(() => {
     getDeviceBreakPoint(screens)

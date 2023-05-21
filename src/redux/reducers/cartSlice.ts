@@ -1,7 +1,13 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { CartItem } from '../../interfaces'
 import { checkObjectIsEqual, getJSONStringFromObject } from '~/utils'
+import { UserServices } from '~/services'
+
+export const getCartItems = createAsyncThunk('getCartItems', async () => {
+  const res = await UserServices.getCartItems()
+  return res.data
+})
 
 export interface CartState {
   items: CartItem[]
@@ -69,7 +75,12 @@ export const cartSlice = createSlice({
       state.items = []
     }
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {
+    builder.addCase(getCartItems.fulfilled, (state, action) => {
+      console.log('action', action)
+    })
+    builder.addCase(getCartItems.rejected, (state, action) => {})
+  }
 })
 
 export const cartState = (state: RootState) => state.cart

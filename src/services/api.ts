@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import AuthServices from './auth.services'
 import { config, history } from '../utils'
-// axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
   headers: {

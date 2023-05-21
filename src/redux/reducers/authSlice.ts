@@ -46,6 +46,7 @@ export const authSlice = createSlice({
     signOut: (state) => {
       state.user = null
       state.isLoggedIn = false
+      localStorage.removeItem('')
       history.navigate('/')
     }
   },
