@@ -55,7 +55,6 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      dispatch(getCartItems())
       navigate('/')
     }
   }, [user])

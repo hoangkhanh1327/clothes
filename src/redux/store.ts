@@ -13,11 +13,6 @@ const cartPersistConfig = {
   storage: storage
 }
 
-const userPersistConfig = {
-  key: 'user',
-  storage: storage
-}
-
 export enum StatusTypes {
   SUCCESS = 'success',
   ERROR = 'error',
@@ -26,7 +21,7 @@ export enum StatusTypes {
 
 const rootReducer = combineReducers({
   app: appSlice,
-  auth: persistReducer(userPersistConfig, authReducer),
+  auth: authReducer,
   user: userSlice,
   cart: persistReducer(cartPersistConfig, cartReducer),
   account: accountReducer,
@@ -34,7 +29,11 @@ const rootReducer = combineReducers({
 })
 
 export const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 })
 export const persistor = persistStore(store)
 

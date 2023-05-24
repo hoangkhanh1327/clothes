@@ -1,14 +1,7 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 // import { AccountSerivces } from '../../services';
 import { RootState, StatusTypes } from '../store'
-import {
-  AccountType,
-  AccountTypeType,
-  CreateAccountParamsType,
-  CreateAccountTypeParamsType,
-  UpdateAccountParamsType
-} from '../../interfaces'
-import { ListParams } from '../../interfaces/common.interfaces'
+import { AccountType, AccountTypeType } from '../../interfaces'
 
 export interface AccountState {
   accounts: AccountType[]
