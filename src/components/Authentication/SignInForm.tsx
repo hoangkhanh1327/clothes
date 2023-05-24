@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 const SignInForm: React.FC<{}> = ({}) => {
   const [form] = Form.useForm()
-  const auth = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
 
   const onFinish = (values: any) => {

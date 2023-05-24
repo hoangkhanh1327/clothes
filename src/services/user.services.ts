@@ -1,15 +1,19 @@
-import instance from './api'
+import apiWithToken from './apiWithToken'
+
+export const getCurrentUser = async () => {
+  return apiWithToken.get('/users/me')
+}
 
 export const getWishList = (params: any) => {
-  return instance.get('/users/wishlist', {
+  return apiWithToken.get('/users/wishlist', {
     params
   })
 }
 
 export const addItemToWishlist = (params: any) => {
-  return instance.post('/users/wishlist', params)
+  return apiWithToken.post('/users/wishlist', params)
 }
 
 export const removeItemFromWishlist = (params: any) => {
-  return instance.delete('/users/wishlist', params)
+  return apiWithToken.delete('/users/wishlist', params)
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { AuthUser } from '../../interfaces'
-import { AuthServices } from '../../services'
+import { AuthServices, UserServices } from '../../services'
 import { RootState } from '../store'
 import { history } from '~/utils'
 
@@ -10,21 +10,18 @@ export enum StatusTypes {
   LOADING = 'loading'
 }
 
-export const signinAsync = createAsyncThunk(
-  '/authentication/signin',
-  async (user: { username: string; password: string }) => {
-    const response = await AuthServices.login(user.username, user.password)
-    return response.data
-  }
-)
+export const signinAsync = createAsyncThunk('signin', async (user: { username: string; password: string }) => {
+  const response = await AuthServices.login(user.username, user.password)
+  return response.data
+})
 
-export const getCurrentUserAsync = createAsyncThunk('/user/me', async (_, { dispatch, rejectWithValue }) => {
-  try {
-    const response = await AuthServices.getCurrentUser()
-    return response.data
-  } catch (error: any) {
-    return rejectWithValue(error)
-  }
+export const getCurrentUserAsync = createAsyncThunk('/user/me', async () => {
+  const response = await UserServices.getCurrentUser()
+  return response.data
+})
+
+export const signOutAsync = createAsyncThunk('signout', async () => {
+  AuthServices.logout()
 })
 
 export interface AuthState {
@@ -54,7 +51,7 @@ export const authSlice = createSlice({
       state.status = StatusTypes.LOADING
     })
     builder.addCase(signinAsync.fulfilled, (state, action) => {
-      state.user = action.payload
+      state.user = action.payload.user
       state.isLoggedIn = true
       state.status = StatusTypes.SUCCESS
     })
@@ -69,7 +66,7 @@ export const authSlice = createSlice({
       state.status = StatusTypes.LOADING
     })
     builder.addCase(getCurrentUserAsync.fulfilled, (state, action) => {
-      state.user = action.payload.data
+      state.user = action.payload.user
     })
     builder.addCase(getCurrentUserAsync.rejected, (state, action) => {
       state.user = null

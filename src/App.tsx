@@ -52,11 +52,11 @@ function App() {
     }
   }, [])
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate('/')
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [user])
 
   useEffect(() => {
     getDeviceBreakPoint(screens)
