@@ -70,8 +70,8 @@ const BigSizeProductCarousel = () => {
           ? [...Array(10)].map((_, index) => <ProductSkeleton key={`product-skeleton-${index}`} />)
           : products.map((product: ProductType, index) => {
               return (
-                <div>
-                  <ProductCard product={product} isLandingPage={true} key={`product-${index}`} />
+                <div key={`product-${product.id}`}>
+                  <ProductCard product={product} isLandingPage={true} />
                 </div>
               )
             })}

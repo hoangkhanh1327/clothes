@@ -72,12 +72,8 @@ const Infomation = () => {
           </Button>
         </Col>
       </Row>
-      <div className='tw-flex tw-justify-end'>
-        <Button
-          className='tw-bg-primary tw-text-white tw-font-semibold'
-          size='large'
-          onClick={() => toggleFormVisible(true)}
-        >
+      <div className='tw-absolute tw-right-[12px] tw-bottom-[12px]'>
+        <Button className='tw-bg-primary tw-text-white tw-font-semibold' onClick={() => toggleFormVisible(true)}>
           Chỉnh sửa thông tin
         </Button>
       </div>
