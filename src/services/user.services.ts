@@ -17,3 +17,5 @@ export const addItemToWishlist = (params: any) => {
 export const removeItemFromWishlist = (params: any) => {
   return apiWithToken.delete('/users/wishlist', params)
 }
+
+// export
