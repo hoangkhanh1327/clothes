@@ -1,3 +1,4 @@
+import { AddItemToCartParams } from '~/interfaces'
 import apiWithToken from './apiWithToken'
 
 export const getCurrentUser = async () => {
@@ -18,4 +19,10 @@ export const removeItemFromWishlist = (params: any) => {
   return apiWithToken.delete('/users/wishlist', params)
 }
 
-// export
+export const getCartItems = () => {
+  return apiWithToken.get('/cart')
+}
+
+export const addItemToCart = (params: AddItemToCartParams[]) => {
+  return apiWithToken.put('/cart')
+}

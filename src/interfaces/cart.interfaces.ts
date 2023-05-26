@@ -11,9 +11,9 @@ interface CartItem {
   discount_percent?: number
 }
 
-interface CartParams {
+interface AddItemToCartParams {
   product_id: string
   quantity: number
 }
 
-export type { CartItem, CartParams }
+export type { CartItem, AddItemToCartParams }
