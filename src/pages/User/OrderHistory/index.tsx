@@ -5,17 +5,25 @@ import { OrderDetail, OrderTable } from '~/components/User/OrderHistory'
 const { Title, Paragraph, Text } = Typography
 const OrderHistory = () => {
   const [loading, setLoading] = useState(true)
-  const [orderDetail, setOrderDetail] = useState<string>()
-  const [order, setOrder] = useState<any[]>()
+  const [orderDetail, setOrderDetail] = useState<any>()
+  const [order, setOrder] = useState<any[]>([])
 
   useEffect(() => {
     document.title = 'Lịch sử mua hàng'
     disableLoading()
   }, [])
+
   const disableLoading = () => {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+  }
+
+  const onShowOrderDetail = (orderId: string) => {
+    const orderExist = order.find((or) => or.id === orderId)
+    if (orderExist) {
+      setOrderDetail(orderExist)
+    }
   }
 
   return (
@@ -26,9 +34,9 @@ const OrderHistory = () => {
         </Title>
       </div>
       <div className='tw-flex-1 tw-flex'>
-        <div className='tw-flex-1'>{!loading && <OrderTable />}</div>
+        <div className='tw-flex-1'>{!loading && <OrderTable showDetail={onShowOrderDetail} />}</div>
       </div>
-      <OrderDetail />
+      <OrderDetail open={orderDetail ? true : false} onClose={() => setOrderDetail(null)} />
     </section>
   )
 }

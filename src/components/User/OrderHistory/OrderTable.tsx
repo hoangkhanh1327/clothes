@@ -27,7 +27,7 @@ const OrderTable = (props: any) => {
       key: 'address',
       render(value, record, index) {
         return (
-          <Button className='tw-bg-primary tw-text-white' onClick={() => console.log('1')}>
+          <Button className='tw-bg-primary tw-text-white' onClick={() => props.showDetail(record.id)}>
             Chi tiết
           </Button>
         )
