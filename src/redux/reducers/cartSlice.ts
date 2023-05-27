@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { CartItem } from '../../interfaces'
+import { AddItemToCartParams, CartItem } from '../../interfaces'
 import { checkObjectIsEqual, getJSONStringFromObject } from '~/utils'
 import { UserServices } from '~/services'
 
 export const getCartItems = createAsyncThunk('getCartItems', async () => {
   const res = await UserServices.getCartItems()
+  return res.data
+})
+
+export const addItemToCartAsync = createAsyncThunk('addItemToCart', async (params: AddItemToCartParams[]) => {
+  const res = await UserServices.addItemToCart(params)
   return res.data
 })
 
@@ -20,70 +25,24 @@ const initialState: CartState = {
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducers: {
-    addItemToCart: (state, action): void => {
-      // Check if the item already exists in cart
-      const existsCartItems = state.items.filter((item) => item.id === action.payload.id)
-
-      if (!existsCartItems.length) {
-        // Case 1:
-        state.items = [
-          ...state.items,
-          {
-            ...action.payload,
-            keyInCart: getJSONStringFromObject(action.payload)
-          }
-        ]
-      } else {
-        // find the item in the cart which will be updated
-        let itemWillBeUpdatedKey: string = ''
-        existsCartItems.forEach((item) => {
-          if (checkObjectIsEqual(item, action.payload, ['quantity', 'keyInCart'])) {
-            itemWillBeUpdatedKey = item.keyInCart
-          }
-        })
-        if (itemWillBeUpdatedKey) {
-          state.items = state.items.map((item) => {
-            if (item.keyInCart === itemWillBeUpdatedKey) {
-              item.quantity += 1
-            }
-            return item
-          })
-        } else {
-          state.items = [
-            ...state.items,
-            {
-              ...action.payload,
-              keyInCart: getJSONStringFromObject(action.payload)
-            }
-          ]
-        }
-      }
-    },
-    updateItemQuantity: (state, action): void => {
-      state.items = state.items.map((item) => {
-        if (item.keyInCart === action.payload.keyInCart) {
-          item.quantity = action.payload.quantity
-        }
-        return item
-      })
-    },
-    removeItemFromCart: (state, action): void => {
-      state.items = state.items.filter((item) => item.keyInCart !== action.payload)
-    },
-    clearCart: (state): void => {
-      state.items = []
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getCartItems.fulfilled, (state, action) => {
-      console.log('action', action)
+      state.items = action.payload
     })
-    builder.addCase(getCartItems.rejected, (state, action) => {})
+    builder.addCase(getCartItems.rejected, (state, action) => {
+      console.log('get cart items error ', action.payload)
+    })
+    builder.addCase(addItemToCartAsync.fulfilled, (state, action) => {
+      console.log('action', action.payload)
+    })
+    builder.addCase(addItemToCartAsync.rejected, (state, action) => {
+      console.log('add item to cart error', action.payload)
+    })
   }
 })
 
 export const cartState = (state: RootState) => state.cart
-export const { addItemToCart, updateItemQuantity, removeItemFromCart, clearCart } = cartSlice.actions
+export const {} = cartSlice.actions
 
 export default cartSlice.reducer

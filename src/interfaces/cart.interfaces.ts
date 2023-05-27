@@ -6,14 +6,17 @@ interface CartItem {
   image: string
   size: string
   color: string
-  keyInCart: string
-  discount_amount?: number
-  discount_percent?: number
 }
 
 interface AddItemToCartParams {
   product_id: string
   quantity: number
+  color: string
+  size: string
 }
 
-export type { CartItem, AddItemToCartParams }
+interface UpdateItemInCartParams {
+  product_id: string
+  quantity: number
+}
+export type { CartItem, AddItemToCartParams, UpdateItemInCartParams }

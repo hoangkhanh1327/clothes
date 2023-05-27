@@ -1,17 +1,29 @@
-import React, { useCallback, useState } from 'react'
-import { Button, Col, Form, InputNumber, Modal, Row, Select, Typography, Image } from 'antd'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Button, Col, Form, InputNumber, Modal, Row, Select, Typography, Image, Skeleton } from 'antd'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { productState, setQuickViewProduct } from '~/redux/reducers/productSlide'
 import { format3P } from '~/utils'
-import { sizesSelect } from '~/pages/Products/settings'
 import { Icon } from '../Generals'
-
+import { ProductType } from '~/interfaces'
+import { ProductServices } from '~/services'
+interface QuantityType {
+  color: string
+  detail_id: string
+  id: string
+  quantity: number
+  size: string
+}
 const { Title, Text, Paragraph } = Typography
 const QuickViewProduct = () => {
   const [form] = Form.useForm()
-  const { quickViewProduct } = useAppSelector(productState)
+  const { quickViewProductId } = useAppSelector(productState)
   const dispatch = useAppDispatch()
   const [indexImage, setIndexImage] = useState<number>(0)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [product, setProduct] = useState<ProductType>()
+  const [sizes, setSizes] = useState<any>()
+  const [colors, setColors] = useState<string[]>([])
+  const colorValue = Form.useWatch('color', form)
 
   const calcDiscountPrice = useCallback((originPrice?: number, discountAmount?: number, discountPercent?: number) => {
     if (originPrice) {
@@ -28,10 +40,52 @@ const QuickViewProduct = () => {
     }
   }, [])
 
+  const getDetailProduct = async (id: string) => {
+    try {
+      setLoading(true)
+      const res = await ProductServices.getDetailProduct(id)
+      setProduct(res.data)
+      handleProductQuantites(res.data?.product_quantities)
+    } catch (error) {
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleProductQuantites = (quantites: QuantityType[]) => {
+    let colors: string[] = []
+    let sizes: any = {}
+
+    quantites.forEach((quantity: QuantityType) => {
+      if (!colors.includes(quantity.color)) {
+        colors.push(quantity.color)
+      }
+    })
+
+    colors.map((color: string) => {
+      let sizesOfColor = quantites
+        .map((quantity: QuantityType) => {
+          if (quantity.color === color && quantity.size !== undefined) {
+            return quantity.size
+          }
+        })
+        .filter((size: string | undefined) => size !== undefined)
+      sizes[color] = sizesOfColor
+    })
+    setSizes(sizes)
+    setColors(colors)
+  }
+
+  useEffect(() => {
+    if (quickViewProductId) {
+      getDetailProduct(quickViewProductId)
+    }
+  }, [quickViewProductId])
+
   return (
     <Modal
       title={false}
-      open={quickViewProduct ? true : false}
+      open={quickViewProductId ? true : false}
       footer={false}
       closable
       width={1000}
@@ -43,10 +97,15 @@ const QuickViewProduct = () => {
             <div>
               <div>
                 <div>
-                  <Image src={quickViewProduct?.photos[indexImage]} placeholder width={355} height={417} />
+                  <Image
+                    src={product?.photos ? product?.photos[indexImage] : ''}
+                    placeholder
+                    width={355}
+                    height={417}
+                  />
                 </div>
                 <div className='tw-grid tw-gap-1 tw-grid-cols-4 tw-mt-2 tw-cursor-pointer'>
-                  {quickViewProduct?.photos?.slice(0, 4)?.map((image, index) => {
+                  {product?.photos?.slice(0, 4)?.map((image, index) => {
                     return (
                       <div
                         className='tw-col-span-1'
@@ -69,31 +128,25 @@ const QuickViewProduct = () => {
             </div>
           </Col>
           <Col span={24} md={{ span: 14 }}>
-            <div>
+            <Skeleton loading={loading} active avatar>
               <div className=''>
                 <Title
                   level={2}
                   className='tw-text-base tw-uppercase tw-font-semibold tw-mb-[14px] tw-text-tertiary tw-leading-[26px] tw-mt-0'
                 >
-                  {quickViewProduct?.name}
+                  {product?.name}
                 </Title>
               </div>
               <div className='tw-mb-3'>
                 <Text className='tw-font-semibold tw-text-primary tw-text-base'>
-                  {calcDiscountPrice(
-                    quickViewProduct?.price,
-                    quickViewProduct?.discount_amount,
-                    quickViewProduct?.discount_percent
-                  )}
+                  {calcDiscountPrice(product?.price, product?.discount_amount, product?.discount_percent)}
                 </Text>
-                <Text className='tw-text-secondary tw-text-sm tw-line-through tw-ml-[5px]'>
-                  {quickViewProduct?.price}
-                </Text>
+                <Text className='tw-text-secondary tw-text-sm tw-line-through tw-ml-[5px]'>{product?.price}</Text>
                 <Text className='tw-ml-2 tw-text-secondary tw-font-semibold'>VNĐ</Text>
               </div>
               <div className='tw-mb-[19px]'>
                 <Paragraph className='tw-leading-6 tw-text-[15px] tw-text-secondary tw-m-0'>
-                  {quickViewProduct?.description}
+                  {product?.description}
                 </Paragraph>
               </div>
               <div>
@@ -125,16 +178,7 @@ const QuickViewProduct = () => {
                     <Select
                       size='large'
                       placeholder='Chọn màu sắc'
-                      options={[
-                        {
-                          value: 'color1',
-                          label: 'Color1'
-                        },
-                        {
-                          value: 'color2',
-                          label: 'Color2'
-                        }
-                      ]}
+                      options={colors.map((color) => ({ value: color, label: color }))}
                     />
                   </Form.Item>
                   <Form.Item
@@ -155,7 +199,19 @@ const QuickViewProduct = () => {
                       }
                     ]}
                   >
-                    <Select options={sizesSelect} size='large' placeholder='Chọn ít nhất một kích thước' />
+                    <Select
+                      disabled={!form.getFieldValue('color')}
+                      options={
+                        colorValue
+                          ? sizes[colorValue]?.map((size: string) => ({
+                              label: size,
+                              value: size
+                            }))
+                          : []
+                      }
+                      size='large'
+                      placeholder='Chọn ít nhất một kích thước'
+                    />
                   </Form.Item>
                   <div className='tw-flex tw-items-end tw-gap-2.5'>
                     <Form.Item
@@ -186,7 +242,7 @@ const QuickViewProduct = () => {
                 </Form>
                 <div></div>
               </div>
-            </div>
+            </Skeleton>
           </Col>
         </Row>
       </div>

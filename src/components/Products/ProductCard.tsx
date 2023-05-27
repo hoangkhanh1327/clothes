@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { setQuickViewProduct } from '~/redux/reducers/productSlide'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBasketShopping, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { addItemToCart } from '~/redux/reducers/cartSlice'
+import {} from '~/redux/reducers/cartSlice'
 import { addItemToWishlistAsync, removeItemFromWishlistAsync, userState } from '~/redux/reducers/userSlice'
 
 const { Title, Text } = Typography
@@ -83,19 +83,19 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
                 <li
                   className='tw-list-item'
                   onClick={() => {
-                    dispatch(
-                      addItemToCart({
-                        id,
-                        name,
-                        price,
-                        quantity: 1,
-                        image: photos ? photos[0] : '',
-                        size: 'M',
-                        color: 'color',
-                        discount_amount,
-                        discount_percent
-                      })
-                    )
+                    // dispatch(
+                    //   // addItemToCart({
+                    //   //   id,
+                    //   //   name,
+                    //   //   price,
+                    //   //   quantity: 1,
+                    //   //   image: photos ? photos[0] : '',
+                    //   //   size: 'M',
+                    //   //   color: 'color',
+                    //   //   discount_amount,
+                    //   //   discount_percent
+                    //   // })
+                    // )
                   }}
                 >
                   <Text className='product-action'>
@@ -124,7 +124,7 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
           <a
             href='#'
             className='tw-leading-[45px] tw-bg-white tw-text-primary tw-px-[10px] tw-font-normal tw-rounded-sm tw-text-[13px] tw-capitalize tw-w-full tw-block tw-text-center'
-            onClick={() => dispatch(setQuickViewProduct(product))}
+            onClick={() => dispatch(setQuickViewProduct(product.id))}
           >
             Xem nhanh
           </a>

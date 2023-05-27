@@ -28,7 +28,7 @@ export const productSlice = createSlice({
       state.filters = action.payload
     },
     setQuickViewProduct: (state, action) => {
-      state.quickViewProduct = action.payload
+      state.quickViewProductId = action.payload
     }
   },
   extraReducers: (builder) => {

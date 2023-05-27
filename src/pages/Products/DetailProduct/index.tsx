@@ -1,10 +1,9 @@
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import {
   Breadcrumb,
   Button,
   Carousel,
   Col,
-  Divider,
   Form,
   Image,
   InputNumber,
@@ -16,19 +15,24 @@ import {
   Tabs,
   Typography
 } from 'antd'
-import { ShoppingCartOutlined, ShoppingOutlined } from '@ant-design/icons'
-import { config, format3P } from '~/utils'
-// import { RelativeProduct, UpsellProducts } from '@/modules/common/components/Generals/Products'
-import { sizesSelect } from '../settings'
+import { format3P } from '~/utils'
 import { useParams } from 'react-router-dom'
-import { useAppSelector } from '~/redux/hooks'
-import { productState } from '~/redux/reducers/productSlide'
 import { ProductType } from '~/interfaces'
 import { CarouselRef } from 'antd/es/carousel'
 import { ProductCard } from '~/components/Products'
 import { BestSellerProducts } from '~/components/Landing'
 import { ProductServices } from '~/services'
-// import { ProductServices } from '@/modules/common/services'
+import { Icon } from '~/components/Generals'
+import { addItemToCartAsync } from '~/redux/reducers/cartSlice'
+import { useAppDispatch } from '~/redux/hooks'
+
+interface QuantityType {
+  color: string
+  detail_id: string
+  id: string
+  quantity: number
+  size: string
+}
 
 const { Title, Text, Paragraph } = Typography
 const DetailBlog = () => {
@@ -37,7 +41,12 @@ const DetailBlog = () => {
   const [product, setProduct] = useState<ProductType>()
   const [relativeProducts, setRelativeProducts] = useState<ProductType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [sizes, setSizes] = useState<any>()
+  const [colors, setColors] = useState<string[]>([])
+  const dispatch = useAppDispatch()
+
   const imgRef = useRef<CarouselRef>(null)
+  const colorValue = Form.useWatch('color', form)
 
   useEffect(() => {
     if (id) {
@@ -45,30 +54,45 @@ const DetailBlog = () => {
     }
   }, [id])
 
-  // useEffect(() => {
-  //   if (products.length) {
-  //     setRelativeProducts(products.slice(0, 5))
-  //   }
-  // }, [products])
-
   const getDetailProduct = async (id: string) => {
     try {
       setLoading(true)
       const res = await ProductServices.getDetailProduct(id)
-      console.log('res', res)
       setProduct(res.data)
+      handleProductQuantites(res.data?.product_quantities)
     } catch (error) {
     } finally {
       setLoading(false)
     }
   }
 
-  const calcDiscountPrice = useCallback((originPrice?: number, discountAmount?: number, discountPercent?: number) => {
+  const handleProductQuantites = (quantites: QuantityType[]) => {
+    let colors: string[] = []
+    let sizes: any = {}
+
+    quantites.forEach((quantity: QuantityType) => {
+      if (!colors.includes(quantity.color)) {
+        colors.push(quantity.color)
+      }
+    })
+
+    colors.map((color: string) => {
+      let sizesOfColor = quantites
+        .map((quantity: QuantityType) => {
+          if (quantity.color === color && quantity.size !== undefined) {
+            return quantity.size
+          }
+        })
+        .filter((size: string | undefined) => size !== undefined)
+      sizes[color] = sizesOfColor
+    })
+    setSizes(sizes)
+    setColors(colors)
+  }
+
+  const calcDiscountPrice = useCallback((originPrice?: number, discountPercent?: number) => {
     if (originPrice) {
       let totalDiscountAmount = 0
-      if (discountAmount) {
-        totalDiscountAmount += discountAmount
-      }
       if (discountPercent) {
         totalDiscountAmount += (originPrice * discountPercent) / 100
       }
@@ -79,16 +103,15 @@ const DetailBlog = () => {
   }, [])
 
   const addItemToCard = (values: any) => {
-    const item = {
-      id: product?.id,
-      name: product?.name,
-      price: product?.price,
-      quantity: values.quantity,
-      image: (product?.photos && product?.photos[0]) || '',
-      color: values.color,
-      size: values.size
+    if (product?.id) {
+      const item = {
+        product_id: product?.id,
+        quantity: values.quantity,
+        color: values.color,
+        size: values.size
+      }
+      dispatch(addItemToCartAsync([item]))
     }
-    // dispatch(CartActions.addItemToCart(item))
   }
 
   return (
@@ -104,7 +127,7 @@ const DetailBlog = () => {
               },
               {
                 title: 'Sản phẩm',
-                href: '/products/'
+                href: '/san-pham/'
               },
               {
                 title: product?.name
@@ -112,7 +135,7 @@ const DetailBlog = () => {
             ]}
           />
         </Col>
-        <Col span={24} md={{ span: 10 }}>
+        <Col span={24} md={{ span: 8 }}>
           <div>
             {loading ? (
               <Skeleton.Image className='tw-w-full tw-h-full tw-min-h-[350px]' active />
@@ -164,7 +187,7 @@ const DetailBlog = () => {
             </div>
           </div>
         </Col>
-        <Col span={24} md={{ span: 14 }}>
+        <Col span={24} md={{ span: 16 }}>
           <Skeleton loading={loading} active>
             <div>
               <Title level={1} className='tw-mt-0 tw-text-secondary tw-mb-[14px]'>
@@ -181,7 +204,7 @@ const DetailBlog = () => {
               </div>
               <div className='tw-mb-[11px]'>
                 <Text className='tw-font-semibold tw-text-primary tw-text-base'>
-                  {calcDiscountPrice(product?.price, product?.discount_amount, product?.discount_percent)}
+                  {calcDiscountPrice(product?.price, product?.discount_percent)}
                 </Text>
                 <Text className='tw-ml-2 tw-text-[13pxs] tw-font-medium tw-line-through'>
                   {format3P(product?.price || 0)} VNĐ
@@ -214,16 +237,7 @@ const DetailBlog = () => {
                   <Select
                     placeholder='Chọn màu sắc'
                     className='!tw-min-w-[70px]'
-                    options={[
-                      {
-                        value: 'color1',
-                        label: 'Color1'
-                      },
-                      {
-                        value: 'color2',
-                        label: 'Color2'
-                      }
-                    ]}
+                    options={colors.map((color) => ({ value: color, label: color }))}
                   />
                 </Form.Item>
                 <Form.Item
@@ -238,7 +252,18 @@ const DetailBlog = () => {
                     }
                   ]}
                 >
-                  <Select className='!tw-min-w-[70px]' options={sizesSelect} />
+                  <Select
+                    className='!tw-min-w-[70px]'
+                    disabled={!form.getFieldValue('color')}
+                    options={
+                      colorValue
+                        ? sizes[colorValue]?.map((size: string) => ({
+                            label: size,
+                            value: size
+                          }))
+                        : []
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label={<span className='tw-text-sm tw-font-bold'>Số lượng</span>}
@@ -254,7 +279,7 @@ const DetailBlog = () => {
                     type='primary'
                     className='tw-bg-primaryDark tw-text-white tw-font-bold hover:tw-bg-primary hover:tw-text-white'
                     size='large'
-                    icon={<ShoppingCartOutlined className='tw-text-xl tw-mr-2' />}
+                    icon={<Icon name='ShoppingCartOutlined' className='tw-text-xl tw-mr-2' />}
                   >
                     Thêm vào giỏ hàng
                   </Button>

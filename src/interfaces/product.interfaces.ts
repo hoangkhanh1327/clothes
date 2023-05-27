@@ -16,7 +16,7 @@ interface ProductState {
   totalProducts: number
   filters?: any
   loading: boolean
-  quickViewProduct?: ProductType
+  quickViewProductId?: string
 }
 
 interface ProductType {

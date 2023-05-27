@@ -1,4 +1,4 @@
-import { AddItemToCartParams } from '~/interfaces'
+import { AddItemToCartParams, UpdateItemInCartParams } from '~/interfaces'
 import apiWithToken from './apiWithToken'
 
 export const getCurrentUser = async () => {
@@ -24,5 +24,21 @@ export const getCartItems = () => {
 }
 
 export const addItemToCart = (params: AddItemToCartParams[]) => {
-  return apiWithToken.put('/cart')
+  return apiWithToken.put('/cart', params)
+}
+
+export const updateCartItemQuantity = (params: UpdateItemInCartParams[]) => {
+  return apiWithToken.post('/cart', params)
+}
+
+export const removeItemFromCart = (cartItemId: string) => {
+  return apiWithToken.delete(`/cart/${cartItemId}`)
+}
+
+export const removeAllItemsInCart = () => {
+  return apiWithToken.delete('/cart')
+}
+
+export const checkout = () => {
+  return apiWithToken.get('/checkout')
 }
