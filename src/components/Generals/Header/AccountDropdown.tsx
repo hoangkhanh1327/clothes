@@ -5,7 +5,7 @@ import { Avatar, MenuProps, Typography, Dropdown, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { Icon } from '..'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { authState, signOut } from '~/redux/reducers/authSlice'
+import { authState, signOutAsync } from '~/redux/reducers/authSlice'
 
 const { Text } = Typography
 
@@ -37,7 +37,7 @@ const AccountDropdown = () => {
   const dispatch = useAppDispatch()
   const handleClick = (option: any) => {
     if (option.key === 'signout') {
-      dispatch(signOut())
+      dispatch(signOutAsync())
     }
     return
   }

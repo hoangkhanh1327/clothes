@@ -27,7 +27,14 @@ const BlogList = () => {
   const getProducts = async (params: any) => {
     try {
       setLoading(true)
-      const res: any = await ProductServices.getProducts(params)
+      const transformedParams = {
+        page: params?.page || 1,
+        page_size: 12,
+        name: params?.name || '',
+        brands: params?.brands ? params?.brands.join(',') : '',
+        genders: params.genders
+      }
+      const res: any = await ProductServices.getProducts(transformedParams)
       setProducts(res.data || [])
       setTotal(res.total || 0)
     } catch (error) {
@@ -47,7 +54,7 @@ const BlogList = () => {
     }
     if (type === 'next') {
       return (
-        <a href='##'>
+        <a href='#'>
           <FontAwesomeIcon icon={faArrowRight} />
         </a>
       )

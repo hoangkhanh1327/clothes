@@ -8,6 +8,11 @@ export const getCategoriesAsync = createAsyncThunk('productCategory', async (par
   return response.data
 })
 
+export const getBrandsAsync = createAsyncThunk('productBrands', async () => {
+  const response = await ProductServices.getProductBrand()
+  return response.data
+})
+
 export const getProductTagsAsync = createAsyncThunk('productTags', async (params: any) => {
   const response = await ProductServices.getProductTags(params)
   return response.data
@@ -15,9 +20,13 @@ export const getProductTagsAsync = createAsyncThunk('productTags', async (params
 
 const initialState: ProductState = {
   productCategories: [],
+  productBrands: [],
   productTags: [],
   totalProducts: 0,
-  loading: false
+  loading: false,
+  filters: {
+    genders: ''
+  }
 }
 
 export const productSlice = createSlice({
@@ -62,6 +71,9 @@ export const productSlice = createSlice({
           count: 30
         }
       ]
+    })
+    builder.addCase(getBrandsAsync.fulfilled, (state, action) => {
+      state.productBrands = action.payload
     })
     builder.addCase(getProductTagsAsync.fulfilled, (state, action) => {
       state.productTags = action.payload

@@ -39,14 +39,7 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    signOut: (state) => {
-      state.user = null
-      state.isLoggedIn = false
-      localStorage.removeItem('')
-      history.navigate('/')
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signinAsync.pending, (state) => {
       state.status = StatusTypes.LOADING
@@ -68,6 +61,7 @@ export const authSlice = createSlice({
     })
     builder.addCase(getCurrentUserAsync.fulfilled, (state, action) => {
       state.user = action.payload.user
+      state.status = StatusTypes.SUCCESS
     })
     builder.addCase(getCurrentUserAsync.rejected, (state, action) => {
       state.user = null
@@ -75,10 +69,14 @@ export const authSlice = createSlice({
       state.error = action.error.message
       state.isLoggedIn = false
     })
+    builder.addCase(signOutAsync.fulfilled, (state, action) => {
+      state.user = null
+      history.navigate('/')
+    })
   }
 })
 
-export const { signOut } = authSlice.actions
+export const {} = authSlice.actions
 
 export const authState = (state: RootState) => state.auth
 

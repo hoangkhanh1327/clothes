@@ -6,6 +6,10 @@ export const getProductCategory = (params: any) => {
   })
 }
 
+export const getProductBrand = () => {
+  return instance.get('/products/brands')
+}
+
 export const getProductTags = (params: any) => {
   return instance.get('/tags', {
     params

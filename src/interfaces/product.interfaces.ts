@@ -12,6 +12,7 @@ interface ProductCategory {
 
 interface ProductState {
   productCategories: ProductCategory[]
+  productBrands: string[]
   productTags: string[]
   totalProducts: number
   filters?: any

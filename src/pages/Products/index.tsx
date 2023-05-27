@@ -1,7 +1,7 @@
 import { Col, Divider, Input, Row, Typography } from 'antd'
 import { Fragment, useRef } from 'react'
 import { Breadcrumb, Icon } from '~/components/Generals'
-import { PriceFilter, Categories, Tags, ProductList, QuickViewProduct } from '~/components/Products'
+import { PriceFilter, Categories, Tags, ProductList, QuickViewProduct, Brands } from '~/components/Products'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { productState, setFilters } from '~/redux/reducers/productSlide'
 import type { InputRef } from 'antd'
@@ -34,6 +34,7 @@ const Products = () => {
           <Col span={24} lg={{ span: 6 }}>
             <div>
               <PriceFilter />
+              <Brands />
               <Categories />
               <Tags />
             </div>

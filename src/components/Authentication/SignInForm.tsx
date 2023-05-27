@@ -1,12 +1,12 @@
 import { Button, Form, Input } from 'antd'
 import { Icon } from '../Generals'
-import { signinAsync } from '../../redux/reducers/authSlice'
-import { useAppDispatch } from '../../redux/hooks'
+import { authState, signinAsync } from '../../redux/reducers/authSlice'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 const SignInForm: React.FC<{}> = ({}) => {
   const [form] = Form.useForm()
   const dispatch = useAppDispatch()
-
+  const { status } = useAppSelector(authState)
   const onFinish = (values: any) => {
     dispatch(signinAsync(values))
   }
@@ -46,7 +46,14 @@ const SignInForm: React.FC<{}> = ({}) => {
         />
       </Form.Item>
       <Form.Item>
-        <Button type='primary' htmlType='submit' className='tw-font-semibold' size='large' block>
+        <Button
+          loading={status === 'loading'}
+          type='primary'
+          htmlType='submit'
+          className='tw-font-semibold'
+          size='large'
+          block
+        >
           Đăng Nhập
         </Button>
       </Form.Item>
