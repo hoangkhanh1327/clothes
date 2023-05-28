@@ -9,19 +9,20 @@ export enum StatusTypes {
   LOADING = 'loading'
 }
 
-export const geWishList = createAsyncThunk('getWishList', async () => {
+export const getWishList = createAsyncThunk('getWishList', async () => {
   const response = await UserServices.getWishList({ page: 1, page_size: 1000 })
   return response.data
 })
 
 export const addItemToWishlistAsync = createAsyncThunk('addWishlist', async (id: string) => {
-  // const response = await UserServices.addItemToWishlist({})
-  return id
+  const response = await UserServices.addItemToWishlist(id)
+  return response.data
 })
 
 export const removeItemFromWishlistAsync = createAsyncThunk('removeWishlist', async (ids: string[]) => {
-  // const response = await UserServices.removeItemFromWishlist({})
-  return ids
+  const response = await UserServices.removeItemFromWishlist(ids)
+  console.log('?', response.data)
+  return response.data
 })
 
 export interface UserState {
@@ -39,24 +40,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(geWishList.fulfilled, (state, action) => {
+    builder.addCase(getWishList.fulfilled, (state, action) => {
       state.wishlist = action.payload
     })
-    builder.addCase(geWishList.rejected, (state, action) => {
+    builder.addCase(getWishList.rejected, (state, action) => {
       state.wishlist = []
     })
     builder.addCase(addItemToWishlistAsync.fulfilled, (state, action) => {
-      state.wishlist = [
-        ...state.wishlist,
-        {
-          id: 'test',
-          product_id: action.payload,
-          status: 'true',
-          created_at: new Date().toString(),
-          updated_at: new Date().toString(),
-          user_id: '123'
-        }
-      ]
+      state.wishlist = [...state.wishlist, action.payload]
     })
     builder.addCase(removeItemFromWishlistAsync.fulfilled, (state, action) => {
       const removedIds = action.payload

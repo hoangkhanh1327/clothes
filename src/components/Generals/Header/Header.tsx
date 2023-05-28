@@ -1,24 +1,18 @@
 import { Searchbar, Cart, AccountDropdown, Nav, StickyHeader } from '.'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { config } from '../../../utils'
 import { Button, Col, Image, Row, Space } from 'antd'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { Icon } from '..'
 import { MobileNav } from '.'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { toggleMobileSiderVisible } from '~/redux/reducers/appSlice'
 import { authState } from '~/redux/reducers/authSlice'
 
-export default function CommonHeader({ showSearchBar = true }: { showSearchBar: boolean }) {
-  const { pathname } = useLocation()
+export default function CommonHeader() {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const [currentPage, setCurrentPage] = useState<string>('/')
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false)
   const { user } = useAppSelector(authState)
-  useEffect(() => {
-    setCurrentPage(pathname.split('?')[0])
-  }, [pathname])
 
   useLayoutEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -61,7 +55,7 @@ export default function CommonHeader({ showSearchBar = true }: { showSearchBar: 
               <Col span={20}>
                 <div className='tw-justify-end tw-items-center tw-hidden lg:tw-flex'>
                   <Space size={30}>
-                    {showSearchBar ? <Searchbar /> : null}
+                    <Searchbar />
                     <div>
                       {user ? (
                         <AccountDropdown />

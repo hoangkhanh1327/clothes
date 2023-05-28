@@ -30,7 +30,7 @@ const HomeLayout = () => {
       </Layout>
       {showStickyHeader ? (
         <Button
-          icon={<Icon name='UpOutlined' />}
+          icon={<Icon name='UpOutlined' className='tw-text-sm' />}
           onClick={() =>
             window.scrollTo({
               top: 0,
@@ -39,8 +39,7 @@ const HomeLayout = () => {
             })
           }
           shape='circle'
-          size='large'
-          className='tw-absolute tw-z-[2147483647] tw-bottom-[85px] tw-text-lg tw-cursor-pointer tw-h-[45px] tw-bg-black tw-text-white tw-right-[12px] tw-text-center'
+          className='tw-fixed tw-z-[2147483647] tw-bottom-[55px] tw-cursor-pointer tw-h-[35px] tw-w-[35px] tw-bg-black tw-text-white tw-right-[12px] tw-text-center'
         />
       ) : null}
     </Layout>

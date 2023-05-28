@@ -11,12 +11,18 @@ export const getWishList = (params: any) => {
   })
 }
 
-export const addItemToWishlist = (params: any) => {
-  return apiWithToken.post('/users/wishlist', params)
+export const addItemToWishlist = (id: string) => {
+  return apiWithToken.post('/users/wishlist', {
+    product_id: id
+  })
 }
 
 export const removeItemFromWishlist = (params: any) => {
-  return apiWithToken.delete('/users/wishlist', params)
+  return apiWithToken.delete('/users/wishlist', {
+    data: {
+      delete_ids: params
+    }
+  })
 }
 
 export const getCartItems = () => {

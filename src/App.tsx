@@ -7,6 +7,7 @@ import { setBreakpoint } from './redux/reducers/appSlice'
 import { Grid } from 'antd'
 import { authState, getCurrentUserAsync } from './redux/reducers/authSlice'
 import { getCartItems } from './redux/reducers/cartSlice'
+import { getWishList } from './redux/reducers/userSlice'
 const { useBreakpoint } = Grid
 
 const HomeLayout = lazy(() => import('./layouts/home.layout'))
@@ -42,7 +43,7 @@ const CartPage = lazy(() => import('./pages/Cart'))
 function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { isLoggedIn, user } = useAppSelector(authState)
+  const { user } = useAppSelector(authState)
   const screens = useBreakpoint()
   history.location = useLocation()
   history.navigate = navigate
@@ -57,6 +58,7 @@ function App() {
     if (user) {
       navigate('/')
       dispatch(getCartItems())
+      dispatch(getWishList())
     }
   }, [user])
 

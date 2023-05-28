@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { AddItemToCartParams, CartItem } from '../../interfaces'
-import { checkObjectIsEqual, getJSONStringFromObject } from '~/utils'
 import { UserServices } from '~/services'
 
 export const getCartItems = createAsyncThunk('getCartItems', async () => {

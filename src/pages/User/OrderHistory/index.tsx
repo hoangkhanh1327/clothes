@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { Typography } from 'antd'
+import { Spin, Typography } from 'antd'
 
 import { OrderDetail, OrderTable } from '~/components/User/OrderHistory'
 const { Title, Paragraph, Text } = Typography
@@ -34,7 +34,13 @@ const OrderHistory = () => {
         </Title>
       </div>
       <div className='tw-flex-1 tw-flex'>
-        <div className='tw-flex-1'>{!loading && <OrderTable showDetail={onShowOrderDetail} />}</div>
+        <div className='tw-flex-1'>
+          {
+            <Spin spinning={loading}>
+              <OrderTable showDetail={onShowOrderDetail} />{' '}
+            </Spin>
+          }
+        </div>
       </div>
       <OrderDetail open={orderDetail ? true : false} onClose={() => setOrderDetail(null)} />
     </section>

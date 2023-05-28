@@ -20,9 +20,10 @@ instance.interceptors.response.use(
     const errorData: any = error.response?.data
 
     if (status === 401) {
-      if (errorData?.error?.message == 'Unauthorized') {
-        refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
-      }
+      // if (errorData?.error?.message == 'Unauthorized') {
+      //   refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
+      // }
+      history.navigate('/')
     }
 
     if (status === 403) {
