@@ -10,6 +10,7 @@ export const login = async (email: string, password: string) => {
     password
   })
   if (res.data.access_token) {
+    localStorage.removeItem('user')
     localStorage.setItem(
       'user',
       JSON.stringify({

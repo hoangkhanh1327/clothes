@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import AuthServices from './auth.services'
 import { config, history } from '../utils'
-axios.defaults.withCredentials = true
+// axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
   headers: {
@@ -18,11 +18,11 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     const status = error.response?.status
     const errorData: any = error.response?.data
-
     if (status === 401) {
       // if (errorData?.error?.message == 'Unauthorized') {
       //   refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
       // }
+      localStorage.removeItem('user')
       history.navigate('/')
     }
 

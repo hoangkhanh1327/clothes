@@ -15,74 +15,15 @@ const dataSource = [
     age: 42,
     address: '10 Downing Street'
   },
+
   {
-    key: '2',
+    key: '3',
     name: 'John',
     age: 42,
     address: '10 Downing Street'
   },
   {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
+    key: '4',
     name: 'John',
     age: 42,
     address: '10 Downing Street'

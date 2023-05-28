@@ -10,9 +10,11 @@ const formItemLayout = {
 
 const InfomationForm = ({ visible, onClose }: { visible: boolean; onClose: Function }) => {
   const { user } = useAppSelector(authState)
+  const [form] = Form.useForm()
   return (
     <Modal open={visible} onCancel={() => onClose()} title={<Title level={3}>Chỉnh sửa thông tin tài khoản</Title>}>
       <Form
+        form={form}
         className='tw-block tw-w-full tw-mx-auto tw-py-3'
         initialValues={{
           fullname: user?.fullname

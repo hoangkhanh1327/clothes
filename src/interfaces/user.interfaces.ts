@@ -33,4 +33,12 @@ interface WishlistItem {
   user_id: string
 }
 
-export type { AuthUser, User, WishlistItem }
+interface UserAddress {
+  address: 'string'
+  district_id: 0
+  name: 'string'
+  province_id: 0
+  ward_code: 'string'
+}
+
+export type { AuthUser, User, WishlistItem, UserAddress }

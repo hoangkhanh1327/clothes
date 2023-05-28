@@ -1,3 +1,11 @@
+import type { RcFile } from 'antd/es/upload/interface'
+
+export const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+  const reader = new FileReader()
+  reader.addEventListener('load', () => callback(reader.result as string))
+  reader.readAsDataURL(img)
+}
+
 export const format3P = (number: Number) => {
   return Number(Math.round(parseFloat(number + 'e3')) + 'e-3')
     .toString()

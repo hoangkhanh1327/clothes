@@ -7,6 +7,7 @@ import { format3P, config } from '../../../utils'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { Button, Col, Divider, Dropdown, Image, List, Row, Space, Typography } from 'antd'
 import { CartItem } from '~/interfaces'
+import { removeItemInCart } from '~/redux/reducers/cartSlice'
 const { Title, Text } = Typography
 const Tax = 10
 
@@ -44,9 +45,8 @@ const Cart: React.FC<{}> = ({}) => {
     }
   }, [products, Tax])
 
-  const removeItemFromCart = (keyInCart: string) => {
-    // @ts-ignore: Unreachable code error
-    dispatch(CartActions.removeItemFromCart(keyInCart))
+  const removeItemFromCart = (id: string) => {
+    dispatch(removeItemInCart(id))
   }
 
   const renderCartItem = (cartItem: CartItem) => {
@@ -85,7 +85,7 @@ const Cart: React.FC<{}> = ({}) => {
             onClick={(e) => {
               e.stopPropagation()
               e.preventDefault()
-              removeItemFromCart(cartItem.keyInCart)
+              removeItemFromCart(cartItem.id)
             }}
           />
         </div>
@@ -204,7 +204,7 @@ const Cart: React.FC<{}> = ({}) => {
             <div className='tw-block tw-pb-[25px] '>
               <Button
                 block
-                className='tw-block tw-capitalize tw-font-semibold tw-text-[#242424] tw-bg-[#f6f6f6] tw-text-center tw-mb-0 tw-pt-[11px] tw-pb[9px] hover:!tw-text-white hover:!tw-bg-black'
+                className='tw-block tw-capitalize tw-font-semibold tw-text-[#242424] tw-bg-[#f6f6f6] tw-text-center tw-mb-0 hover:!tw-text-white hover:!tw-bg-black'
                 onClick={() => {
                   navigate('/gio-hang')
                 }}
@@ -220,7 +220,7 @@ const Cart: React.FC<{}> = ({}) => {
                 onClick={() => {
                   navigate('/thanh-toan')
                 }}
-                className='tw-block tw-capitalize tw-font-semibold tw-text-[#242424] tw-bg-[#f6f6f6] tw-text-center tw-mb-0 tw-pt-[11px] tw-pb[9px] hover:!tw-text-white hover:!tw-bg-black'
+                className='tw-block tw-capitalize tw-font-semibold tw-text-[#242424] tw-bg-[#f6f6f6] tw-text-center tw-mb-0 hover:!tw-text-white hover:!tw-bg-black'
               >
                 Thanh toán
               </Button>

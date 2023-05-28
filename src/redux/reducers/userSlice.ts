@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { AuthUser, WishlistItem } from '../../interfaces'
-import { AuthServices, UserServices } from '../../services'
+import type { UserAddress, WishlistItem } from '../../interfaces'
+import { UserServices } from '../../services'
 import { RootState } from '../store'
 
 export enum StatusTypes {
@@ -25,14 +25,21 @@ export const removeItemFromWishlistAsync = createAsyncThunk('removeWishlist', as
   return response.data
 })
 
+export const getUserAddress = createAsyncThunk('getUserAddress', async () => {
+  const res = await UserServices.getUserAddress({ page: 1, page_size: 1000 })
+  return res.data
+})
+
 export interface UserState {
   wishlist: WishlistItem[]
   status?: StatusTypes
+  address: UserAddress[]
   error?: string
 }
 
 const initialState: UserState = {
-  wishlist: []
+  wishlist: [],
+  address: []
 }
 
 export const userSlice = createSlice({
@@ -52,6 +59,10 @@ export const userSlice = createSlice({
     builder.addCase(removeItemFromWishlistAsync.fulfilled, (state, action) => {
       const removedIds = action.payload
       state.wishlist = state.wishlist.filter((item) => !removedIds.includes(item.product_id))
+    })
+    builder.addCase(getUserAddress.fulfilled, (state, action) => {
+      console.log('action', action.payload)
+      state.address = action.payload
     })
   }
 })

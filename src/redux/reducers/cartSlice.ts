@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { AddItemToCartParams, CartItem } from '../../interfaces'
 import { UserServices } from '~/services'
@@ -10,6 +10,11 @@ export const getCartItems = createAsyncThunk('getCartItems', async () => {
 
 export const addItemToCartAsync = createAsyncThunk('addItemToCart', async (params: AddItemToCartParams[]) => {
   const res = await UserServices.addItemToCart(params)
+  return res.data
+})
+
+export const removeItemInCart = createAsyncThunk('removeItemInCart', async (cartItemId: string) => {
+  const res = await UserServices.removeItemFromCart(cartItemId)
   return res.data
 })
 

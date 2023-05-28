@@ -1,14 +1,13 @@
 import axios, { AxiosError } from 'axios'
 import { config, history } from '../utils'
 import authHeader from './authHeader'
-// axios.defaults.withCredentials = true
-
+axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    ...authHeader()
+    Authorization: authHeader()
   }
 })
 
@@ -20,11 +19,13 @@ instance.interceptors.response.use(
     const status = error.response?.status
     const errorData: any = error.response?.data
 
-    // if (status === 401) {
-    //   if (errorData?.error?.message == 'Unauthorized') {
-    //     refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
-    //   }
-    // }
+    if (status === 401) {
+      // if (errorData?.error?.message == 'Unauthorized') {
+      //   refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
+      // }
+      localStorage.removeItem('user')
+      history.navigate('/')
+    }
 
     if (status === 403) {
       if (errorData?.error?.message === 'Invalid refresh token') {
