@@ -1,40 +1,64 @@
-import { Button, Table } from 'antd'
+import { Button, Image, Popconfirm, Space, Table, Typography } from 'antd'
+import { useEffect, useState } from 'react'
 import { withTableSize } from '~/hocs'
 import type { ColumnsType } from 'antd/es/table'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { removeItemFromWishlistAsync, userState } from '~/redux/reducers/userSlice'
-
+import { WishlistItem } from '~/interfaces'
+const { Text } = Typography
 const WishListTable = (props: any) => {
   const { parrentSize } = props
   const { wishlist } = useAppSelector(userState)
   const dispatch = useAppDispatch()
 
+  const [data, setData] = useState<WishlistItem[]>([])
+
+  useEffect(() => {
+    if (wishlist) {
+      setData(wishlist)
+    }
+  }, [wishlist])
+
   const columns: ColumnsType<any> = [
     {
-      title: 'Tên sản phẩm',
-      dataIndex: 'name',
-      key: 'name'
+      title: '#',
+      width: 60,
+      render(value, record, index) {
+        return `${index + 1}`
+      }
     },
     {
-      title: 'Hình ảnh',
-      dataIndex: 'age',
-      key: 'age'
+      title: 'Sản phẩm',
+      dataIndex: 'name',
+      key: 'name',
+      render(value, record, index) {
+        return (
+          <Space>
+            <Image width={85} height={100} placeholder />
+            <Text>Sản phẩm bla bla</Text>
+          </Space>
+        )
+      }
     },
     {
       title: '#',
       dataIndex: 'address',
       key: 'address',
-      width: 60,
+      width: 120,
+      align: 'center',
       render(value, record, index) {
         return (
-          <Button
-            className='tw-bg-primary tw-text-white'
-            onClick={() => {
+          <Popconfirm
+            title='Bỏ thích sản phẩm'
+            description='Bạn chắc chắn muốn bỏ thích sản phẩm này?'
+            onConfirm={() => {
               dispatch(removeItemFromWishlistAsync([record.id]))
             }}
+            okButtonProps={{ className: 'tw-bg-red-500', danger: true }}
+            cancelButtonProps={{ className: 'hover:tw-border-primary hover:tw-text-primary' }}
           >
-            Xoá
-          </Button>
+            <Button className='tw-bg-primary tw-text-white'>Bỏ thích</Button>
+          </Popconfirm>
         )
       }
     }
@@ -42,7 +66,7 @@ const WishListTable = (props: any) => {
   return (
     <Table
       columns={columns}
-      dataSource={wishlist}
+      dataSource={data}
       className={`tw-min-h-full tw-h-[${parrentSize?.height}px]`}
       scroll={{ y: parrentSize?.height }}
     />

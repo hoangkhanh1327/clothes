@@ -51,13 +51,24 @@ export default {
           opacity: 1,
           transform: 'translateZ(0)'
         }
+      },
+      'fadeFromRight': {
+        '0%': {
+          opacity: 0,
+          transform: 'translate3d(100%, 0, 0)'
+        },
+        '100%': {
+          opacity: 1,
+          transform: 'translateZ(0))'
+        }
       }
     },
     extend: {
       animation: {
         'zoomIn': 'zoomIn 0.7s 0.3s',
         'fadeInUp': 'fadeInUp 1.2s 0.5s forwards',
-        'fadeInDown': 'fadeInDown 0.9s cubic-bezier(0.2, 1, 0.22, 1)'
+        'fadeInDown': 'fadeInDown 0.9s cubic-bezier(0.2, 1, 0.22, 1)',
+        'fadeFromRight': 'fadeFromRight 0.3 cubic-bezier(0.2, 1, 0.22, 1)'
       },
       boxShadow: {
         'accountDropdown': '0 0 5px rgb(0 0 0 / 20%);',
@@ -65,7 +76,6 @@ export default {
       },
       colors: {
         'lightShadow': 'rgba(0, 0, 0, 0.15)',
-        'primaryDark': '#242424',
         primary: '#ff6a28',
         secondary: '#747474',
         tertiary: '#242424',

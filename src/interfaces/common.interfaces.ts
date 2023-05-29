@@ -31,5 +31,17 @@ interface AppState {
   currentBreakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
   mobileNavVisible: boolean
 }
+
+type MessageType = 'text' | 'image'
+
+type MessageStatusType = 'sent' | 'waiting' | 'unsent'
+interface Message {
+  content: string
+  isUser: boolean
+  type: MessageType
+  createdAt: Date
+  status?: MessageStatusType
+}
+
 export { Breakpoints, StatusTypes }
-export type { ListParams, AppState, RouteType }
+export type { ListParams, AppState, RouteType, Message }

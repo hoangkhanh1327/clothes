@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { config, format3P } from '~/utils'
 import { Link } from 'react-router-dom'
 import { Button, Image, Typography } from 'antd'
-import { ProductType } from '~/interfaces'
+import { ProductType, WishlistItem } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { setQuickViewProduct } from '~/redux/reducers/productSlide'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -105,7 +105,10 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
                 <li
                   onClick={() => {
                     if (isWishedItem) {
-                      dispatch(removeItemFromWishlistAsync([id]))
+                      const checkWishlistExists = wishlist.find((wishItem: WishlistItem) => wishItem.product_id === id)
+                      if (checkWishlistExists) {
+                        dispatch(removeItemFromWishlistAsync([checkWishlistExists.id]))
+                      }
                     } else {
                       dispatch(addItemToWishlistAsync(id))
                     }

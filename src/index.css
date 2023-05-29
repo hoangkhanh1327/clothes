@@ -32,3 +32,23 @@ body {
   font-family: 'Libre Franklin', sans-serif !important;
   color: #747474;
 }
+
+.fit-height-tabs .ant-tabs-content {
+  height: 100% !important;
+}
+
+.fit-height-tabs .ant-tabs-content .ant-tabs-tabpane {
+  height: 100% !important;
+}
+
+.fit-height-tabs .ant-tabs-nav-list .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #ff6a28 !important;
+}
+
+.fit-height-tabs .ant-tabs-nav-list .ant-tabs-ink-bar {
+  background: #ff6a28 !important;
+}
+
+.fit-height-tabs .ant-tabs-nav-list .ant-tabs-tab:hover {
+  color: #ff6a28 !important;
+}

@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react'
-import { Typography, Spin } from 'antd'
+import { Typography, Spin, Row, Col } from 'antd'
 import { WishListTable } from '~/components/User/WishList'
 import { getWishList, userState } from '~/redux/reducers/userSlice'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
@@ -25,20 +25,22 @@ const Whistlist = () => {
     }, 1000)
   }
   return (
-    <section className='tw-pt-3 tw-px-3 tw-pb-9 tw-flex tw-flex-col tw-min-h-full'>
+    <section className='tw-relative tw-p-6 tw-min-h-full tw-flex tw-flex-col'>
       <div className='tw-min-h-0'>
-        <Title className='' level={4}>
-          Sản phẩm yêu thích
-        </Title>
+        <Row gutter={24} className='tw-mb-8'>
+          <Col span={24}>
+            <Title level={3} className='tw-mb-0 tw-font-semibold'>
+              Sản phẩm yêu thích
+            </Title>
+          </Col>
+          <Col span={24}>
+            <Text>Danh sách sản phẩm đã thích</Text>
+          </Col>
+        </Row>
       </div>
-      <div className='tw-flex-1 tw-flex'>
+      <div className='tw-flex-1 tw-flex tw-min-h-0'>
         <div className='tw-flex-1'>
-          {
-            <Spin spinning={loading}>
-              {' '}
-              <WishListTable />{' '}
-            </Spin>
-          }
+          <WishListTable />
         </div>
       </div>
     </section>

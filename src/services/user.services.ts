@@ -124,3 +124,12 @@ export const checkout = () => {
     }
   })
 }
+
+export const getOrder = (params: any) => {
+  return apiWithToken.get('/orders/', {
+    params,
+    headers: {
+      Authorization: authHeader()
+    }
+  })
+}

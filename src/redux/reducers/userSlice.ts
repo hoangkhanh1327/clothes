@@ -21,7 +21,6 @@ export const addItemToWishlistAsync = createAsyncThunk('addWishlist', async (id:
 
 export const removeItemFromWishlistAsync = createAsyncThunk('removeWishlist', async (ids: string[]) => {
   const response = await UserServices.removeItemFromWishlist(ids)
-  console.log('?', response.data)
   return response.data
 })
 
@@ -58,11 +57,10 @@ export const userSlice = createSlice({
     })
     builder.addCase(removeItemFromWishlistAsync.fulfilled, (state, action) => {
       const removedIds = action.payload
-      state.wishlist = state.wishlist.filter((item) => !removedIds.includes(item.product_id))
+      state.wishlist = state.wishlist.filter((item) => !removedIds.includes(item.id))
     })
     builder.addCase(getUserAddress.fulfilled, (state, action) => {
-      console.log('action', action.payload)
-      state.address = action.payload
+      state.address = action.payload || []
     })
   }
 })

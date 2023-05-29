@@ -56,9 +56,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      navigate('/')
-      const user1 = JSON.parse(localStorage.getItem('user') || '{}')
-      console.log('user1', user1)
+      // navigate('/')
       dispatch(getCartItems())
       dispatch(getWishList())
     }

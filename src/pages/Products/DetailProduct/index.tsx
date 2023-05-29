@@ -277,7 +277,7 @@ const DetailBlog = () => {
                   <Button
                     htmlType='submit'
                     type='primary'
-                    className='tw-bg-primaryDark tw-text-white tw-font-bold hover:tw-bg-primary hover:tw-text-white'
+                    className='tw-bg-tertiary tw-text-white tw-font-bold hover:tw-bg-primary hover:tw-text-white'
                     size='large'
                     icon={<Icon name='ShoppingCartOutlined' className='tw-text-xl tw-mr-2' />}
                   >

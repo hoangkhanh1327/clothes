@@ -3,6 +3,7 @@ import { useLayoutEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Header, Footer } from '~/components'
 import { Icon } from '~/components/Generals'
+import { ChatBox } from '~/components/Widgets'
 const HomeLayout = () => {
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false)
 
@@ -42,6 +43,7 @@ const HomeLayout = () => {
           className='tw-fixed tw-z-[2147483647] tw-bottom-[55px] tw-cursor-pointer tw-h-[35px] tw-w-[35px] tw-bg-black tw-text-white tw-right-[12px] tw-text-center'
         />
       ) : null}
+      <ChatBox />
     </Layout>
   )
 }
