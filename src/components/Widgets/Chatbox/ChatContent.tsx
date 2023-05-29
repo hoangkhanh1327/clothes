@@ -3,14 +3,12 @@ import type { Message } from '~/interfaces'
 
 const temp: Message[] = Array(15)
   .fill('')
-  .map((_, index) => {
-    return {
-      content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, perferendis',
-      isUser: index % 2 === 0,
-      type: 'text',
-      createdAt: new Date(new Date().setDate(new Date().getDate() - index))
-    }
-  })
+  .map((_, index) => ({
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, perferendis',
+    isUser: index % 2 === 0,
+    type: 'text',
+    createdAt: new Date(new Date().setDate(new Date().getDate() - index))
+  }))
 
 const ChatContent = () => {
   const [message, setMessage] = useState<Message[]>([])
