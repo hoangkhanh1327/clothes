@@ -1,6 +1,5 @@
 import { Checkbox, Form, Input, Modal, Select } from 'antd'
 import { useState, useEffect } from 'react'
-import { CommonServives } from '~/services'
 
 interface FieldData {
   name: string | number | (string | number)[]
@@ -13,18 +12,18 @@ interface FieldData {
 const AddressForm = ({ open, onClose, address }: { open: boolean; onClose: Function; address?: any }) => {
   const [form] = Form.useForm()
   const [fields, setFields] = useState<FieldData[]>([{ name: ['province'], value: '' }])
-  const [provinces, setProvinces] = useState([])
+  // const [provinces, setProvinces] = useState([])
 
   useEffect(() => {
     // getProvinces()
   }, [])
 
-  const getProvinces = async () => {
-    try {
-      const res = await CommonServives.getProvinces()
-      console.log('res', res)
-    } catch (error) {}
-  }
+  // const getProvinces = async () => {
+  //   try {
+  //     const res = await CommonServives.getProvinces()
+  //     console.log('res', res)
+  //   } catch (error) {}
+  // }
 
   return (
     <Modal

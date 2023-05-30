@@ -12,7 +12,7 @@ const { Title, Text } = Typography
 const Tax = 10
 
 const Cart: React.FC<{}> = ({}) => {
-  const { items, deleteLoading } = useAppSelector((state) => state.cart)
+  const { items } = useAppSelector((state) => state.cart)
   const [products, setProducts] = useState<CartItem[]>([])
   const navigate = useNavigate()
   const cartContentRef = useRef<HTMLDivElement>(null)
@@ -159,7 +159,7 @@ const Cart: React.FC<{}> = ({}) => {
       autoAdjustOverflow={true}
       trigger={['click', 'hover']}
       // open={isDropdownCartVisible}
-      dropdownRender={(menu) => {
+      dropdownRender={() => {
         return (
           <div
             ref={cartContentRef}
@@ -169,7 +169,7 @@ const Cart: React.FC<{}> = ({}) => {
               <List
                 className='tw-max-h-[450px] tw-overflow-y-auto tw-cursor-default'
                 dataSource={products}
-                renderItem={(product: CartItem, index) => renderCartItem(product)}
+                renderItem={(product: CartItem) => renderCartItem(product)}
               />
             </div>
             <div className='tw-py-[19px]'>

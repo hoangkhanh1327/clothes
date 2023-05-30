@@ -6,7 +6,7 @@ const ChatInput = ({ onSendMessage }: { onSendMessage: Function }) => {
   const [value, setValue] = useState<string>('')
 
   const handleSubmitFile = (options: any) => {
-    const { onSuccess, onError, file, onProgress } = options
+    const { file } = options
     onSendMessage(file, 'image')
   }
 

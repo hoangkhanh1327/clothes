@@ -1,6 +1,6 @@
 import React from 'react'
 import { config } from '~/utils'
-import { Carousel, Image, Typography } from 'antd'
+import { Carousel, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 
 const { Title, Paragraph } = Typography

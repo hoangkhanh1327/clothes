@@ -2,12 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faSignOut } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { Avatar, MenuProps, Typography, Dropdown, Space } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
 import { Icon } from '..'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { authState, signOutAsync } from '~/redux/reducers/authSlice'
-
-const { Text } = Typography
 
 const items: MenuProps['items'] = [
   {

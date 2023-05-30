@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Carousel, Skeleton } from 'antd'
+import { useEffect, useState } from 'react'
+import { Carousel } from 'antd'
 import { BlogCard, BlogSkeleton } from '../Blogs'
 
 import type { BlogItemType } from '~/interfaces'
@@ -10,13 +10,14 @@ const NewestBlog = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
+      getBlogs()
     }, 5e3)
   }, [])
 
   const getBlogs = async () => {
     try {
       // const response = await
-      // setBlogs()
+      setBlogs([])
     } catch (err) {
       console.log(err)
     }
@@ -59,7 +60,7 @@ const NewestBlog = () => {
     <Carousel draggable {...settings}>
       {loading || !blogs.length
         ? [...Array(6)].map((_, index) => <BlogSkeleton key={`blog-skeleton-${index}`} />)
-        : blogs?.map((blog, index) => <BlogCard {...blog} key={blog.key} />)}
+        : blogs?.map((blog) => <BlogCard {...blog} key={blog.key} />)}
     </Carousel>
   )
 }

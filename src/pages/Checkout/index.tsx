@@ -1,16 +1,13 @@
-import { ReactNode, useEffect, useState, useMemo } from 'react'
-import { NextPageWithLayout } from '../_app'
-import { HomeLayout } from '@/layouts'
+import { useEffect, useState, useMemo } from 'react'
 import { Breadcrumb, Col, Row, Table, Space, Image, Typography, Button, Tag, Radio, Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { AddressType, CartItem } from '@/interfaces'
-import { useAppSelector } from '@/redux/reduxHooks'
+import { CartItem } from '~/interfaces'
+import { useAppSelector } from '~/redux/hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
-import { format3P } from '@/modules/common/utils'
+import { format3P } from '~/utils'
 import type { RadioChangeEvent } from 'antd'
-import { AddressSelector } from '../../modules/common/components/Checkout'
-
+import { AddressSelector } from '~/components/Checkout'
 const { Title, Text } = Typography
 
 const columns: ColumnsType<CartItem> = [
@@ -31,7 +28,7 @@ const columns: ColumnsType<CartItem> = [
     dataIndex: 'price',
     key: 'price',
     align: 'center',
-    render(value, record, index) {
+    render(_value, record, _index) {
       return (
         <Text className='tw-text-secondary tw-min-w-[160px] tw-text-sm tw-font-semibold'>
           {format3P(record.price)} VNĐ
@@ -44,7 +41,7 @@ const columns: ColumnsType<CartItem> = [
     key: 'info',
     dataIndex: 'info',
     align: 'center',
-    render(value, record, index) {
+    render(_value, record, _index) {
       return (
         <Space direction='vertical'>
           <Text className='tw-text-secondary'>
@@ -70,18 +67,17 @@ const columns: ColumnsType<CartItem> = [
     dataIndex: 'total',
     align: 'center',
     key: 'total',
-    render(value, record, index) {
+    render(_value, record, _index) {
       return (
         <Text className='tw-text-primary tw-min-w-[160px] tw-text-lg tw-font-semibold'>
           {format3P(record.quantity * record.price)} VNĐ
         </Text>
       )
-      AddressType
     }
   }
 ]
 
-const addressTemp: AddressType[] = [
+const addressTemp: any[] = [
   {
     id: 1,
     detail: 'Shop Hia Store, 6/1 Thanh Hoá',
@@ -100,7 +96,7 @@ const addressTemp: AddressType[] = [
   }
 ]
 
-const Checkout: NextPageWithLayout = () => {
+const Checkout = () => {
   const [items, setItems] = useState<CartItem[]>([])
   const cart = useAppSelector((state) => state.cart)
   const [paymentMethod, setPaymentMethod] = useState<string>('cod')
@@ -128,11 +124,7 @@ const Checkout: NextPageWithLayout = () => {
     let total = 0
     if (items.length) {
       items.reduce((accumulator, currentItem) => {
-        return (
-          accumulator +
-          (currentItem.price * currentItem.quantity - (currentItem.discount_amount || 0)) -
-          (currentItem.discount_percent ? currentItem.price * currentItem.discount_percent : 0)
-        )
+        return accumulator + currentItem.price * currentItem.quantity
       }, 0)
     }
     return total
@@ -143,7 +135,7 @@ const Checkout: NextPageWithLayout = () => {
   }
 
   return (
-    <div className='tw-container'>
+    <div className='tw-container tw-pb-14'>
       {contextHolder}
       <Breadcrumb
         className='tw-text-sm tw-py-11'
@@ -252,7 +244,4 @@ const Checkout: NextPageWithLayout = () => {
   )
 }
 
-Checkout.getLayout = function getLayout(page: ReactNode) {
-  return <HomeLayout>{page}</HomeLayout>
-}
 export default Checkout

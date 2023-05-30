@@ -1,5 +1,5 @@
-import { Fragment, ReactElement } from 'react'
-import { Breadcrumb, Col, Divider, Row, Typography, Image, Button, Card, Space, Progress } from 'antd'
+import { Fragment } from 'react'
+import { Breadcrumb, Col, Row, Typography, Image, Button, Card, Space, Progress } from 'antd'
 import { config } from '~/utils'
 const { Title, Paragraph, Text } = Typography
 

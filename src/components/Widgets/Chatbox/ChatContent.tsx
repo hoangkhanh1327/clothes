@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, UIEvent } from 'react'
-import { Avatar, Button, Image, Typography } from 'antd'
+import { Avatar, Button, Typography } from 'antd'
 import type { Message } from '~/interfaces'
 const { Paragraph } = Typography
 const ContainerHeight = 400
@@ -19,7 +19,7 @@ const ChatContent = ({
   const container = useRef<HTMLDivElement>(null)
   const scrollHeightFirstTime = useRef<number>(0)
 
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+  const handleScroll = () => {
     if (container.current && !isFirstTimeRender) {
       const { scrollTop, scrollHeight } = container.current as HTMLDivElement
       if (scrollTop === 0) {
@@ -73,7 +73,7 @@ const ChatContent = ({
       className='tw-p-3 tw-flex tw-flex-col tw-gap-4 tw-relatives'
       onScroll={handleScroll}
     >
-      {messages.map((message: Message, index) => {
+      {messages.map((message: Message) => {
         // if (index === messages.length - 1) {
         //   console.log('message', message)
         // }

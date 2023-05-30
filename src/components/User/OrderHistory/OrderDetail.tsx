@@ -9,7 +9,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       title: 'Sản phẩm',
       dataIndex: 'name',
       key: 'name',
-      render(value, record, index) {
+      render(value, _record, _index) {
         return (
           <Space>
             <Image placeholder width={70} height={100} />
@@ -22,7 +22,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       title: 'Thông tin',
       dataIndex: 'info',
       key: 'info',
-      render(value, record, index) {
+      render(value, _record, _index) {
         return (
           <Space direction='vertical'>
             <Text>Màu sắc: {value?.color}</Text>

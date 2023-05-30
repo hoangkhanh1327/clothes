@@ -1,5 +1,5 @@
-import React, { Fragment, lazy, Suspense, useEffect } from 'react'
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { history } from './utils'
 import './App.css'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
@@ -40,6 +40,7 @@ const Whislist = lazy(() => import('./pages/User/Whistlist'))
 
 // Cart & Checkout
 const CartPage = lazy(() => import('./pages/Cart'))
+const CheckoutPage = lazy(() => import('./pages/Checkout'))
 function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -110,7 +111,7 @@ function App() {
           <Route path='/san-pham' element={<ProductsPage />} />
           <Route path='/san-pham/:id' element={<DetailProductPage />} />
           <Route path='/gio-hang' element={<CartPage />} />
-          <Route path='/thanh-toan' element={<CartPage />} />
+          <Route path='/thanh-toan' element={<CheckoutPage />} />
         </Route>
 
         <Route path='/403' element={<_403 />} />

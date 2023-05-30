@@ -1,10 +1,9 @@
-import { Badge, Button, Typography } from 'antd'
+import { Badge, Typography } from 'antd'
 import { Icon } from '../Generals'
 import { useState, useEffect } from 'react'
 import ChatContent from './Chatbox/ChatContent'
 import type { Message } from '~/interfaces'
 import ChatInput from './Chatbox/ChatInput'
-import { getBase64 } from '~/utils'
 const { Text } = Typography
 const temp: Message[] = Array(15)
   .fill('')

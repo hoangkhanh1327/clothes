@@ -7,7 +7,6 @@ import 'moment/locale/vi'
 import { BlogItemType } from '~/interfaces'
 
 const { Title, Text } = Typography
-const PAGESIZE = 5
 const BlogList = () => {
   const [blogList, setBlogList] = useState<BlogItemType[]>([])
   const [page, setPage] = useState<number>(1)

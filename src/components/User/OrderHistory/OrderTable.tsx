@@ -1,4 +1,4 @@
-import { Badge, Button, Table, Tag } from 'antd'
+import { Button, Table, Tag } from 'antd'
 import { withTableSize } from '~/hocs'
 import type { ColumnsType } from 'antd/es/table'
 import { useEffect, useState } from 'react'
@@ -63,7 +63,7 @@ const OrderTable = (props: any) => {
       title: 'Ngày đặt hàng',
       dataIndex: 'date',
       key: 'date',
-      render(value, record, index) {
+      render(value, _record, _index) {
         return moment(value).format('DD/MM/YYYY')
       }
     },
@@ -71,7 +71,7 @@ const OrderTable = (props: any) => {
       title: 'Tình trạng',
       dataIndex: 'status',
       key: 'status',
-      render(value, record, index) {
+      render(value, _record, _index) {
         if (value === 'waiting') {
           return (
             <Tag color='warning' className='tw-text-sm' icon={<Icon name='SyncOutlined' spin />}>
@@ -105,7 +105,7 @@ const OrderTable = (props: any) => {
       title: '',
       key: 'detail',
       width: 120,
-      render(value, record, index) {
+      render(_value, record, _index) {
         return (
           <Button className='tw-bg-primary tw-text-white' onClick={() => props.showDetail(record.id)}>
             Chi tiết

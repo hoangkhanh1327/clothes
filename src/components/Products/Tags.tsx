@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Tag, Typography } from 'antd'
-import { Link } from 'react-router-dom'
-import { BlogTagItemType } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { getProductTagsAsync, productState } from '~/redux/reducers/productSlide'
 const { Title } = Typography

@@ -21,7 +21,7 @@ export default function CommonHeader() {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
-  const handleScroll = (e: Event) => {
+  const handleScroll = () => {
     if (window.scrollY > 100) {
       setShowStickyHeader(true)
     } else {

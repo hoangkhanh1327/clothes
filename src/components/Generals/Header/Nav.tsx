@@ -47,7 +47,7 @@ const Nav: React.FC<{}> = ({}) => {
       overflowedIndicator={false}
       disabledOverflow={true}
     >
-      {menus.map((item, index) => {
+      {menus.map((item) => {
         const isActive = item.path === currentPage
         return (
           <Menu.Item

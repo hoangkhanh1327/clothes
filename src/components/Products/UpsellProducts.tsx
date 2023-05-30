@@ -20,7 +20,7 @@ const RelativeBlogs = () => {
       <Row gutter={[24, 24]}>
         {relativeProduct.map((product: ProductType) => (
           <Col span={24} md={{ span: 12 }} lg={{ span: 6 }} key={product.id}>
-            <ProductCard {...product} />
+            <ProductCard product={product} />
           </Col>
         ))}
       </Row>

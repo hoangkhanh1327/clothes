@@ -23,7 +23,7 @@ const WishListTable = (props: any) => {
     {
       title: '#',
       width: 60,
-      render(value, record, index) {
+      render(_value, _record, index) {
         return `${index + 1}`
       }
     },
@@ -31,7 +31,7 @@ const WishListTable = (props: any) => {
       title: 'Sản phẩm',
       dataIndex: 'name',
       key: 'name',
-      render(value, record, index) {
+      render(_value, _record, _index) {
         return (
           <Space>
             <Image width={85} height={100} placeholder />
@@ -46,7 +46,7 @@ const WishListTable = (props: any) => {
       key: 'address',
       width: 120,
       align: 'center',
-      render(value, record, index) {
+      render(_value, record, _index) {
         return (
           <Popconfirm
             title='Bỏ thích sản phẩm'

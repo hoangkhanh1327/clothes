@@ -15,7 +15,7 @@ const ProtectedLayout = () => {
     }
   }, [])
 
-  const handleScroll = (e: Event) => {
+  const handleScroll = () => {
     if (window.scrollY > 100) {
       setShowStickyHeader(true)
     } else {
@@ -25,7 +25,7 @@ const ProtectedLayout = () => {
   return (
     <Layout id='root-layout'>
       <Layout className=' tw-h-screen tw-overflow-hidden tw-flex tw-flex-col tw-bg-white'>
-        <Header showSearchBar={false} />
+        <Header />
         <div className='tw-container tw-my-3 tw-flex-1'>
           <Row gutter={24} className='tw-min-h-full tw-py-2'>
             <Col span={6}>

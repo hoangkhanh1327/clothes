@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button, Col, Form, InputNumber, Modal, Row, Select, Typography, Image, Skeleton } from 'antd'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { productState, setQuickViewProduct } from '~/redux/reducers/productSlide'

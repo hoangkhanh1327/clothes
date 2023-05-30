@@ -36,7 +36,7 @@ const columns: ColumnsType<any> = [
     key: 'name',
     width: 60,
     align: 'center',
-    render(value, record, index) {
+    render(_value, _record, index) {
       return <span>{index + 1}</span>
     }
   },

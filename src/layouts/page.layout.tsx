@@ -14,7 +14,7 @@ const PageLayout = () => {
     }
   }, [])
 
-  const handleScroll = (e: Event) => {
+  const handleScroll = () => {
     if (window.scrollY > 100) {
       setShowStickyHeader(true)
     } else {
@@ -24,7 +24,7 @@ const PageLayout = () => {
   return (
     <Layout id='root-layout'>
       <Layout className='tw-flex-1 tw-bg-white'>
-        <Header showSearchBar={false} />
+        <Header />
         <Outlet />
         <Footer />
       </Layout>

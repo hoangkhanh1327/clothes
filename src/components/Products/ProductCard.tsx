@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { config, format3P } from '~/utils'
 import { Link } from 'react-router-dom'
-import { Button, Image, Typography } from 'antd'
+import { Image, Typography } from 'antd'
 import { ProductType, WishlistItem } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { setQuickViewProduct } from '~/redux/reducers/productSlide'
@@ -17,20 +17,7 @@ interface ProductCardType {
   isLandingPage?: boolean
 }
 const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
-  const {
-    id,
-    name,
-    tags,
-    types,
-    brand,
-    discount_amount,
-    discount_percent = 0,
-    gender,
-    price,
-    description,
-    photos,
-    avr_rate
-  } = product
+  const { id, name, discount_percent = 0, price, photos } = product
 
   const dispatch = useAppDispatch()
   const { wishlist } = useAppSelector(userState)

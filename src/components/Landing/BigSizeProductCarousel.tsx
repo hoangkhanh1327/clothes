@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { ProductCard, ProductSkeleton } from '../Products'
 import { Carousel } from 'antd'
 import { ProductServices } from '../../services'
@@ -68,7 +68,7 @@ const BigSizeProductCarousel = () => {
       <Carousel {...settings} draggable>
         {loading || !products.length
           ? [...Array(10)].map((_, index) => <ProductSkeleton key={`product-skeleton-${index}`} />)
-          : products.map((product: ProductType, index) => {
+          : products.map((product: ProductType) => {
               return (
                 <div key={`product-${product.id}`}>
                   <ProductCard product={product} isLandingPage={true} />

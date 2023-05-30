@@ -15,7 +15,7 @@ const HomeLayout = () => {
     }
   }, [])
 
-  const handleScroll = (e: Event) => {
+  const handleScroll = () => {
     if (window.scrollY > 100) {
       setShowStickyHeader(true)
     } else {
