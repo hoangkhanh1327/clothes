@@ -26,7 +26,7 @@ instance.interceptors.response.use(
       // }
       localStorage.removeItem('user')
       console.log('vod ay')
-      store.dispatch(removeUser(null))
+      store.dispatch(removeUser())
       history.navigate('/')
     }
 
