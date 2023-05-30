@@ -36,7 +36,7 @@ const Products = () => {
               <PriceFilter />
               <Brands />
               <Categories />
-              <Tags />
+              {/* <Tags /> */}
             </div>
           </Col>
           <Col span={24} lg={{ span: 18 }}>

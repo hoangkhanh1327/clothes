@@ -23,6 +23,7 @@
     "@types/redux-persist": "^4.3.1",
     "antd": "^5.4.7",
     "axios": "^1.4.0",
+    "rc-virtual-list": "^3.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",

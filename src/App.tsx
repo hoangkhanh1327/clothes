@@ -56,7 +56,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      // navigate('/')
+      navigate('/')
       dispatch(getCartItems())
       dispatch(getWishList())
     }

@@ -80,7 +80,8 @@ export default {
         secondary: '#747474',
         tertiary: '#242424',
         formInput: '#a4a4a4',
-        banner: 'rgba(255, 255, 255, 0.5)'
+        banner: 'rgba(255, 255, 255, 0.5)',
+        message: 'rgba(78, 79, 80, 0.5)'
       },
       boxShadow: {
         stickyHeader: '0 1px 3px rgba(0, 0, 0, 0.11)'
