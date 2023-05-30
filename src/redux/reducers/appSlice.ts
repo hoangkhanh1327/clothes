@@ -19,7 +19,7 @@ export const appSlice = createSlice({
       state.mobileNavVisible = action.payload
     }
   },
-  extraReducers: (builder) => {}
+  extraReducers: () => {}
 })
 
 export const appState = (state: RootState) => state.app

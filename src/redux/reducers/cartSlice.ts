@@ -47,9 +47,9 @@ export const cartSlice = createSlice({
       state.items = action.payload
     })
     builder.addCase(getCartItems.rejected, (state, action) => {
-      console.log('get cart items error ', action.payload)
+      console.log('get cart items error ', state, action.payload)
     })
-    builder.addCase(addItemToCartAsync.pending, (state, action) => {
+    builder.addCase(addItemToCartAsync.pending, (state) => {
       state.addLoading = true
     })
     builder.addCase(addItemToCartAsync.fulfilled, (state, action) => {
@@ -60,13 +60,13 @@ export const cartSlice = createSlice({
       state.addLoading = false
       console.log('add item to cart error', action.payload)
     })
-    builder.addCase(removeAllItems.fulfilled, (state, action) => {
+    builder.addCase(removeAllItems.fulfilled, (state) => {
       state.items = []
     })
     builder.addCase(removeAllItems.rejected, (state, action) => {
-      console.log('remove all item in cart error', action)
+      console.log('remove all item in cart error', state, action)
     })
-    builder.addCase(removeItemInCart.pending, (state, action) => {
+    builder.addCase(removeItemInCart.pending, (state) => {
       state.deleteLoading = true
     })
     builder.addCase(removeItemInCart.fulfilled, (state, action) => {

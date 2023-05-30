@@ -44,7 +44,7 @@ export const productSlice = createSlice({
     builder.addCase(getCategoriesAsync.fulfilled, (state, action) => {
       state.productCategories = action.payload
     })
-    builder.addCase(getCategoriesAsync.rejected, (state, action) => {
+    builder.addCase(getCategoriesAsync.rejected, (state) => {
       state.productCategories = [
         {
           id: 99,
@@ -78,7 +78,7 @@ export const productSlice = createSlice({
     builder.addCase(getProductTagsAsync.fulfilled, (state, action) => {
       state.productTags = action.payload
     })
-    builder.addCase(getProductTagsAsync.rejected, (state, action) => {
+    builder.addCase(getProductTagsAsync.rejected, (state) => {
       state.productTags = ['tag1', 'tag2', 'tag3', 'tag4', 'tag5']
     })
   }

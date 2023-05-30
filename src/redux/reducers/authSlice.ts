@@ -38,7 +38,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    removeUser: (state, action) => {
+    removeUser: (state) => {
       state.user = null
     }
   },
@@ -68,7 +68,7 @@ export const authSlice = createSlice({
       state.status = StatusTypes.ERROR
       state.error = action.error.message
     })
-    builder.addCase(signOutAsync.fulfilled, (state, action) => {
+    builder.addCase(signOutAsync.fulfilled, (state) => {
       state.user = null
       history.navigate('/')
     })

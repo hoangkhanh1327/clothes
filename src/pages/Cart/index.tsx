@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState, useMemo, useRef } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import {
   Breadcrumb,
   Col,
@@ -12,7 +12,6 @@ import {
   Divider,
   message,
   Button,
-  InputRef,
   Modal
 } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
@@ -63,7 +62,7 @@ const Cart = () => {
     }
   }, [items])
 
-  const handleUpdateItemQuantity = (keyInCart: string, value: number | null) => {
+  const handleUpdateItemQuantity = (_keyInCart: string, _value: number | null) => {
     // setCartItems((items) => {
     //   const updatedItems = items.map((item) => {
     //     if (item.id === keyInCart) {
@@ -135,7 +134,7 @@ const Cart = () => {
       key: 'info',
       dataIndex: 'info',
 
-      render(value, record, index) {
+      render(_value, record, _index) {
         return (
           <Space direction='vertical'>
             <Text className='tw-text-secondary'>
@@ -156,7 +155,7 @@ const Cart = () => {
       ),
       dataIndex: 'price',
       key: 'price',
-      render(value, record, index) {
+      render(_value, record, _index) {
         return (
           <Text className='tw-text-secondary tw-min-w-[160px] tw-text-sm tw-font-semibold'>
             {format3P(record.price)} VNĐ
@@ -186,7 +185,7 @@ const Cart = () => {
       ),
       dataIndex: 'total',
       key: 'total',
-      render(value, record, index) {
+      render(_value, record, _index) {
         return (
           <Text className='tw-text-primary tw-min-w-[160px] tw-text-lg tw-font-semibold'>
             {format3P(record.quantity * record.price)} VNĐ
@@ -198,7 +197,7 @@ const Cart = () => {
       title: <Text className='tw-uppercase tw-text-secondary tw-text-sm tw-text-center tw-font-semibold'>#</Text>,
       key: 'action',
       align: 'center',
-      render: (_, record) => (
+      render: (_, _record) => (
         <Space size='middle'>
           <FontAwesomeIcon
             className='tw-cursor-pointer tw-text-red-600'

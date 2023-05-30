@@ -49,7 +49,7 @@ export const userSlice = createSlice({
     builder.addCase(getWishList.fulfilled, (state, action) => {
       state.wishlist = action.payload
     })
-    builder.addCase(getWishList.rejected, (state, action) => {
+    builder.addCase(getWishList.rejected, (state) => {
       state.wishlist = []
     })
     builder.addCase(addItemToWishlistAsync.fulfilled, (state, action) => {
