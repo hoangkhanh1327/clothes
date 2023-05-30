@@ -26,34 +26,34 @@ export const signOutAsync = createAsyncThunk('signout', async () => {
 
 export interface AuthState {
   user: AuthUser | null
-  isLoggedIn: boolean
   status?: StatusTypes
   error?: string
 }
 
 const initialState: AuthState = {
-  user: null,
-  isLoggedIn: true
+  user: null
 }
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    removeUser: (state, action) => {
+      state.user = null
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(signinAsync.pending, (state) => {
       state.status = StatusTypes.LOADING
     })
     builder.addCase(signinAsync.fulfilled, (state, action) => {
       state.user = action.payload.user
-      state.isLoggedIn = true
       state.status = StatusTypes.SUCCESS
     })
     builder.addCase(signinAsync.rejected, (state, action) => {
       state.user = null
       state.status = StatusTypes.ERROR
       state.error = action.error.message
-      state.isLoggedIn = false
     })
 
     builder.addCase(getCurrentUserAsync.pending, (state) => {
@@ -67,7 +67,6 @@ export const authSlice = createSlice({
       state.user = null
       state.status = StatusTypes.ERROR
       state.error = action.error.message
-      state.isLoggedIn = false
     })
     builder.addCase(signOutAsync.fulfilled, (state, action) => {
       state.user = null
@@ -76,7 +75,7 @@ export const authSlice = createSlice({
   }
 })
 
-export const {} = authSlice.actions
+export const { removeUser } = authSlice.actions
 
 export const authState = (state: RootState) => state.auth
 

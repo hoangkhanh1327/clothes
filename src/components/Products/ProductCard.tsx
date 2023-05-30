@@ -124,13 +124,15 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
         </div>
 
         <div className='tw-absolute tw-bottom-[15px] tw-left-[10px] tw-right-[10px] tw-rounded-[3px] tw-opacity-0 tw-invisible tw-transition-all tw-duration-300 group-hover/product:tw-opacity-100 group-hover/product:tw-visible'>
-          <a
-            href='#'
-            className='tw-leading-[45px] tw-bg-white tw-text-primary tw-px-[10px] tw-font-normal tw-rounded-sm tw-text-[13px] tw-capitalize tw-w-full tw-block tw-text-center'
-            onClick={() => dispatch(setQuickViewProduct(product.id))}
-          >
-            Xem nhanh
-          </a>
+          {isLandingPage ? null : (
+            <a
+              href='#'
+              className='tw-leading-[45px] tw-bg-white tw-text-primary tw-px-[10px] tw-font-normal tw-rounded-sm tw-text-[13px] tw-capitalize tw-w-full tw-block tw-text-center'
+              onClick={() => dispatch(setQuickViewProduct(product.id))}
+            >
+              Xem nhanh
+            </a>
+          )}
         </div>
 
         <div>

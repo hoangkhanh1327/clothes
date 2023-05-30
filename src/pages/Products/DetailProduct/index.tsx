@@ -23,8 +23,8 @@ import { ProductCard } from '~/components/Products'
 import { BestSellerProducts } from '~/components/Landing'
 import { ProductServices } from '~/services'
 import { Icon } from '~/components/Generals'
-import { addItemToCartAsync } from '~/redux/reducers/cartSlice'
-import { useAppDispatch } from '~/redux/hooks'
+import { addItemToCartAsync, cartState } from '~/redux/reducers/cartSlice'
+import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 
 interface QuantityType {
   color: string
@@ -43,6 +43,7 @@ const DetailBlog = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [sizes, setSizes] = useState<any>()
   const [colors, setColors] = useState<string[]>([])
+  const { addLoading } = useAppSelector(cartState)
   const dispatch = useAppDispatch()
 
   const imgRef = useRef<CarouselRef>(null)
@@ -275,6 +276,8 @@ const DetailBlog = () => {
                 </Form.Item>
                 <Form.Item>
                   <Button
+                    disabled={addLoading || loading}
+                    loading={addLoading || loading}
                     htmlType='submit'
                     type='primary'
                     className='tw-bg-tertiary tw-text-white tw-font-bold hover:tw-bg-primary hover:tw-text-white'

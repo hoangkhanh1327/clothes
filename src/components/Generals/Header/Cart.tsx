@@ -12,16 +12,14 @@ const { Title, Text } = Typography
 const Tax = 10
 
 const Cart: React.FC<{}> = ({}) => {
-  const { items } = useAppSelector((state) => state.cart)
+  const { items, deleteLoading } = useAppSelector((state) => state.cart)
   const [products, setProducts] = useState<CartItem[]>([])
   const navigate = useNavigate()
   const cartContentRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (items.length > 0) {
-      setProducts(items)
-    }
+    setProducts(items)
   }, [items])
 
   const calculateTotalBeforeTax = useMemo(() => {
@@ -81,7 +79,7 @@ const Cart: React.FC<{}> = ({}) => {
           <FontAwesomeIcon
             icon={faTimes}
             role='button'
-            className='tw-text-xl'
+            className='tw-text-xl tw-cursor-pointer'
             onClick={(e) => {
               e.stopPropagation()
               e.preventDefault()

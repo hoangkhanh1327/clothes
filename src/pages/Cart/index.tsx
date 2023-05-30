@@ -22,15 +22,14 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { format3P } from '~/utils'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { cartState, clearCart, removeItemFromCart } from '~/redux/reducers/cartSlice'
+import { cartState, removeAllItems } from '~/redux/reducers/cartSlice'
 import { Icon } from '~/components/Generals'
 
 const { Title, Text } = Typography
 const Tax = 10
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
-  const { items } = useAppSelector(cartState)
+  const { items, deleteLoading } = useAppSelector(cartState)
   const [shippingFee, setShippingFee] = useState<number>(100000)
   const [discount, setDiscount] = useState<number>(0)
   const [couponCode, setCouponCode] = useState<string>('')
@@ -38,13 +37,10 @@ const Cart = () => {
   const dispatch = useAppDispatch()
   const [modal, contextModalHolder] = Modal.useModal()
   const navigate = useNavigate()
+
   useEffect(() => {
     document.title = 'Giỏ hàng - Panthers Shop'
   }, [])
-
-  useEffect(() => {
-    setCartItems(items)
-  }, [items])
 
   const calculateTotalBeforeTax = useMemo(() => {
     let total = 0
@@ -68,18 +64,18 @@ const Cart = () => {
   }, [items])
 
   const handleUpdateItemQuantity = (keyInCart: string, value: number | null) => {
-    setCartItems((items) => {
-      const updatedItems = items.map((item) => {
-        if (item.keyInCart === keyInCart) {
-          return {
-            ...item,
-            quantity: value || 0
-          }
-        }
-        return item
-      })
-      return updatedItems
-    })
+    // setCartItems((items) => {
+    //   const updatedItems = items.map((item) => {
+    //     if (item.id === keyInCart) {
+    //       return {
+    //         ...item,
+    //         quantity: value || 0
+    //       }
+    //     }
+    //     return item
+    //   })
+    //   return updatedItems
+    // })
   }
 
   const confirmDeleteAllCartItem = () => {
@@ -90,7 +86,7 @@ const Cart = () => {
       okText: 'Đồng ý',
       cancelText: 'Huỷ',
       onOk() {
-        dispatch(clearCart())
+        dispatch(removeAllItems())
       }
     })
   }
@@ -178,10 +174,7 @@ const Cart = () => {
       key: 'quantity',
       render: (_, record) => (
         <Space size='middle'>
-          <InputNumber
-            value={record.quantity}
-            onChange={(value) => handleUpdateItemQuantity(record.keyInCart, value)}
-          />
+          <InputNumber value={record.quantity} onChange={(value) => handleUpdateItemQuantity(record.id, value)} />
         </Space>
       )
     },
@@ -212,7 +205,7 @@ const Cart = () => {
             role='button'
             icon={faTrashCan}
             onClick={() => {
-              dispatch(removeItemFromCart(record.keyInCart))
+              // dispatch(removeItemFromCart(record.keyInCart))
             }}
           />
         </Space>
@@ -247,6 +240,8 @@ const Cart = () => {
               return (
                 <div>
                   <Button
+                    disabled={deleteLoading}
+                    loading={deleteLoading}
                     onClick={() => confirmDeleteAllCartItem()}
                     className='tw-ml-auto tw-block tw-bg-black tw-text-white hover:!tw-bg-primary hover:!tw-text-white tw-font-semibold tw-text-xs tw-capitalize'
                     size='large'
