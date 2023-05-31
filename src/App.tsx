@@ -50,14 +50,14 @@ function App() {
   history.navigate = navigate
 
   useEffect(() => {
-    if (!user) {
-      dispatch(getCurrentUserAsync())
-    }
+    sessionStorage.setItem('beforeLogin', location.pathname)
+    dispatch(getCurrentUserAsync())
   }, [])
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      const originUrl = sessionStorage.getItem('beforeLogin')
+      navigate(originUrl || '/')
       dispatch(getCartItems())
       dispatch(getWishList())
     }
@@ -101,17 +101,17 @@ function App() {
           <Route index element={<InfocationPage />} />
         </Route>
 
-        <Route path='/' element={<HomeLayout />}>
-          <Route index element={<LandingPage />} />
-          <Route path='/gioi-thieu' element={<AboutUsePage />} />
-          <Route path='/lien-he' element={<ContactUsPage />} />
-        </Route>
-
         <Route path='/' element={<PageLayout />}>
           <Route path='/san-pham' element={<ProductsPage />} />
           <Route path='/san-pham/:id' element={<DetailProductPage />} />
           <Route path='/gio-hang' element={<CartPage />} />
           <Route path='/thanh-toan' element={<CheckoutPage />} />
+        </Route>
+
+        <Route path='/' element={<HomeLayout />}>
+          <Route path='/gioi-thieu' element={<AboutUsePage />} />
+          <Route path='/lien-he' element={<ContactUsPage />} />
+          <Route index element={<LandingPage />} />
         </Route>
 
         <Route path='/403' element={<_403 />} />

@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { Banner, BestSellerProducts, BigSizeProductCarousel, NewestBlog, ProductTabs } from '~/components/Landing'
+import { useEffect } from 'react'
+import { Banner, BestSellerProducts, BigSizeProductCarousel } from '~/components/Landing'
 import { Col, Layout, Row, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import { config } from '~/utils'
 
 const { Content } = Layout
-const { Title, Text, Paragraph } = Typography
+const { Title, Paragraph } = Typography
 
 const LandingPage = () => {
   useEffect(() => {
@@ -49,7 +49,7 @@ const LandingPage = () => {
                             level={3}
                             className='lg:tw-text-xs xl:tw-text-base tw-text-tertiary tw-leading-[30px] tw-font-normal'
                           >
-                            Big Sale Off This Week
+                            Tuần Siêu Giảm Giá
                           </Title>
                         </div>
                       </div>
@@ -73,7 +73,7 @@ const LandingPage = () => {
                             Clothing.No18
                           </Title>
                           <Title level={3} className='tw-text-base tw-text-tertiary tw-leading-[30px] tw-font-normal'>
-                            Sale Off 20% All Store
+                            Giảm già 20% với tất cả cửa hàng
                           </Title>
                         </div>
                       </div>
@@ -97,7 +97,7 @@ const LandingPage = () => {
                             Bag.No1
                           </Title>
                           <Title level={3} className='tw-text-base tw-text-tertiary tw-leading-[30px] tw-font-normal'>
-                            Big Sale No Limited
+                            Siêu giảm giá
                           </Title>
                         </div>
                       </div>
@@ -122,7 +122,7 @@ const LandingPage = () => {
                   Sản phẩm mới
                 </Title>
                 <Paragraph className='tw-mb-0'>
-                  Contemporary, minimal and modern designs embody the Lavish Alice handwriting
+                  Mẫu sản phẩm mới nhất, hiện đại nhất vừa cập bến cửa hàng của chúng tôi
                 </Paragraph>
               </div>
             </Col>
@@ -178,7 +178,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className='lg:tw-mb-0 tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[30px] 2xl:tw-px-[120px] lg:tw-pb-[75px] xl:tw-pb-[94px]'>
+      {/* <section className='lg:tw-mb-0 tw-mb-[46px] tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[30px] 2xl:tw-px-[120px] lg:tw-pb-[75px] xl:tw-pb-[94px]'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>
@@ -199,7 +199,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </Content>
   )
 }

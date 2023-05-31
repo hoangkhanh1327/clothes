@@ -1,8 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import AuthServices from './auth.services'
-import { config, history } from '../utils'
-import { store } from '~/redux/store'
-import { removeUser } from '~/redux/reducers/authSlice'
+import { config } from '../utils'
 // axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
@@ -19,16 +16,6 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     const status = error.response?.status
     const errorData: any = error.response?.data
-    console.log('status', status)
-    if (status === 401) {
-      // if (errorData?.error?.message == 'Unauthorized') {
-      //   refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
-      // }
-      localStorage.removeItem('user')
-      console.log('vod ay')
-      store.dispatch(removeUser())
-      history.navigate('/')
-    }
 
     if (status === 404) {
       return Promise.reject({

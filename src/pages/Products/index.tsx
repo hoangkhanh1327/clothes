@@ -1,7 +1,7 @@
 import { Col, Divider, Input, Row, Typography } from 'antd'
 import { Fragment, useRef } from 'react'
 import { Breadcrumb, Icon } from '~/components/Generals'
-import { PriceFilter, Categories, Tags, ProductList, QuickViewProduct, Brands } from '~/components/Products'
+import { PriceFilter, Categories, ProductList, QuickViewProduct, Brands } from '~/components/Products'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { productState, setFilters } from '~/redux/reducers/productSlide'
 import type { InputRef } from 'antd'

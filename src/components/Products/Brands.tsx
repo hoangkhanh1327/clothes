@@ -15,8 +15,6 @@ const Brands = () => {
     }
   }, [])
 
-  console.log('filters', filters)
-
   return (
     <div className='xl:tw-mb-[45px]'>
       <Title

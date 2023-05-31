@@ -1,6 +1,5 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit'
 import authReducer from './reducers/authSlice'
-import accountReducer from './reducers/accountSlice'
 import cartReducer from './reducers/cartSlice'
 import appSlice from './reducers/appSlice'
 import productSlide from './reducers/productSlide'
@@ -24,7 +23,6 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userSlice,
   cart: persistReducer(cartPersistConfig, cartReducer),
-  account: accountReducer,
   product: productSlide
 })
 

@@ -102,7 +102,7 @@ export const updateCartItemQuantity = (params: UpdateItemInCartParams[]) => {
 }
 
 export const removeItemFromCart = (cartItemId: string) => {
-  return apiWithToken.delete(`/cart/?product_id=${cartItemId}`, {
+  return apiWithToken.delete(`/cart/${cartItemId}`, {
     headers: {
       Authorization: authHeader()
     }

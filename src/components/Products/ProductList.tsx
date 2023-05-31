@@ -30,9 +30,10 @@ const BlogList = () => {
       const transformedParams = {
         page: params?.page || 1,
         page_size: 12,
-        name: params?.name || '',
-        brands: params?.brands ? params?.brands.join(',') : '',
-        genders: params.genders
+        name: params?.name || undefined,
+        brands: params?.brands ? params?.brands.join(',') : undefined,
+        genders: params.genders || undefined,
+        price: params?.price ? params?.price.join(',') : undefined
       }
       const res: any = await ProductServices.getProducts(transformedParams)
       setProducts(res.data || [])

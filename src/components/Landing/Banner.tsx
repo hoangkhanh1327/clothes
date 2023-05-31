@@ -52,7 +52,7 @@ function Banner() {
             <div className='tw-table tw-w-full tw-h-full'>
               <div className='tw-table-cell tw-align-middle tw-pl-[90px]'>
                 <Title level={2} className='tw-text-xl tw-capitalize tw-text-tertiary tw-font-medium tw-mb-2.5'>
-                  top trending
+                  top thịnh hành
                 </Title>
                 <Title
                   level={1}
@@ -61,14 +61,14 @@ function Banner() {
                   handbag
                 </Title>
                 <Paragraph className='tw-text-tertiary tw-text-base tw-font-medium tw-pr-[120px] tw-mb-0'>
-                  {`Lorem ipsum dolor amet, consectetur adipisicing`} <br />
-                  {` elit. Vel similique perspiciatis, tempore unde `}
+                  {`Mẫu sản phẩm thịnh hành`} <br />
+                  {`Các mẫu sản phẩm thịnh hành, bán chạy nhất`}
                 </Paragraph>
                 <Link
                   className='tw-text-base tw-text-tertiary tw-capitalize tw-mt-[30px] tw-pb-[5px] tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b-2 tw-border-solid tw-border-tertiary tw-font-semibold tw-inline-block hover:tw-text-primary hover:tw-border-primary'
                   to={'/san-pham'}
                 >
-                  Discover Now
+                  Khám Phá Ngay
                 </Link>
               </div>
             </div>

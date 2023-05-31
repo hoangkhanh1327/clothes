@@ -13,11 +13,11 @@ const menus = [
     label: 'Sản phẩm',
     path: '/san-pham'
   },
-  {
-    key: '/bai-viet',
-    label: 'Tin tức',
-    path: '/bai-viet'
-  },
+  // {
+  //   key: '/bai-viet',
+  //   label: 'Tin tức',
+  //   path: '/bai-viet'
+  // },
   {
     key: '/gioi-thieu',
     label: 'Về chúng tôi',

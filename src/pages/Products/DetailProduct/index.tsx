@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useRef, useState, useMemo } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Breadcrumb,
   Button,
@@ -7,6 +7,7 @@ import {
   Form,
   Image,
   InputNumber,
+  Modal,
   Rate,
   Row,
   Select,
@@ -19,12 +20,13 @@ import { format3P } from '~/utils'
 import { useParams } from 'react-router-dom'
 import { ProductType } from '~/interfaces'
 import { CarouselRef } from 'antd/es/carousel'
-import { ProductCard } from '~/components/Products'
-import { BestSellerProducts } from '~/components/Landing'
+// import { ProductCard } from '~/components/Products'
+// import { BestSellerProducts } from '~/components/Landing'
 import { ProductServices } from '~/services'
 import { Icon } from '~/components/Generals'
 import { addItemToCartAsync, cartState } from '~/redux/reducers/cartSlice'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
+import { authState } from '~/redux/reducers/authSlice'
 
 interface QuantityType {
   color: string
@@ -39,11 +41,12 @@ const DetailBlog = () => {
   const { id } = useParams()
   const [form] = Form.useForm()
   const [product, setProduct] = useState<ProductType>()
-  const [relativeProducts, setRelativeProducts] = useState<ProductType[]>([])
+  // const [relativeProducts, setRelativeProducts] = useState<ProductType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [sizes, setSizes] = useState<any>()
   const [colors, setColors] = useState<string[]>([])
   const { addLoading } = useAppSelector(cartState)
+  const { user } = useAppSelector(authState)
   const dispatch = useAppDispatch()
 
   const imgRef = useRef<CarouselRef>(null)
@@ -111,7 +114,16 @@ const DetailBlog = () => {
         color: values.color,
         size: values.size
       }
-      dispatch(addItemToCartAsync([item]))
+      if (user) {
+        dispatch(addItemToCartAsync([item]))
+      } else {
+        Modal.warning({
+          title: 'Bạn chưa đăng nhập',
+          content: 'Vui lòng đăng nhập để thực hiện thao tác này.',
+          cancelText: 'Đóng',
+          okText: 'Test'
+        })
+      }
     }
   }
 
@@ -298,9 +310,10 @@ const DetailBlog = () => {
             defaultActiveKey='info'
             type='card'
             size={'large'}
+            className='tw-text-primary'
             items={[
               {
-                label: 'Giới thiệu',
+                label: <Text className=''>Thông tin sản phẩm</Text>,
                 key: 'info',
                 children: (
                   <div>
@@ -308,18 +321,18 @@ const DetailBlog = () => {
                   </div>
                 ),
                 forceRender: true
-              },
-              {
-                label: 'Bình luận',
-                key: 'detail',
-                children: `Thong tin chi tiet 2`,
-                forceRender: true
               }
+              // {
+              //   label: 'Bình luận',
+              //   key: 'detail',
+              //   children: `Thong tin chi tiet 2`,
+              //   forceRender: true
+              // }
             ]}
           />
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col span={24}>
           <div className='tw-mb-7 tw-text-center'>
             <Title
@@ -338,8 +351,8 @@ const DetailBlog = () => {
             ))}
           </div>
         </Col>
-      </Row>
-      <section className='lg:tw-mb-8 xl:tw-mb-[46px] tw-border-0 tw-pb-[52px] tw-border-solid tw-border-[#ddd] tw-border-b'>
+      </Row> */}
+      {/* <section className='lg:tw-mb-8 xl:tw-mb-[46px] tw-border-0 tw-pb-[52px] tw-border-solid tw-border-[#ddd] tw-border-b'>
         <div className='tw-container-fluid'>
           <Row gutter={24}>
             <Col span={24}>
@@ -360,7 +373,7 @@ const DetailBlog = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </article>
   )
 }

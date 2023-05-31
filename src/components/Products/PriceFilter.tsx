@@ -1,11 +1,24 @@
 import { Button, Slider, Space, Typography } from 'antd'
 import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '~/redux/hooks'
+import { productState, setFilters } from '~/redux/reducers/productSlide'
 import { format3P } from '~/utils'
 
 const { Title, Text } = Typography
 const PriceFilter = () => {
   const [minPrice, setMinPrice] = useState<number>(0)
-  const [maxPrice, setMaxPrice] = useState<number>(100000000)
+  const [maxPrice, setMaxPrice] = useState<number>(10000000)
+  const dispatch = useAppDispatch()
+  const { filters } = useAppSelector(productState)
+
+  const handleFilterPrice = () => {
+    dispatch(
+      setFilters({
+        ...filters,
+        price: [minPrice, maxPrice]
+      })
+    )
+  }
   return (
     <div className='tw-mb-10'>
       <Title
@@ -17,7 +30,7 @@ const PriceFilter = () => {
       <Slider
         min={0}
         max={100000000}
-        step={1000000}
+        step={100000}
         className='tw-text-primary'
         range
         onChange={(value: number[]) => {
@@ -26,7 +39,10 @@ const PriceFilter = () => {
         }}
       />
       <Space className='tw-justify-between tw-items-center tw-min-w-full'>
-        <Button className='tw-h-[30px] tw-leading-[30px] tw-py-0 tw-px-4 tw-uppercase tw-rounded-[30px] tw-bg-tertiary tw-text-white hover:tw-bg-primary tw-transition-all tw-duration-300 '>
+        <Button
+          onClick={() => handleFilterPrice()}
+          className='tw-h-[30px] tw-leading-[30px] tw-py-0 tw-px-4 tw-uppercase tw-rounded-[30px] tw-bg-tertiary tw-text-white hover:tw-bg-primary tw-transition-all tw-duration-300 '
+        >
           Lọc Giá
         </Button>
 

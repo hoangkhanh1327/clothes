@@ -54,7 +54,7 @@ export const cartSlice = createSlice({
     })
     builder.addCase(addItemToCartAsync.fulfilled, (state, action) => {
       state.addLoading = false
-      state.items = action.payload
+      state.items = state.items.concat(action.payload)
     })
     builder.addCase(addItemToCartAsync.rejected, (state, action) => {
       state.addLoading = false
@@ -71,7 +71,7 @@ export const cartSlice = createSlice({
     })
     builder.addCase(removeItemInCart.fulfilled, (state, action) => {
       state.deleteLoading = false
-      console.log('action', action.payload)
+      state.items = state.items.filter((item) => item.id !== action.payload)
     })
     builder.addCase(removeItemInCart.rejected, (state, action) => {
       state.deleteLoading = false

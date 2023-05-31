@@ -65,9 +65,9 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
             <Text className='tw-w-[50px] tw-h-[50px] tw-text-center tw-leading-[50px] tw-bg-white tw-text-[15px] tw-block tw-text-[#999]'>
               <FontAwesomeIcon icon={faPlus} />
             </Text>
-            <div className='tw-absolute tw-top-0 tw-left-0 tw-z-10 tw-max-h-0 tw-transition-all tw-duration-300 tw-opacity-0 tw-invisible group-hover/action:tw-opacity-100 group-hover/action:tw-visible'>
+            <div className='tw-absolute tw-top-0 tw-left-0 tw-z-10 tw-max-h-0 tw-transition-all tw-duration-300 tw-opacity-100 tw-visible group-hover/action:tw-opacity-100 group-hover/action:tw-visible'>
               <ul className='tw-list-outside tw-list-image-none tw-list-none tw-p-0 tw-m-0'>
-                <li
+                {/* <li
                   className='tw-list-item'
                   onClick={() => {
                     // dispatch(
@@ -88,7 +88,7 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
                   <Text className='product-action'>
                     <FontAwesomeIcon icon={faBasketShopping} />
                   </Text>
-                </li>
+                </li> */}
                 <li
                   onClick={() => {
                     if (isWishedItem) {

@@ -7,7 +7,7 @@ const SubcribeForm = () => {
 
   const onFinish = (values: any) => {
     console.log(values)
-    messageApi.info('Đăng ký thành công!')
+    messageApi.success('Đăng ký nhận tin thành công!')
     form.resetFields()
   }
   return (
