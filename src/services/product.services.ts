@@ -1,19 +1,11 @@
 import instance from './api'
 
-export const getProductCategory = (params: any) => {
-  return instance.get('/category', {
-    params
-  })
-}
-
-export const getProductBrand = () => {
+export const getProductBrands = () => {
   return instance.get('/products/brands')
 }
 
-export const getProductTags = (params: any) => {
-  return instance.get('/tags', {
-    params
-  })
+export const getProductTypes = () => {
+  return instance.get('/products/types')
 }
 
 export const getProducts = (params: any) => {

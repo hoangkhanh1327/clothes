@@ -6,7 +6,7 @@ import { ProductType, WishlistItem } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { setQuickViewProduct } from '~/redux/reducers/productSlide'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBasketShopping, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faPlus } from '@fortawesome/free-solid-svg-icons'
 import {} from '~/redux/reducers/cartSlice'
 import { addItemToWishlistAsync, removeItemFromWishlistAsync, userState } from '~/redux/reducers/userSlice'
 

@@ -300,6 +300,14 @@ const DetailBlog = () => {
                   </Button>
                 </Form.Item>
               </Form>
+              <a
+                href='#'
+                onClick={(e) => {
+                  e.preventDefault()
+                }}
+              >
+                Thêm vào sản phẩm yêu thích
+              </a>
             </Space>
           </Skeleton>
         </Col>

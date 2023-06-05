@@ -1,11 +1,16 @@
 import { Col, Row, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import SubcribeForm from './SubcribeForm'
+import React from 'react'
 const { Title, Text, Paragraph } = Typography
 
-const Footer = () => {
+interface FooterTypes {
+  isPageLayout?: boolean
+}
+
+const Footer: React.FC<FooterTypes> = ({ isPageLayout }) => {
   return (
-    <footer className='md:tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px]'>
+    <footer className={`${isPageLayout ? '' : 'md:tw-px-[20px] lg:tw-px-[30px] xl:tw-px-[120px]'}`}>
       <div className='lg:tw-pb-[80px] xl:tw-pb-[92px] tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b tw-border-solid tw-border-[#ddd]'>
         <Row gutter={24}>
           <Col span={12} lg={{ span: 4 }}>

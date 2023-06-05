@@ -62,6 +62,7 @@ export const authSlice = createSlice({
     builder.addCase(getCurrentUserAsync.fulfilled, (state, action) => {
       state.user = action.payload.user
       state.status = StatusTypes.SUCCESS
+      state.error = ''
     })
     builder.addCase(getCurrentUserAsync.rejected, (state, action) => {
       state.user = null

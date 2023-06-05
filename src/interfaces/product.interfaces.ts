@@ -3,20 +3,7 @@ enum GenderEnnumType {
   FEMALE = 'FEMALE'
 }
 
-interface ProductCategory {
-  id: string | number
-  name: string
-  value: string
-  count: number
-}
-
 interface ProductState {
-  productCategories: ProductCategory[]
-  productBrands: string[]
-  productTags: string[]
-  totalProducts: number
-  filters?: any
-  loading: boolean
   quickViewProductId?: string
 }
 

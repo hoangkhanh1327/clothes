@@ -26,7 +26,9 @@ const PageLayout = () => {
       <Layout className='tw-flex-1 tw-bg-white'>
         <Header />
         <Outlet />
-        <Footer />
+        <section className='tw-container'>
+          <Footer isPageLayout={true} />
+        </section>
       </Layout>
       {showStickyHeader ? (
         <Button

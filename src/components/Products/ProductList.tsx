@@ -1,50 +1,23 @@
-import { useEffect, useState } from 'react'
-import { List, Pagination, PaginationProps } from 'antd'
+import { List, PaginationProps } from 'antd'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ProductCard from './ProductCard'
 import { ProductType } from '~/interfaces'
 import 'moment/locale/vi'
-import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { productState, setFilters } from '~/redux/reducers/productSlide'
-import { ProductServices } from '~/services'
 
-const BlogList = () => {
-  const { filters } = useAppSelector(productState)
-  const dispatch = useAppDispatch()
-  const [products, setProducts] = useState<ProductType[]>([])
-  const [total, setTotal] = useState()
-  const [loading, setLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (filters) {
-      getProducts(filters)
-    } else {
-      getProducts({ page: 1, page_size: 8 })
-    }
-  }, [filters])
-
-  const getProducts = async (params: any) => {
-    try {
-      setLoading(true)
-      const transformedParams = {
-        page: params?.page || 1,
-        page_size: 12,
-        name: params?.name || undefined,
-        brands: params?.brands ? params?.brands.join(',') : undefined,
-        genders: params.genders || undefined,
-        price: params?.price ? params?.price.join(',') : undefined
-      }
-      const res: any = await ProductServices.getProducts(transformedParams)
-      setProducts(res.data || [])
-      setTotal(res.total || 0)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
+const ProductList = ({
+  loading,
+  page,
+  onPageChange,
+  products,
+  total
+}: {
+  loading: boolean
+  page: number
+  onPageChange: Function
+  products: ProductType[]
+  total: number
+}) => {
   const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
     if (type === 'prev') {
       return (
@@ -70,15 +43,16 @@ const BlogList = () => {
       dataSource={products}
       itemLayout='vertical'
       grid={{ gutter: 24, column: 4 }}
-      footer={
-        <Pagination
-          className='tw-text-center tw-py-2 tw-border tw-rounded-sm'
-          current={filters?.page || 1}
-          itemRender={itemRender}
-          total={total}
-          onChange={(page: number) => dispatch(setFilters({ ...filters, page }))}
-        />
-      }
+      pagination={{
+        current: page || 1,
+        pageSize: 12,
+        itemRender: itemRender,
+        total: total,
+        onChange(page) {
+          return onPageChange(page)
+        },
+        className: 'tw-text-center tw-py-2 tw-border tw-rounded-sm ,tw-text-primary'
+      }}
       renderItem={(item: ProductType) => {
         return <ProductCard product={item} />
       }}
@@ -86,4 +60,4 @@ const BlogList = () => {
   )
 }
 
-export default BlogList
+export default ProductList

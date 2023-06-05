@@ -1,20 +1,34 @@
-import { useEffect } from 'react'
 import { Typography } from 'antd'
-import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { getCategoriesAsync, productState, setFilters } from '~/redux/reducers/productSlide'
 
+const categories = [
+  {
+    id: 99,
+    name: 'Tất cả',
+    value: '',
+    count: 60
+  },
+  {
+    id: 1,
+    name: 'Phụ nữ',
+    value: 'WOMEN',
+    count: 10
+  },
+  {
+    id: 2,
+    name: 'Đàn ông',
+    value: 'MEN',
+    count: 20
+  },
+  {
+    id: 3,
+    name: 'Trẻ em',
+    value: 'KID',
+    count: 30
+  }
+]
 const { Title, Text } = Typography
 
-const Categories = () => {
-  const { productCategories, filters } = useAppSelector(productState)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (!productCategories.length) {
-      dispatch(getCategoriesAsync({ page: 1, page_size: 1000 }))
-    }
-  }, [])
-
+const Categories = ({ selected, onChange }: { selected: string; onChange: Function }) => {
   return (
     <div className='xl:tw-mb-[45px]'>
       <Title
@@ -24,18 +38,18 @@ const Categories = () => {
         Danh mục sản phẩm
       </Title>
       <ul className='tw-list-outside tw-list-none tw-list-image-none tw-m-0 tw-p-0'>
-        {productCategories?.map((category) => {
-          const isActive = filters?.genders === category.value
+        {categories?.map((category) => {
+          const isActive = selected === category.value
           return (
             <li
               className='tw-mb-2 tw-cursor-pointer group-[] tw-group'
               key={category.id}
               onClick={() => {
-                dispatch(setFilters({ ...filters, genders: category.value }))
+                onChange(category.value)
               }}
             >
               <Text
-                className={`tw-block tw-leading-[27px] tw-duration-300 hover:tw-text-primary ${
+                className={`tw-block tw-leading-[27px] transi tw-duration-300 hover:tw-text-primary ${
                   isActive ? 'tw-text-primary tw-font-semibold' : 'tw-text-tertiary'
                 }`}
               >

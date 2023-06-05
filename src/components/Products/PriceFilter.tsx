@@ -1,23 +1,14 @@
 import { Button, Slider, Space, Typography } from 'antd'
 import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { productState, setFilters } from '~/redux/reducers/productSlide'
 import { format3P } from '~/utils'
 
 const { Title, Text } = Typography
-const PriceFilter = () => {
+const PriceFilter = ({ onChange }: { onChange: Function }) => {
   const [minPrice, setMinPrice] = useState<number>(0)
   const [maxPrice, setMaxPrice] = useState<number>(10000000)
-  const dispatch = useAppDispatch()
-  const { filters } = useAppSelector(productState)
 
   const handleFilterPrice = () => {
-    dispatch(
-      setFilters({
-        ...filters,
-        price: [minPrice, maxPrice]
-      })
-    )
+    onChange([minPrice, maxPrice])
   }
   return (
     <div className='tw-mb-10'>
