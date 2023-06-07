@@ -1,4 +1,7 @@
+import { store } from '~/redux/store'
 import api from './api'
+import { clearCart } from '~/redux/reducers/cartSlice'
+import { removeUser } from '~/redux/reducers/authSlice'
 
 export const refreshToken = () => {
   return api.get('/authentication/refreshToken')
@@ -25,6 +28,8 @@ export const login = async (email: string, password: string) => {
 
 export const logout = () => {
   localStorage.removeItem('user')
+  store.dispatch(removeUser())
+  store.dispatch(clearCart())
 }
 
 const AuthServices = {

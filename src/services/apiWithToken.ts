@@ -3,6 +3,7 @@ import { config, history } from '../utils'
 import authHeader from './authHeader'
 import { store } from '~/redux/store'
 import { removeUser } from '~/redux/reducers/authSlice'
+import { AuthServices } from '.'
 axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
@@ -21,12 +22,9 @@ instance.interceptors.response.use(
     const status = error.response?.status
     const errorData: any = error.response?.data
 
+    console.log('?', status)
     if (status === 401) {
-      // if (errorData?.error?.message == 'Unauthorized') {
-      //   refreshToken = refreshToken ? refreshToken : AuthServices.refreshToken()
-      // }
-      store.dispatch(removeUser())
-      localStorage.removeItem('user')
+      AuthServices.logout()
       const originUrl = sessionStorage.getItem('beforeLogin')
       history.navigate(originUrl || '/')
     }

@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { config } from '../utils'
+import { AuthServices } from '.'
 // axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
@@ -27,6 +28,10 @@ instance.interceptors.response.use(
       return Promise.reject({
         message: 'Server đã xảy ra lỗi !!'
       })
+    }
+
+    if (status === 401) {
+      AuthServices.logout()
     }
 
     return Promise.reject(errorData?.error)

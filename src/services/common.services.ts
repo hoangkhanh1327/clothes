@@ -1,13 +1,13 @@
-import axios from 'axios'
+import instance from './api'
 
 export const getProvinces = () => {
-  return axios.get('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province')
+  return instance.get('/provinces')
 }
 
 export const getDistrict = (province_id: string) => {
-  return axios.get(`https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${province_id}`)
+  return instance.get(`/districts/${province_id}`)
 }
 
 export const getWard = (district_id: string) => {
-  return axios.get(`https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${district_id}`)
+  return instance.get(`/wards/${district_id}`)
 }

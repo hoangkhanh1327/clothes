@@ -8,7 +8,7 @@ import { AddressForm } from '~/components/Checkout'
 import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { getBase64 } from '~/utils'
-import { getUserAddress, userState } from '~/redux/reducers/userSlice'
+import { createUserAddress, getUserAddress, userState } from '~/redux/reducers/userSlice'
 
 const { Title, Paragraph, Text } = Typography
 const Infomation = () => {
@@ -53,6 +53,10 @@ const Infomation = () => {
         setImageUrl(url)
       })
     }
+  }
+
+  const handleCreateAddress = (params: any) => {
+    dispatch(createUserAddress(params))
   }
 
   // const handleUploadAvatar = ({ file }) => {}
@@ -177,7 +181,11 @@ const Infomation = () => {
         </div>
       </div>
       <InfomationForm visible={formVisible} onClose={() => toggleFormVisible(false)} />
-      <AddressForm open={addressFormVisible} onClose={() => toggleAddressFormVisible(false)} />
+      <AddressForm
+        open={addressFormVisible}
+        onSubmit={handleCreateAddress}
+        onClose={() => toggleAddressFormVisible(false)}
+      />
     </section>
   )
 }

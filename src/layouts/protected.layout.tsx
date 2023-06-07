@@ -1,11 +1,15 @@
 import { Button, Col, Layout, Row } from 'antd'
-import { useLayoutEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import { Header, Footer } from '~/components'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { Header } from '~/components'
 import { Icon } from '~/components/Generals'
 import { ProtectedSider } from '~/components/Generals/Sider'
+import { useAppSelector } from '~/redux/hooks'
+import { authState } from '~/redux/reducers/authSlice'
 const ProtectedLayout = () => {
   const [showStickyHeader, setShowStickyHeader] = useState<boolean>(false)
+  const { user } = useAppSelector(authState)
+  const navigate = useNavigate()
 
   useLayoutEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -14,6 +18,12 @@ const ProtectedLayout = () => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/')
+    }
+  }, [user])
 
   const handleScroll = () => {
     if (window.scrollY > 100) {

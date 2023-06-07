@@ -52,7 +52,7 @@ const Cart: React.FC<{}> = ({}) => {
       <div className='tw-flex tw-overflow-hidden tw-py-[25px] first-of-type:tw-pt-0 tw-border-b'>
         <div className='tw-w-[30%] tw-mr-[15px] tw-float-left'>
           <Image
-            src={`${config.publicUrl}/images/products/${cartItem.image || 'product1.jpg'}`}
+            src={cartItem.image}
             alt={`cart-item-${cartItem.id}`}
             className='tw-h-auto'
             width={83}

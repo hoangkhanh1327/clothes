@@ -57,7 +57,11 @@ function App() {
   useEffect(() => {
     if (user) {
       const originUrl = sessionStorage.getItem('beforeLogin')
-      navigate(originUrl || '/')
+      if (originUrl !== '/dang-nhap' || !originUrl.includes('/ca-nhan')) {
+        navigate(originUrl || '/')
+      } else {
+        navigate('/')
+      }
       dispatch(getCartItems())
       dispatch(getWishList())
     }
