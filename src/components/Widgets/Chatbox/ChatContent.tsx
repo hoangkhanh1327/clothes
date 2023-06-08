@@ -20,6 +20,7 @@ const ChatContent = ({
   const scrollHeightFirstTime = useRef<number>(0)
 
   const handleScroll = () => {
+    return
     if (container.current && !isFirstTimeRender) {
       const { scrollTop, scrollHeight } = container.current as HTMLDivElement
       if (scrollTop === 0) {
@@ -78,18 +79,18 @@ const ChatContent = ({
         //   console.log('message', message)
         // }
         return (
-          <div className={`${message.isUser ? 'tw-text-right' : 'tw-flex tw-items-end tw-gap-2'}`}>
-            {!message.isUser ? <Avatar /> : null}
+          <div className={`${message.is_user ? 'tw-text-right' : 'tw-flex tw-items-end tw-gap-2'}`}>
+            {!message.is_user ? <Avatar /> : null}
             {message.type === 'text' ? (
               <Paragraph
                 className={`tw-px-3 tw-py-2 tw-mb-0 tw-text-white  tw-max-w-[66%] tw-rounded-xl tw-inline-block ${
-                  message.isUser ? 'tw-ml-auto tw-bg-primary' : 'tw-mr-auto tw-bg-message'
+                  message.is_user ? 'tw-ml-auto tw-bg-primary' : 'tw-mr-auto tw-bg-message'
                 }`}
               >
-                {message.content}
+                {message.value}
               </Paragraph>
             ) : (
-              <img src={message.content} className='tw-w-4/6 tw-rounded-lg' />
+              <img src={message.value} className='tw-w-4/6 tw-rounded-lg' />
             )}
           </div>
         )

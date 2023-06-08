@@ -41,8 +41,8 @@ type MessageType = 'text' | 'image'
 
 type MessageStatusType = 'sent' | 'waiting' | 'unsent'
 interface Message {
-  content: string
-  isUser: boolean
+  value: string
+  is_user: boolean
   type: MessageType
   createdAt: Date
   status?: MessageStatusType

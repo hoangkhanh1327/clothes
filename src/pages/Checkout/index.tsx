@@ -1,13 +1,14 @@
 import { useEffect, useState, useMemo } from 'react'
 import { Breadcrumb, Col, Row, Table, Space, Image, Typography, Button, Tag, Radio, Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { CartItem } from '~/interfaces'
-import { useAppSelector } from '~/redux/hooks'
+import { CartItem, UserAddress } from '~/interfaces'
+import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { format3P } from '~/utils'
 import type { RadioChangeEvent } from 'antd'
 import { AddressSelector } from '~/components/Checkout'
+import { getUserAddress, userState } from '~/redux/reducers/userSlice'
 const { Title, Text } = Typography
 
 const columns: ColumnsType<CartItem> = [
@@ -102,11 +103,15 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState<string>('cod')
   const [addressModalVisibility, setAddressModalVisibility] = useState<boolean>(false)
   const [modal, contextHolder] = Modal.useModal()
-  const [address, setAddress] = useState<any[]>(addressTemp)
-  const [currentAddress, setCurrentAddress] = useState(addressTemp[0])
+  const [currentAddress, setCurrentAddress] = useState<UserAddress>()
+  const { address } = useAppSelector(userState)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     document.title = 'Thanh toán - Panthers Shop'
+    if (!address.length) {
+      dispatch(getUserAddress())
+    }
   }, [])
 
   useEffect(() => {
@@ -114,8 +119,9 @@ const Checkout = () => {
   }, [cart.items])
 
   useEffect(() => {
+    console.log('address', address)
     if (address.length) {
-      setCurrentAddress(address.find((address) => address.isDefault))
+      setCurrentAddress(address.find((address) => address.is_default) || address[0])
     } else {
     }
   }, [address])
@@ -159,9 +165,8 @@ const Checkout = () => {
           <Space>
             <Text className='tw-text-lg tw-text-secondary tw-font-bold'>{`Trần Quan Tuấn (+84) 902364524`}</Text>
             <Text className='tw-text-lg tw-text-secondary'>
-              {`${currentAddress.detail}, Xã ${currentAddress.ward}, Huyện ${currentAddress.district}, ${currentAddress.province}`}
-              {'    '}
-              {currentAddress.isDefault && (
+              {`${currentAddress?.address}`}
+              {currentAddress?.is_default && (
                 <Tag className='tw-text-base' color='magenta'>
                   {` `}Mậc định
                 </Tag>
@@ -184,7 +189,7 @@ const Checkout = () => {
           <Table
             className='tw-border-2 first:!tw-fixedtw-border-b-4'
             columns={columns}
-            dataSource={items}
+            dataSource={items?.map((item: any) => ({ ...item, key: item.id }))}
             pagination={false}
           />
         </Col>

@@ -133,3 +133,19 @@ export const getOrder = (params: any) => {
     }
   })
 }
+
+export const getMessages = () => {
+  return apiWithToken.get('/message', {
+    headers: {
+      Authorization: authHeader()
+    }
+  })
+}
+
+export const sendMegessage = (params: any) => {
+  return apiWithToken.post('/send-message', params, {
+    headers: {
+      Authorization: authHeader()
+    }
+  })
+}

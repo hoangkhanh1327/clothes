@@ -40,6 +40,7 @@ interface UserAddress {
   id: string
   address: 'string'
   district_id: 0
+  is_default: boolean
   name: 'string'
   province_id: 0
   ward_code: 'string'

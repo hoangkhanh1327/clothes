@@ -7,33 +7,18 @@ import ChatInput from './Chatbox/ChatInput'
 import { useAppSelector } from '~/redux/hooks'
 import { authState } from '~/redux/reducers/authSlice'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { UserServices } from '~/services'
 const { Text } = Typography
-const temp: Message[] = Array(15)
-  .fill('')
-  .map((_, index) => ({
-    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, perferendis',
-    isUser: index % 2 === 0,
-    type: 'text',
-    createdAt: new Date(new Date().setDate(new Date().getDate() - index))
-  }))
 
 const socketUrl = 'ws://164.92.130.229:8081/api/open'
+const storageUser = JSON.parse(localStorage.getItem('user') || '{}')
 const ChatBox = () => {
   const { user, accessToken } = useAppSelector(authState)
   const [isBoxChatVisible, toggleBoxChatVisible] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [isFirstTimeRender, setIsFirstTimeRender] = useState(true)
-  const [messageHistory, setMessageHistory] = useState<any>([])
-  const { sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket } = useWebSocket(
-    `${socketUrl}/${accessToken}`
-  )
-
-  console.log('???', sendMessage, lastMessage, readyState)
-  useEffect(() => {
-    if (!messages.length) {
-      appendMessage()
-    }
-  }, [messages])
+  const [dialogId, setDialogId] = useState<any>('')
+  const { lastJsonMessage } = useWebSocket(`${socketUrl}/${storageUser?.accessToken}`)
 
   useEffect(() => {
     window.addEventListener('keydown', handlePressEsc)
@@ -43,26 +28,26 @@ const ChatBox = () => {
   }, [])
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      setMessageHistory((prev: any) => prev.concat(lastMessage))
+    if (isBoxChatVisible) {
+      appendMessage()
     }
-  }, [lastMessage, setMessageHistory])
+  }, [isBoxChatVisible])
 
   useEffect(() => {
-    console.log('messageHistory', messageHistory)
-  }, [messageHistory])
-  const handleClickSendMessage = useCallback(() => sendMessage('Hello'), [])
+    if (lastJsonMessage) {
+      const message: any = lastJsonMessage
+      setMessages(messages.concat(message as Message))
+    }
+  }, [lastJsonMessage])
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated'
-  }[readyState]
-
-  const appendMessage = () => {
-    setMessages(messages.concat(temp))
+  const appendMessage = async () => {
+    try {
+      const res = await UserServices.getMessages()
+      setDialogId(res.data?.dialog_id)
+      setMessages(res.data?.messages)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const handlePressEsc = (e: KeyboardEvent) => {
@@ -102,13 +87,12 @@ const ChatBox = () => {
   }
 
   const onSendMessage = async (content: string | File, type: 'image' | 'text') => {
-    let newMessage: any = {
-      isUser: true,
-      createdAt: new Date(new Date().setDate(new Date().getDate()))
-    } as Message
+    let newMessage: any = {} as Message
 
     if (type === 'text') {
-      newMessage.content = content
+      newMessage.dialog_id = dialogId
+      newMessage.is_user = true
+      newMessage.value = content
       newMessage.type = 'text'
     } else {
       newMessage.type = 'image'
@@ -118,7 +102,12 @@ const ChatBox = () => {
       // })
       newMessage.content = await getBase64(content as File)
     }
-    setMessages(messages.concat([newMessage]))
+    try {
+      const res = await UserServices.sendMegessage(newMessage)
+      setMessages(messages.concat(res.data))
+    } catch (error) {
+      console.log('error', error)
+    }
     setIsFirstTimeRender(true)
   }
 
