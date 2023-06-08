@@ -1,3 +1,5 @@
+import React from 'react'
+
 interface AuthUser {
   id: string
   username: string
@@ -34,6 +36,8 @@ interface WishlistItem {
 }
 
 interface UserAddress {
+  key: React.Key
+  id: string
   address: 'string'
   district_id: 0
   name: 'string'

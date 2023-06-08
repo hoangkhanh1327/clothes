@@ -177,15 +177,11 @@ const Infomation = () => {
           <Button onClick={() => toggleAddressFormVisible(true)}>Thêm mới</Button>
         </div>
         <div className='tw-flex-1'>
-          <AddressTable />
+          <AddressTable data={address} />
         </div>
       </div>
       <InfomationForm visible={formVisible} onClose={() => toggleFormVisible(false)} />
-      <AddressForm
-        open={addressFormVisible}
-        onSubmit={handleCreateAddress}
-        onClose={() => toggleAddressFormVisible(false)}
-      />
+      <AddressForm open={addressFormVisible} onClose={() => toggleAddressFormVisible(false)} />
     </section>
   )
 }
