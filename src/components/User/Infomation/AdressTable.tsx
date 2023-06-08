@@ -10,7 +10,7 @@ import { deleteUserAddress } from '~/redux/reducers/userSlice'
 const { confirm } = Modal
 
 const AddressTable = (props: any) => {
-  const { parrentSize, data } = props
+  const { parrentSize, data, onModifyAddress } = props
   const dispatch = useAppDispatch()
 
   const items: MenuProps['items'] = [
@@ -28,6 +28,7 @@ const AddressTable = (props: any) => {
   const handleClick = (props: MenuInfo, item: UserAddress) => {
     switch (props.key) {
       case 'modify':
+        onModifyAddress(item)
         break
       case 'delete':
         confirm({

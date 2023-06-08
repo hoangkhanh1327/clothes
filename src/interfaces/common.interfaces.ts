@@ -30,6 +30,11 @@ interface AppState {
   isMobile: boolean
   currentBreakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
   mobileNavVisible: boolean
+  notification?: {
+    type: 'success' | 'info' | 'warning' | 'error'
+    message: string
+    description?: string
+  }
 }
 
 type MessageType = 'text' | 'image'

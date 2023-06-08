@@ -1,9 +1,12 @@
 import { Badge, Typography } from 'antd'
 import { Icon } from '../Generals'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import ChatContent from './Chatbox/ChatContent'
 import type { Message } from '~/interfaces'
 import ChatInput from './Chatbox/ChatInput'
+import { useAppSelector } from '~/redux/hooks'
+import { authState } from '~/redux/reducers/authSlice'
+import useWebSocket, { ReadyState } from 'react-use-websocket'
 const { Text } = Typography
 const temp: Message[] = Array(15)
   .fill('')
@@ -13,11 +16,19 @@ const temp: Message[] = Array(15)
     type: 'text',
     createdAt: new Date(new Date().setDate(new Date().getDate() - index))
   }))
+
+const socketUrl = 'ws://164.92.130.229:8081/api/open'
 const ChatBox = () => {
+  const { user, accessToken } = useAppSelector(authState)
   const [isBoxChatVisible, toggleBoxChatVisible] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [isFirstTimeRender, setIsFirstTimeRender] = useState(true)
+  const [messageHistory, setMessageHistory] = useState<any>([])
+  const { sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket } = useWebSocket(
+    `${socketUrl}/${accessToken}`
+  )
 
+  console.log('???', sendMessage, lastMessage, readyState)
   useEffect(() => {
     if (!messages.length) {
       appendMessage()
@@ -30,6 +41,25 @@ const ChatBox = () => {
       window.removeEventListener('keydown', handlePressEsc)
     }
   }, [])
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      setMessageHistory((prev: any) => prev.concat(lastMessage))
+    }
+  }, [lastMessage, setMessageHistory])
+
+  useEffect(() => {
+    console.log('messageHistory', messageHistory)
+  }, [messageHistory])
+  const handleClickSendMessage = useCallback(() => sendMessage('Hello'), [])
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: 'Connecting',
+    [ReadyState.OPEN]: 'Open',
+    [ReadyState.CLOSING]: 'Closing',
+    [ReadyState.CLOSED]: 'Closed',
+    [ReadyState.UNINSTANTIATED]: 'Uninstantiated'
+  }[readyState]
 
   const appendMessage = () => {
     setMessages(messages.concat(temp))

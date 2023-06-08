@@ -1,7 +1,8 @@
 import { Checkbox, Form, Input, Modal, Select, notification } from 'antd'
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment, useRef } from 'react'
+import { UserAddress } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { createUserAddress } from '~/redux/reducers/userSlice'
+import { createUserAddress, updateUserAddress } from '~/redux/reducers/userSlice'
 import { userState } from '~/redux/reducers/userSlice'
 import { CommonServives } from '~/services'
 
@@ -13,7 +14,7 @@ interface FieldData {
   errors?: string[]
 }
 
-const AddressForm = ({ open, onClose, address }: { open: boolean; onClose: Function; address?: any }) => {
+const AddressForm = ({ open, onClose, data }: { open: boolean; onClose: Function; data?: UserAddress }) => {
   const [form] = Form.useForm()
   const dispatch = useAppDispatch()
   const [fields, setFields] = useState<FieldData[]>([{ name: ['province'], value: '' }])
@@ -25,6 +26,8 @@ const AddressForm = ({ open, onClose, address }: { open: boolean; onClose: Funct
   const [api, contextHolder] = notification.useNotification()
   const provinceId = Form.useWatch('provinceId', form)
   const districtId = Form.useWatch('districtId', form)
+  const prevProvinceId = useRef<any>(null)
+  const prevDistrictId = useRef<any>(null)
 
   useEffect(() => {
     getProvinces()
@@ -88,15 +91,32 @@ const AddressForm = ({ open, onClose, address }: { open: boolean; onClose: Funct
   }
 
   const handleSubmitForm = (values: any) => {
-    const provice = provinces.find((p) => p.provinceId === values?.provinceId)
-    const district = districts.find((d) => d.districtId === values?.districtId)
-    const ward = wards.find((w) => w.wardCode === values?.wardCode)
+    const provice = provinces.find((p) => p.ProvinceID === values?.provinceId)
+    const district = districts.find((d) => d.DistrictID === values?.districtId)
+    const ward = wards.find((w) => w.WardCode === values?.wardCode)
     const transformedParams = {
       address: `${values?.address}, ${ward?.WardName}, ${district?.DistrictName}, ${provice?.ProvinceName}`,
       district_id: values?.districtId,
-      is_default: values?.isDefault || false
+      is_default: values?.isDefault || false,
+      // Delete two attributes after api fixed
+      province_id: values?.provinceId || 0,
+      ward_code: values?.wardCode || 0,
+      name: values?.name || ''
     }
-    dispatch(createUserAddress(transformedParams))
+    if (data) {
+      console.log('????', {
+        id: data.id,
+        ...transformedParams
+      })
+      dispatch(
+        updateUserAddress({
+          id: data.id,
+          ...transformedParams
+        })
+      )
+    } else {
+      dispatch(createUserAddress(transformedParams))
+    }
   }
 
   return (
@@ -104,7 +124,7 @@ const AddressForm = ({ open, onClose, address }: { open: boolean; onClose: Funct
       {contextHolder}
       <Modal
         open={open}
-        title={`${!address ? 'Thêm mới ' : 'Chỉnh sửa '} địa chỉ`}
+        title={`${!data ? 'Thêm mới ' : 'Chỉnh sửa '} địa chỉ`}
         bodyStyle={{
           borderTop: '1px solid black'
         }}
@@ -123,9 +143,31 @@ const AddressForm = ({ open, onClose, address }: { open: boolean; onClose: Funct
             form={form}
             fields={fields}
             onFieldsChange={(_, allFields) => {
+              const newProvinceValue = allFields.find((field: any) => field.name.includes('provinceId'))
+              const newDistrictValue = allFields.find((field: any) => field.name.includes('districtId'))
+              if (prevProvinceId.current !== newProvinceValue?.value) {
+                prevProvinceId.current = newProvinceValue?.value
+                form.setFieldsValue({
+                  districtId: null,
+                  wardCode: null
+                })
+              }
+              if (prevDistrictId.current !== newDistrictValue?.value) {
+                prevDistrictId.current = newDistrictValue?.value
+                form.setFieldsValue({
+                  wardCode: null
+                })
+              }
               setFields(allFields)
             }}
             onFinish={handleSubmitForm}
+            initialValues={{
+              name: data?.name,
+              provinceId: data?.province_id,
+              address: data?.address,
+              wardCode: data?.ward_code,
+              districtId: data?.district_id
+            }}
           >
             <Form.Item
               name='name'

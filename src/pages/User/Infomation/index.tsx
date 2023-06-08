@@ -9,6 +9,7 @@ import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { getBase64 } from '~/utils'
 import { createUserAddress, getUserAddress, userState } from '~/redux/reducers/userSlice'
+import { User, UserAddress } from '~/interfaces'
 
 const { Title, Paragraph, Text } = Typography
 const Infomation = () => {
@@ -19,6 +20,7 @@ const Infomation = () => {
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState<string>()
   const { address } = useAppSelector(userState)
+  const [editingAddress, setEditingAddress] = useState<UserAddress>()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -177,11 +179,17 @@ const Infomation = () => {
           <Button onClick={() => toggleAddressFormVisible(true)}>Thêm mới</Button>
         </div>
         <div className='tw-flex-1'>
-          <AddressTable data={address} />
+          <AddressTable
+            data={address}
+            onModifyAddress={(address: UserAddress) => {
+              setEditingAddress(address)
+              toggleAddressFormVisible(true)
+            }}
+          />
         </div>
       </div>
       <InfomationForm visible={formVisible} onClose={() => toggleFormVisible(false)} />
-      <AddressForm open={addressFormVisible} onClose={() => toggleAddressFormVisible(false)} />
+      <AddressForm data={editingAddress} open={addressFormVisible} onClose={() => toggleAddressFormVisible(false)} />
     </section>
   )
 }

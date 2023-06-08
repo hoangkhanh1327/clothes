@@ -21,6 +21,7 @@ const ProtectedLayout = () => {
 
   useEffect(() => {
     if (!user) {
+      sessionStorage.removeItem('beforeLogin')
       navigate('/')
     }
   }, [user])

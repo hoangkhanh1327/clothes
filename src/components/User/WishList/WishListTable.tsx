@@ -66,7 +66,10 @@ const WishListTable = (props: any) => {
   return (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={data?.map((item) => ({
+        ...item,
+        key: item.id
+      }))}
       className={`tw-min-h-full tw-h-[${parrentSize?.height}px]`}
       scroll={{ y: parrentSize?.height }}
     />

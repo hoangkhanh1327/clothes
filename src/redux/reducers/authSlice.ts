@@ -27,6 +27,7 @@ export const signOutAsync = createAsyncThunk('signout', async () => {
 export interface AuthState {
   user: AuthUser | null
   status?: StatusTypes
+  accessToken?: string
   error?: string
 }
 
@@ -48,6 +49,7 @@ export const authSlice = createSlice({
     })
     builder.addCase(signinAsync.fulfilled, (state, action) => {
       state.user = action.payload.user
+      state.accessToken = action.payload.access_token
       state.status = StatusTypes.SUCCESS
     })
     builder.addCase(signinAsync.rejected, (state, action) => {

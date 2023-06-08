@@ -34,6 +34,11 @@ export const createUserAddress = createAsyncThunk('createUserAddress', async (pa
   return res.data
 })
 
+export const updateUserAddress = createAsyncThunk('updateUserAddress', async (params: any) => {
+  const res = await UserServices.updateUserAddress(params)
+  return res.data
+})
+
 export const deleteUserAddress = createAsyncThunk('deleteUserAddress', async (params: any) => {
   const res = await UserServices.deleteUserAddress(params)
   return res.data
@@ -94,6 +99,34 @@ export const userSlice = createSlice({
       state.userAddressError = {
         type: 'error',
         message: `Không thể tạo mới địa chỉ`,
+        description: action.error.message
+      }
+    })
+    builder.addCase(updateUserAddress.pending, (state) => {
+      state.userAddressLoading = true
+      state.userAddressError = undefined
+    })
+    builder.addCase(updateUserAddress.fulfilled, (state, action) => {
+      state.userAddressLoading = false
+      state.address = state.address.map((address) => {
+        if (address.id === action.payload.id) {
+          return {
+            ...address,
+            ...action.payload
+          }
+        }
+        return address
+      })
+      state.userAddressError = {
+        type: 'success',
+        message: 'Địa chỉ đã được cập nhật.'
+      }
+    })
+    builder.addCase(updateUserAddress.rejected, (state, action) => {
+      state.userAddressLoading = false
+      state.userAddressError = {
+        type: 'error',
+        message: 'Đã có lỗi xảy ra!',
         description: action.error.message
       }
     })

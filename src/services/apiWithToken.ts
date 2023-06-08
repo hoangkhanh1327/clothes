@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import { config, history } from '../utils'
 import authHeader from './authHeader'
-import { store } from '~/redux/store'
-import { removeUser } from '~/redux/reducers/authSlice'
 import { AuthServices } from '.'
+import { store } from '~/redux/store'
+import { setNotification } from '~/redux/reducers/appSlice'
 axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
@@ -22,18 +22,18 @@ instance.interceptors.response.use(
     const status = error.response?.status
     const errorData: any = error.response?.data
 
-    console.log('?', status)
     if (status === 401) {
+      store.dispatch(
+        setNotification({
+          type: 'warning',
+          message: 'Phiên đăng nhập đã hết hạn!'
+        })
+      )
       AuthServices.logout()
       const originUrl = sessionStorage.getItem('beforeLogin')
       history.navigate(originUrl || '/')
     }
 
-    if (status === 403) {
-      if (errorData?.error?.message === 'Invalid refresh token') {
-        history.navigate('/dang-nhap')
-      }
-    }
     if (status === 404) {
       return Promise.reject({
         message: 'Không tồn tại !'

@@ -1,10 +1,10 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { Fragment, lazy, Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { history } from './utils'
 import './App.css'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
-import { setBreakpoint } from './redux/reducers/appSlice'
-import { Grid } from 'antd'
+import { appState, setBreakpoint } from './redux/reducers/appSlice'
+import { Grid, notification } from 'antd'
 import { authState, getCurrentUserAsync } from './redux/reducers/authSlice'
 import { getCartItems } from './redux/reducers/cartSlice'
 import { getWishList } from './redux/reducers/userSlice'
@@ -42,8 +42,10 @@ const Whislist = lazy(() => import('./pages/User/Whistlist'))
 const CartPage = lazy(() => import('./pages/Cart'))
 const CheckoutPage = lazy(() => import('./pages/Checkout'))
 function App() {
+  const [api, contextHolder] = notification.useNotification()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { notification: appNotification } = useAppSelector(appState)
   const { user } = useAppSelector(authState)
   const screens = useBreakpoint()
   history.location = useLocation()
@@ -71,6 +73,12 @@ function App() {
     getDeviceBreakPoint(screens)
   }, [screens])
 
+  useEffect(() => {
+    if (appNotification) {
+      api.open(appNotification)
+    }
+  }, [appNotification])
+
   const getDeviceBreakPoint = (screens: any) => {
     let theMaxBreakPoint = 'xs'
     let isMobileView = true
@@ -94,35 +102,38 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<h1>Loading</h1>}>
-      <Routes>
-        <Route path='/dang-nhap' element={<Authentication />} />
+    <Fragment>
+      {contextHolder}
+      <Suspense fallback={<h1>Loading</h1>}>
+        <Routes>
+          <Route path='/dang-nhap' element={<Authentication />} />
 
-        <Route path='/ca-nhan' element={<ProtectedLayout />}>
-          <Route path='/ca-nhan/thong-tin-tai-khoan' element={<InfocationPage />} />
-          <Route path='/ca-nhan/lich-su-mua-hang' element={<OrderPage />} />
-          <Route path='/ca-nhan/yeu-thich' element={<Whislist />} />
-          <Route index element={<InfocationPage />} />
-        </Route>
+          <Route path='/ca-nhan' element={<ProtectedLayout />}>
+            <Route path='/ca-nhan/thong-tin-tai-khoan' element={<InfocationPage />} />
+            <Route path='/ca-nhan/lich-su-mua-hang' element={<OrderPage />} />
+            <Route path='/ca-nhan/yeu-thich' element={<Whislist />} />
+            <Route index element={<InfocationPage />} />
+          </Route>
 
-        <Route path='/' element={<PageLayout />}>
-          <Route path='/san-pham' element={<ProductsPage />} />
-          <Route path='/san-pham/:id' element={<DetailProductPage />} />
-          <Route path='/gio-hang' element={<CartPage />} />
-          <Route path='/thanh-toan' element={<CheckoutPage />} />
-        </Route>
+          <Route path='/' element={<PageLayout />}>
+            <Route path='/san-pham' element={<ProductsPage />} />
+            <Route path='/san-pham/:id' element={<DetailProductPage />} />
+            <Route path='/gio-hang' element={<CartPage />} />
+            <Route path='/thanh-toan' element={<CheckoutPage />} />
+          </Route>
 
-        <Route path='/' element={<HomeLayout />}>
-          <Route path='/gioi-thieu' element={<AboutUsePage />} />
-          <Route path='/lien-he' element={<ContactUsPage />} />
-          <Route index element={<LandingPage />} />
-        </Route>
+          <Route path='/' element={<HomeLayout />}>
+            <Route path='/gioi-thieu' element={<AboutUsePage />} />
+            <Route path='/lien-he' element={<ContactUsPage />} />
+            <Route index element={<LandingPage />} />
+          </Route>
 
-        <Route path='/403' element={<_403 />} />
-        <Route path='/500' element={<_500 />} />
-        <Route path='*' element={<_404 />} />
-      </Routes>
-    </Suspense>
+          <Route path='/403' element={<_403 />} />
+          <Route path='/500' element={<_500 />} />
+          <Route path='*' element={<_404 />} />
+        </Routes>
+      </Suspense>
+    </Fragment>
   )
 }
 

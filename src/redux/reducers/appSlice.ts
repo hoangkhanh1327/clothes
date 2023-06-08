@@ -17,12 +17,15 @@ export const appSlice = createSlice({
     },
     toggleMobileSiderVisible: (state, action) => {
       state.mobileNavVisible = action.payload
+    },
+    setNotification: (state, action) => {
+      state.notification = action.payload
     }
   },
   extraReducers: () => {}
 })
 
 export const appState = (state: RootState) => state.app
-export const { setBreakpoint, toggleMobileSiderVisible } = appSlice.actions
+export const { setBreakpoint, toggleMobileSiderVisible, setNotification } = appSlice.actions
 
 export default appSlice.reducer
