@@ -10,15 +10,15 @@ import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { UserServices } from '~/services'
 const { Text } = Typography
 
-const socketUrl = 'ws://164.92.130.229:8081/api/open'
-const storageUser = JSON.parse(localStorage.getItem('user') || '{}')
+const socketDefaultUrl = 'ws://164.92.130.229:8081/api/open'
 const ChatBox = () => {
   const { user, accessToken } = useAppSelector(authState)
   const [isBoxChatVisible, toggleBoxChatVisible] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [isFirstTimeRender, setIsFirstTimeRender] = useState(true)
   const [dialogId, setDialogId] = useState<any>('')
-  const { lastJsonMessage } = useWebSocket(`${socketUrl}/${storageUser?.accessToken}`)
+  const [socketUrl, setSocketUrl] = useState(socketDefaultUrl)
+  const { lastJsonMessage } = useWebSocket(socketUrl)
 
   useEffect(() => {
     window.addEventListener('keydown', handlePressEsc)
@@ -39,6 +39,13 @@ const ChatBox = () => {
       setMessages(messages.concat(message as Message))
     }
   }, [lastJsonMessage])
+
+  useEffect(() => {
+    if (user) {
+      const storageUser = JSON.parse(localStorage.getItem('user') || '{}')
+      setSocketUrl((prevUrl) => prevUrl + `/${storageUser.accessToken}`)
+    }
+  }, [user])
 
   const appendMessage = async () => {
     try {

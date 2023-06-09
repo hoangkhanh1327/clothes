@@ -117,8 +117,8 @@ export const removeAllItemsInCart = () => {
   })
 }
 
-export const checkout = () => {
-  return apiWithToken.get('/checkout', {
+export const checkout = (params: any) => {
+  return apiWithToken.post('/order/checkout', params, {
     headers: {
       Authorization: authHeader()
     }

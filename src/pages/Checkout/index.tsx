@@ -9,6 +9,7 @@ import { format3P } from '~/utils'
 import type { RadioChangeEvent } from 'antd'
 import { AddressSelector } from '~/components/Checkout'
 import { getUserAddress, userState } from '~/redux/reducers/userSlice'
+import { UserServices } from '~/services'
 const { Title, Text } = Typography
 
 const columns: ColumnsType<CartItem> = [
@@ -78,25 +79,6 @@ const columns: ColumnsType<CartItem> = [
   }
 ]
 
-const addressTemp: any[] = [
-  {
-    id: 1,
-    detail: 'Shop Hia Store, 6/1 Thanh Hoá',
-    ward: 'Hố Nai 3',
-    district: 'Trảng Bom',
-    province: 'Đồng Nai',
-    isDefault: true
-  },
-  {
-    id: 2,
-    detail: '1 Đường 12',
-    ward: 'Bình Mỹ',
-    district: 'Bắc Tân Uyên',
-    province: 'Bình Dương',
-    isDefault: false
-  }
-]
-
 const Checkout = () => {
   const [items, setItems] = useState<CartItem[]>([])
   const cart = useAppSelector((state) => state.cart)
@@ -138,6 +120,16 @@ const Checkout = () => {
 
   const onSelectPaymentMethod = (e: RadioChangeEvent) => {
     setPaymentMethod(e.target.value)
+  }
+
+  const handleCheckout = async () => {
+    try {
+      const params = {
+        address_info: '6/1 thanh hoa ho nai 3 trang bom dong nai',
+        payment_method: 'ZALO_PAY'
+      }
+      const res = await UserServices.checkout(params)
+    } catch (error) {}
   }
 
   return (
@@ -225,6 +217,7 @@ const Checkout = () => {
             </div>
             <Button
               size='large'
+              onClick={() => handleCheckout()}
               className='tw-block tw-w-full tw-bg-primary !tw-text-white tw-font-semibold hover:tw-text-white'
             >
               Thanh toán

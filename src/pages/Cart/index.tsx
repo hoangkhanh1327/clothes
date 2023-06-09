@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { cartState, removeAllItems } from '~/redux/reducers/cartSlice'
 import { Icon } from '~/components/Generals'
+import { ProductServices } from '~/services'
 
 const { Title, Text } = Typography
 const Tax = 10
@@ -92,12 +93,12 @@ const Cart = () => {
 
   const handleEnterCode = async () => {
     if (couponCode) {
-      if (couponCode === 'KHANHDEPTRAI'.toLocaleLowerCase()) {
-        try {
-          messageApi.success('Áp dụng thành công !')
-          setDiscount(50000)
-        } catch (error) {}
-      } else {
+      try {
+        const res = await ProductServices.getCouponValue(couponCode)
+        console.log('res', res)
+        messageApi.success('Áp dụng thành công !')
+        setDiscount(50000)
+      } catch (error) {
         messageApi.error('Mã không hợp lệ !')
       }
       setCouponCode('')

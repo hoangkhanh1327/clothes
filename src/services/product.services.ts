@@ -17,3 +17,7 @@ export const getProducts = (params: any) => {
 export const getDetailProduct = (id: string) => {
   return instance.get(`/product/${id}`)
 }
+
+export const getCouponValue = (coupon: string) => {
+  return instance.get(`/coupon/${coupon}`)
+}
