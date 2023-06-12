@@ -233,7 +233,10 @@ const Cart = () => {
           <Table
             className='tw-border-2 first:!tw-fixedtw-border-b-4'
             columns={columns}
-            dataSource={items}
+            dataSource={items?.map((item: CartItem) => ({
+              ...item,
+              key: item?.id
+            }))}
             pagination={false}
             scroll={{ y: 524 }}
             footer={() => {
@@ -303,15 +306,9 @@ const Cart = () => {
             <Col span={12} className='tw-px-4'>
               <Text className='tw-text-sm tw-capitalize tw-font-semibold tw-text-[#242424]'>giảm giá</Text>
             </Col>
-            <Col span={12} className='tw-text-right tw-px-4'>
-              <Text className='tw-text-lg tw-font-semibold tw-text-red-500'> -{format3P(discount)} VNĐ</Text>
-            </Col>
-            <Col span={12} className='tw-px-4'>
-              <Text className='tw-text-sm tw-capitalize tw-font-semibold tw-text-[#242424]'>thành tiền</Text>
-            </Col>
             <Col span={12} className='tw-text-right tw-px-4 tw-mb-6'>
               <Text className='tw-text-lg tw-font-semibold tw-text-primary'>
-                {format3P(calculateTotalAfterTax + shippingFee - discount)} VNĐ
+                {format3P(calculateTotalAfterTax - discount)} VNĐ
               </Text>
             </Col>
             <Col span={12} offset={12} className='tw-text-right tw-px-4 tw-mb-6'>

@@ -115,7 +115,6 @@ const Checkout = () => {
         return accumulator + realPrice * currentItem.quantity
       }, 0)
     }
-    console.log('total', total)
     return total
   }, [items])
 
@@ -130,7 +129,17 @@ const Checkout = () => {
         payment_method: 'ZALO_PAY'
       }
       const res = await UserServices.checkout(params)
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const createOrder = async () => {
+    try {
+      const res = await UserServices.createOrder({})
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

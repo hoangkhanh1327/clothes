@@ -1,4 +1,7 @@
+import React from 'react'
+
 interface CartItem {
+  key: React.Key | string
   id: string
   name: string
   price: number

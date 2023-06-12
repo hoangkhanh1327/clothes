@@ -149,3 +149,11 @@ export const sendMegessage = (params: any) => {
     }
   })
 }
+
+export const createOrder = (params: any) => {
+  return apiWithToken.put('/order/', params, {
+    headers: {
+      Authorization: authHeader()
+    }
+  })
+}
