@@ -6,6 +6,7 @@ interface CartItem {
   image: string
   size: string
   color: string
+  DiscountPercent: number
 }
 
 interface AddItemToCartParams {

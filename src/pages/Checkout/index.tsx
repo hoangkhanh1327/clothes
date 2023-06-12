@@ -101,7 +101,6 @@ const Checkout = () => {
   }, [cart.items])
 
   useEffect(() => {
-    console.log('address', address)
     if (address.length) {
       setCurrentAddress(address.find((address) => address.is_default) || address[0])
     } else {
@@ -111,10 +110,12 @@ const Checkout = () => {
   const totalProductPrice = useMemo(() => {
     let total = 0
     if (items.length) {
-      items.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem.price * currentItem.quantity
+      total = items.reduce((accumulator, currentItem) => {
+        const realPrice = currentItem?.price - currentItem?.price * currentItem?.DiscountPercent
+        return accumulator + realPrice * currentItem.quantity
       }, 0)
     }
+    console.log('total', total)
     return total
   }, [items])
 
@@ -157,7 +158,7 @@ const Checkout = () => {
           <Space>
             <Text className='tw-text-lg tw-text-secondary tw-font-bold'>{`Trần Quan Tuấn (+84) 902364524`}</Text>
             <Text className='tw-text-lg tw-text-secondary'>
-              {`${currentAddress?.address}`}
+              {`${currentAddress?.address || currentAddress?.status}`}
               {currentAddress?.is_default && (
                 <Tag className='tw-text-base' color='magenta'>
                   {` `}Mậc định

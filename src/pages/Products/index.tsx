@@ -1,4 +1,4 @@
-import { Col, Divider, Input, Row } from 'antd'
+import { Col, Divider, Input, Row, Space } from 'antd'
 import { Fragment, useRef, useState } from 'react'
 import { Breadcrumb, Icon } from '~/components/Generals'
 import { PriceFilter, Categories, ProductList, QuickViewProduct, Brands, Types } from '~/components/Products'
@@ -82,17 +82,19 @@ const Products = () => {
           </Col>
           <Col span={24} lg={{ span: 18 }}>
             <div className='tw-mb-10'>
-              <div className='tw-w-[540px] tw-mx-auto tw-relative'>
-                <Input
-                  ref={searchRef}
-                  placeholder='Nhập tên sản phẩm'
-                  defaultValue={productFilters?.name}
-                  size='large'
-                  suffix={<Icon name='SearchOutlined' />}
-                  className=' tw-rounded-[50px]'
-                  onPressEnter={handleStartSearch}
-                />
-              </div>
+              <Space>
+                <div className='tw-w-[540px] tw-mx-auto tw-relative'>
+                  <Input
+                    ref={searchRef}
+                    placeholder='Nhập tên sản phẩm'
+                    defaultValue={productFilters?.name}
+                    size='large'
+                    suffix={<Icon name='SearchOutlined' />}
+                    className=' tw-rounded-[50px]'
+                    onPressEnter={handleStartSearch}
+                  />
+                </div>
+              </Space>
             </div>
             <ProductList
               loading={isFetching || isLoading}
@@ -103,8 +105,8 @@ const Products = () => {
                   page
                 }))
               }
-              products={products}
-              total={total}
+              products={products || []}
+              total={total || 0}
             />
           </Col>
         </Row>

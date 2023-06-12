@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from './redux/hooks'
 import { appState, setBreakpoint } from './redux/reducers/appSlice'
 import { Grid, notification } from 'antd'
 import { authState, getCurrentUserAsync } from './redux/reducers/authSlice'
-import { getCartItems } from './redux/reducers/cartSlice'
+import { cartState, getCartItems } from './redux/reducers/cartSlice'
 import { getWishList } from './redux/reducers/userSlice'
 const { useBreakpoint } = Grid
 
@@ -47,6 +47,7 @@ function App() {
   const navigate = useNavigate()
   const { notification: appNotification } = useAppSelector(appState)
   const { user } = useAppSelector(authState)
+  const { cartMessages } = useAppSelector(cartState)
   const screens = useBreakpoint()
   history.location = useLocation()
   history.navigate = navigate
@@ -73,11 +74,15 @@ function App() {
     getDeviceBreakPoint(screens)
   }, [screens])
 
+  console.log('cartMessages', cartMessages)
   useEffect(() => {
     if (appNotification) {
       api.open(appNotification)
     }
-  }, [appNotification])
+    if (cartMessages) {
+      api.open(cartMessages)
+    }
+  }, [appNotification, cartMessages])
 
   const getDeviceBreakPoint = (screens: any) => {
     let theMaxBreakPoint = 'xs'

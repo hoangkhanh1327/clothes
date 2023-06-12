@@ -1,9 +1,7 @@
 import axios, { AxiosError } from 'axios'
-import { config, history } from '../utils'
+import { config } from '../utils'
 import authHeader from './authHeader'
 import { AuthServices } from '.'
-import { store } from '~/redux/store'
-import { setNotification } from '~/redux/reducers/appSlice'
 axios.defaults.withCredentials = true
 const instance = axios.create({
   baseURL: config.apiUrl,
@@ -23,15 +21,7 @@ instance.interceptors.response.use(
     const errorData: any = error.response?.data
 
     if (status === 401) {
-      store.dispatch(
-        setNotification({
-          type: 'warning',
-          message: 'Phiên đăng nhập đã hết hạn!'
-        })
-      )
       AuthServices.logout()
-      const originUrl = sessionStorage.getItem('beforeLogin')
-      history.navigate(originUrl || '/')
     }
 
     if (status === 404) {

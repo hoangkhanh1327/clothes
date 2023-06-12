@@ -44,6 +44,7 @@ interface UserAddress {
   name: 'string'
   province_id: 0
   ward_code: 'string'
+  status?: any
 }
 
 export type { AuthUser, User, WishlistItem, UserAddress }

@@ -5,7 +5,7 @@ import { format3P } from '~/utils'
 const { Title, Text } = Typography
 const PriceFilter = ({ onChange }: { onChange: Function }) => {
   const [minPrice, setMinPrice] = useState<number>(0)
-  const [maxPrice, setMaxPrice] = useState<number>(10000000)
+  const [maxPrice, setMaxPrice] = useState<number>(1000000)
 
   const handleFilterPrice = () => {
     onChange([minPrice, maxPrice])
@@ -20,7 +20,7 @@ const PriceFilter = ({ onChange }: { onChange: Function }) => {
       </Title>
       <Slider
         min={0}
-        max={100000000}
+        max={10000000}
         step={100000}
         className='tw-text-primary'
         range

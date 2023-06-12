@@ -32,6 +32,11 @@ export interface CartState {
   items: CartItem[]
   addLoading?: boolean
   deleteLoading?: boolean
+  cartMessages?: {
+    type: 'success' | 'info' | 'warning' | 'error'
+    message: string
+    description?: string
+  }
 }
 
 const initialState: CartState = {
@@ -49,20 +54,30 @@ export const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getCartItems.fulfilled, (state, action) => {
       state.items = action.payload
+      state.cartMessages = undefined
     })
     builder.addCase(getCartItems.rejected, (state, action) => {
       console.log('get cart items error ', state, action.payload)
     })
     builder.addCase(addItemToCartAsync.pending, (state) => {
       state.addLoading = true
+      state.cartMessages = undefined
     })
     builder.addCase(addItemToCartAsync.fulfilled, (state, action) => {
       state.addLoading = false
       state.items = state.items.concat(action.payload)
+      state.cartMessages = {
+        type: 'success',
+        message: 'Sản phẩm đã dược thêm vào giỏ hàng!'
+      }
     })
     builder.addCase(addItemToCartAsync.rejected, (state, action) => {
       state.addLoading = false
-      console.log('add item to cart error', action.payload)
+      state.cartMessages = {
+        type: 'error',
+        message: 'Đã có lỗi xảy ra. Vui lòng thử lại!',
+        description: `${action.payload}`
+      }
     })
     builder.addCase(removeAllItems.fulfilled, (state) => {
       state.items = []

@@ -6,6 +6,8 @@ import { format3P } from '~/utils'
 import { Icon } from '../Generals'
 import { ProductType } from '~/interfaces'
 import { ProductServices } from '~/services'
+import { addItemToCartAsync } from '~/redux/reducers/cartSlice'
+import { authState } from '~/redux/reducers/authSlice'
 interface QuantityType {
   color: string
   detail_id: string
@@ -17,6 +19,7 @@ const { Title, Text, Paragraph } = Typography
 const QuickViewProduct = () => {
   const [form] = Form.useForm()
   const { quickViewProductId } = useAppSelector(productState)
+  const { user } = useAppSelector(authState)
   const dispatch = useAppDispatch()
   const [indexImage, setIndexImage] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
@@ -74,6 +77,27 @@ const QuickViewProduct = () => {
     })
     setSizes(sizes)
     setColors(colors)
+  }
+
+  const addItemToCard = (values: any) => {
+    if (product?.id) {
+      const item = {
+        product_id: product?.id,
+        quantity: values.quantity,
+        color: values.color,
+        size: values.size
+      }
+      if (user) {
+        dispatch(addItemToCartAsync([item]))
+      } else {
+        Modal.warning({
+          title: 'Bạn chưa đăng nhập',
+          content: 'Vui lòng đăng nhập để thực hiện thao tác này.',
+          cancelText: 'Đóng',
+          okText: 'Đóng'
+        })
+      }
+    }
   }
 
   useEffect(() => {
@@ -153,6 +177,7 @@ const QuickViewProduct = () => {
                 <Form
                   layout='vertical'
                   form={form}
+                  onFinish={(values) => addItemToCard(values)}
                   initialValues={{
                     quantity: 1
                   }}

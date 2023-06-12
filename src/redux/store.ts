@@ -9,7 +9,8 @@ import { persistReducer, persistStore } from 'redux-persist'
 
 const cartPersistConfig = {
   key: 'cart',
-  storage: storage
+  storage: storage,
+  blacklist: ['cartMessages', 'addLoading', 'deleteLoading']
 }
 
 export enum StatusTypes {

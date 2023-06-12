@@ -121,7 +121,7 @@ const DetailBlog = () => {
           title: 'Bạn chưa đăng nhập',
           content: 'Vui lòng đăng nhập để thực hiện thao tác này.',
           cancelText: 'Đóng',
-          okText: 'Test'
+          okText: 'Đóng'
         })
       }
     }

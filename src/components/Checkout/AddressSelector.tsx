@@ -60,8 +60,7 @@ const AddressSelector = ({
               return (
                 <Radio value={address.id} key={`option-address-${address.id}`} className='!tw-text-primary'>
                   <Space direction='vertical' size={[2, 4]}>
-                    <Text>{address.detail}</Text>
-                    <Text>{`Xã ${address.ward}, Huyện ${address.district}, ${address.province}`}</Text>
+                    <Text>{address?.address || address?.status}</Text>
                   </Space>
                 </Radio>
               )

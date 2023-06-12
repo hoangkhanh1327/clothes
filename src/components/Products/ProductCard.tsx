@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { config, format3P } from '~/utils'
 import { Link } from 'react-router-dom'
-import { Image, Typography } from 'antd'
+import { Image, Modal, Typography } from 'antd'
 import { ProductType, WishlistItem } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { setQuickViewProduct } from '~/redux/reducers/productSlide'
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faPlus } from '@fortawesome/free-solid-svg-icons'
 import {} from '~/redux/reducers/cartSlice'
 import { addItemToWishlistAsync, removeItemFromWishlistAsync, userState } from '~/redux/reducers/userSlice'
+import { authState } from '~/redux/reducers/authSlice'
 
 const { Title, Text } = Typography
 
@@ -21,16 +22,41 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
 
   const dispatch = useAppDispatch()
   const { wishlist } = useAppSelector(userState)
+  const { user } = useAppSelector(authState)
 
   const isWishedItem = useMemo(() => {
+    if (!Array.isArray(wishlist) || wishlist.length === 0) return false
     return wishlist.find((item) => item.product_id === id) ? true : false
   }, [wishlist])
 
   const costAfterSale = useMemo(() => {
     return price - (price * discount_percent) / 100
   }, [price, discount_percent])
+
+  const handleAddItemToWishlist = () => {
+    if (user) {
+      if (isWishedItem) {
+        const checkWishlistExists = wishlist.find((wishItem: WishlistItem) => wishItem.product_id === id)
+        if (checkWishlistExists) {
+          dispatch(removeItemFromWishlistAsync([checkWishlistExists.id]))
+        }
+      } else {
+        dispatch(addItemToWishlistAsync(id))
+      }
+    } else {
+      Modal.warning({
+        title: 'Bạn chưa đăng nhập',
+        content: 'Vui lòng đăng nhập để thực hiện thao tác này.',
+        cancelText: 'Đóng',
+        okText: 'Đóng',
+        okButtonProps: {
+          className: 'tw-bg-primary tw-text-white'
+        }
+      })
+    }
+  }
   return (
-    <div className='tw-px-3 tw-mb-10 xl:tw-mb-[33px]' data-test='product-card'>
+    <div className='tw-px-3 tw-mb-10 xl:tw-mb-[33px] ' data-test='product-card'>
       <div
         className='tw-relative tw-mb-[14px] tw-group/product tw-transition-all tw-duration-300 tw-ease-linear'
         data-test='product-thumb'
@@ -67,40 +93,7 @@ const ProductCard: React.FC<ProductCardType> = ({ product, isLandingPage }) => {
             </Text>
             <div className='tw-absolute tw-top-0 tw-left-0 tw-z-10 tw-max-h-0 tw-transition-all tw-duration-300 tw-opacity-100 tw-visible group-hover/action:tw-opacity-100 group-hover/action:tw-visible'>
               <ul className='tw-list-outside tw-list-image-none tw-list-none tw-p-0 tw-m-0'>
-                {/* <li
-                  className='tw-list-item'
-                  onClick={() => {
-                    // dispatch(
-                    //   // addItemToCart({
-                    //   //   id,
-                    //   //   name,
-                    //   //   price,
-                    //   //   quantity: 1,
-                    //   //   image: photos ? photos[0] : '',
-                    //   //   size: 'M',
-                    //   //   color: 'color',
-                    //   //   discount_amount,
-                    //   //   discount_percent
-                    //   // })
-                    // )
-                  }}
-                >
-                  <Text className='product-action'>
-                    <FontAwesomeIcon icon={faBasketShopping} />
-                  </Text>
-                </li> */}
-                <li
-                  onClick={() => {
-                    if (isWishedItem) {
-                      const checkWishlistExists = wishlist.find((wishItem: WishlistItem) => wishItem.product_id === id)
-                      if (checkWishlistExists) {
-                        dispatch(removeItemFromWishlistAsync([checkWishlistExists.id]))
-                      }
-                    } else {
-                      dispatch(addItemToWishlistAsync(id))
-                    }
-                  }}
-                >
+                <li onClick={handleAddItemToWishlist}>
                   <Text className={`product-action ${isWishedItem ? 'tw-text-primary' : ''}`}>
                     <FontAwesomeIcon icon={faHeart} />
                   </Text>
