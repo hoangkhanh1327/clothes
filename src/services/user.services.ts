@@ -134,6 +134,14 @@ export const getOrder = (params: any) => {
   })
 }
 
+export const createOrder = (params: any) => {
+  return apiWithToken.put('/order', params, {
+    headers: {
+      Authorization: authHeader()
+    }
+  })
+}
+
 export const getMessages = () => {
   return apiWithToken.get('/message', {
     headers: {

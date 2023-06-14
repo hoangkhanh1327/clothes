@@ -4,12 +4,14 @@ import { Icon } from '~/components/Generals'
 import { format3P } from '~/utils'
 const { Text, Title } = Typography
 const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: Function; orderDetail: any }) => {
+  console.log('orderDetail', orderDetail)
   const columns: ColumnsType<any> = [
     {
       title: 'Sản phẩm',
       dataIndex: 'name',
       key: 'name',
       render(value, _record, _index) {
+        console.log('_record', _record)
         return (
           <Space>
             <Image placeholder width={70} height={100} />
@@ -63,7 +65,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
           </div>
         </Col>
       </Row>
-      <Row className='tw-mb-2'>
+      {/* <Row className='tw-mb-2'>
         <Col span={24} md={{ span: 4 }}>
           <Title level={5} className='tw-mb-0'>
             Tên khách hàng
@@ -74,7 +76,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
             <Text className='tw-text-tertiary'>{orderDetail?.custommerName}</Text>
           </div>
         </Col>
-      </Row>
+      </Row> */}
       <Row className='tw-mb-2'>
         <Col span={24} md={{ span: 4 }}>
           <Title level={5} className='tw-mb-0'>
@@ -83,7 +85,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
         </Col>
         <Col span={24} md={{ span: 20 }}>
           <div className='tw-flex tw-h-full tw-items-end'>
-            <Text className='tw-text-tertiary'>Khu CNPM ITP, Linh Trung, Thủ Đức</Text>
+            <Text className='tw-text-tertiary'>{orderDetail?.address}</Text>
           </div>
         </Col>
       </Row>
@@ -139,7 +141,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       </Row>
       <Row className='tw-mb-2'>
         <Col span={24}>
-          <Title level={5} className='tw-mb-0'>
+          <Title level={5} className='tw-mb-2'>
             Chi tiết đơn hàng
           </Title>
         </Col>

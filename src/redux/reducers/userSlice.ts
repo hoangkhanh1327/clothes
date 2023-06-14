@@ -67,7 +67,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getWishList.fulfilled, (state, action) => {
-      state.wishlist = action.payload
+      state.wishlist = action.payload || []
     })
     builder.addCase(getWishList.rejected, (state) => {
       state.wishlist = []

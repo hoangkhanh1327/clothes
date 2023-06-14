@@ -158,7 +158,6 @@ const Cart: React.FC<{}> = ({}) => {
       getPopupContainer={() => document.body}
       autoAdjustOverflow={true}
       trigger={['click', 'hover']}
-      // open={isDropdownCartVisible}
       dropdownRender={() => {
         return (
           <div

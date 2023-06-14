@@ -20,8 +20,6 @@ import { format3P } from '~/utils'
 import { useParams } from 'react-router-dom'
 import { ProductType } from '~/interfaces'
 import { CarouselRef } from 'antd/es/carousel'
-// import { ProductCard } from '~/components/Products'
-// import { BestSellerProducts } from '~/components/Landing'
 import { ProductServices } from '~/services'
 import { Icon } from '~/components/Generals'
 import { addItemToCartAsync, cartState } from '~/redux/reducers/cartSlice'
@@ -41,7 +39,6 @@ const DetailBlog = () => {
   const { id } = useParams()
   const [form] = Form.useForm()
   const [product, setProduct] = useState<ProductType>()
-  // const [relativeProducts, setRelativeProducts] = useState<ProductType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [sizes, setSizes] = useState<any>()
   const [colors, setColors] = useState<string[]>([])
@@ -300,14 +297,14 @@ const DetailBlog = () => {
                   </Button>
                 </Form.Item>
               </Form>
-              <a
+              {/* <a
                 href='#'
                 onClick={(e) => {
                   e.preventDefault()
                 }}
               >
                 Thêm vào sản phẩm yêu thích
-              </a>
+              </a> */}
             </Space>
           </Skeleton>
         </Col>
@@ -330,58 +327,10 @@ const DetailBlog = () => {
                 ),
                 forceRender: true
               }
-              // {
-              //   label: 'Bình luận',
-              //   key: 'detail',
-              //   children: `Thong tin chi tiet 2`,
-              //   forceRender: true
-              // }
             ]}
           />
         </Col>
       </Row>
-      {/* <Row>
-        <Col span={24}>
-          <div className='tw-mb-7 tw-text-center'>
-            <Title
-              className='tw-text-[36px] tw-text-tertiary tw-font-semibold tw-inline-block tw-mb-[11px] tw-leading-[38px] tw-tracking-tighter'
-              level={2}
-            >
-              Sản phẩm liên quan
-            </Title>
-            <Paragraph className='tw-mb-0'>Sản phẩm có liên quan</Paragraph>
-          </div>
-          <div className='tw-grid tw-grid-cols-5 tw-gap-3'>
-            {relativeProducts?.map((product) => (
-              <div key={`relative-product-${product.id}`} className='tw-col-span-1'>
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        </Col>
-      </Row> */}
-      {/* <section className='lg:tw-mb-8 xl:tw-mb-[46px] tw-border-0 tw-pb-[52px] tw-border-solid tw-border-[#ddd] tw-border-b'>
-        <div className='tw-container-fluid'>
-          <Row gutter={24}>
-            <Col span={24}>
-              <div className='tw-text-center tw-mb-7'>
-                <Title
-                  level={2}
-                  className='tw-text-[36px] tw-text-tertiary tw-font-semibold tw-inline-block tw-mb-[11px] tw-leading-[38px] tw-tracking-tighter tw-capitalize'
-                >
-                  Sản phẩm thịnh hành
-                </Title>
-                <Paragraph className='tw-mb-0'>Sản phẩm ấn tượng và bán chạy nhất</Paragraph>
-              </div>
-            </Col>
-          </Row>
-          <div>
-            <div>
-              <BestSellerProducts />
-            </div>
-          </div>
-        </div>
-      </section> */}
     </article>
   )
 }

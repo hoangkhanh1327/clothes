@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { Breadcrumb, Col, Row, Table, Space, Image, Typography, Button, Tag, Radio, Modal } from 'antd'
+import { Breadcrumb, Col, Row, Table, Space, Image, Typography, Button, Tag, Radio, Modal, Result } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { CartItem, UserAddress } from '~/interfaces'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
@@ -10,6 +10,8 @@ import type { RadioChangeEvent } from 'antd'
 import { AddressSelector } from '~/components/Checkout'
 import { getUserAddress, userState } from '~/redux/reducers/userSlice'
 import { UserServices } from '~/services'
+import { cartState, clearCart, setCheckoutData } from '~/redux/reducers/cartSlice'
+import { useNavigate } from 'react-router-dom'
 const { Title, Text } = Typography
 
 const columns: ColumnsType<CartItem> = [
@@ -80,25 +82,22 @@ const columns: ColumnsType<CartItem> = [
 ]
 
 const Checkout = () => {
-  const [items, setItems] = useState<CartItem[]>([])
-  const cart = useAppSelector((state) => state.cart)
-  const [paymentMethod, setPaymentMethod] = useState<string>('cod')
+  const { items, checkoutData } = useAppSelector(cartState)
+  const [paymentMethod, setPaymentMethod] = useState<string>('COD')
   const [addressModalVisibility, setAddressModalVisibility] = useState<boolean>(false)
   const [modal, contextHolder] = Modal.useModal()
   const [currentAddress, setCurrentAddress] = useState<UserAddress>()
   const { address } = useAppSelector(userState)
   const dispatch = useAppDispatch()
-
+  const [resultModalVisible, setResultModalVisible] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const navigate = useNavigate()
   useEffect(() => {
     document.title = 'Thanh toán - Panthers Shop'
     if (!address.length) {
       dispatch(getUserAddress())
     }
   }, [])
-
-  useEffect(() => {
-    setItems(cart.items)
-  }, [cart.items])
 
   useEffect(() => {
     if (address.length) {
@@ -108,6 +107,9 @@ const Checkout = () => {
   }, [address])
 
   const totalProductPrice = useMemo(() => {
+    if (checkoutData && checkoutData.total) {
+      return checkoutData.total
+    }
     let total = 0
     if (items.length) {
       total = items.reduce((accumulator, currentItem) => {
@@ -115,9 +117,8 @@ const Checkout = () => {
         return accumulator + realPrice * currentItem.quantity
       }, 0)
     }
-    console.log('total', total)
     return total
-  }, [items])
+  }, [items, checkoutData])
 
   const onSelectPaymentMethod = (e: RadioChangeEvent) => {
     setPaymentMethod(e.target.value)
@@ -125,12 +126,27 @@ const Checkout = () => {
 
   const handleCheckout = async () => {
     try {
+      setLoading(true)
       const params = {
-        address_info: '6/1 thanh hoa ho nai 3 trang bom dong nai',
-        payment_method: 'ZALO_PAY'
+        address_id: currentAddress?.id,
+        payment_method: paymentMethod,
+        coupon_codes: checkoutData?.couponCode || []
       }
-      const res = await UserServices.checkout(params)
-    } catch (error) {}
+      const res = await UserServices.createOrder(params)
+      const { payment_info } = res.data
+      dispatch(setCheckoutData(null))
+      dispatch(clearCart())
+      if (payment_info?.payment_method === 'ZALO_PAY') {
+        console.log('payment_info?.payment_method', payment_info)
+        window.open(payment_info?.order_url, '_blank')
+      } else {
+        setResultModalVisible(true)
+      }
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -147,20 +163,22 @@ const Checkout = () => {
           { title: 'Thanh toán' }
         ]}
       />
-      <Row className='tw-shadow-md tw-pt-7 tw-pb-6 tw-px-[30px]' gutter={[20, 20]}>
+      <Row className='tw-shadow-md tw-pb-6 ' gutter={[20, 20]}>
         <Col span={24}>
-          <Title className='tw-capitalize !tw-text-primary !tw-text-lg !tw-mb-0' level={3}>
-            <FontAwesomeIcon icon={faMapMarkerAlt} className='tw-mr-2' />
-            Địa chỉ nhận hàng
-          </Title>
+          <div className='tw-py-3 tw-bg-[#242424] tw-px-4'>
+            <Title level={3} className='tw-capitalize !tw-text-white !tw-text-base tw-mb-0'>
+              <FontAwesomeIcon icon={faMapMarkerAlt} className='tw-mr-2' />
+              Địa chỉ nhận hàng
+            </Title>
+          </div>
         </Col>
-        <Col span={24}>
+        <Col span={24} className='tw-px-[30px]'>
           <Space>
             <Text className='tw-text-lg tw-text-secondary tw-font-bold'>{`Trần Quan Tuấn (+84) 902364524`}</Text>
-            <Text className='tw-text-lg tw-text-secondary'>
+            <Text className=' tw-text-lg tw-text-secondary'>
               {`${currentAddress?.address || currentAddress?.status}`}
               {currentAddress?.is_default && (
-                <Tag className='tw-text-base' color='magenta'>
+                <Tag className='tw-ml-2 tw-text-base' color='magenta'>
                   {` `}Mậc định
                 </Tag>
               )}
@@ -172,13 +190,16 @@ const Checkout = () => {
         </Col>
       </Row>
 
-      <Row className='tw-shadow-md tw-pt-7 tw-pb-6 tw-px-[30px] tw-mt-3' gutter={[20, 20]}>
+      <Row className='tw-shadow-md tw-pb-6 tw-mt-3' gutter={[20, 20]}>
         <Col span={24}>
-          <Title className='tw-capitalize !tw-text-primary !tw-text-lg !tw-mb-0' level={3}>
-            Sản phẩm{' '}
-          </Title>
+          <div className='tw-py-3 tw-bg-[#242424] tw-px-4'>
+            <Title level={3} className='tw-capitalize !tw-text-white !tw-text-base tw-mb-0'>
+              <FontAwesomeIcon icon={faMapMarkerAlt} className='tw-mr-2' />
+              Sản phẩm{' '}
+            </Title>
+          </div>
         </Col>
-        <Col span={24}>
+        <Col span={24} className='tw-px-[30px]'>
           <Table
             className='tw-border-2 first:!tw-fixedtw-border-b-4'
             columns={columns}
@@ -188,38 +209,36 @@ const Checkout = () => {
         </Col>
       </Row>
 
-      <Row className='tw-shadow-md tw-pt-7 tw-pb-6 tw-px-[30px] tw-mt-3' gutter={[20, 20]}>
+      <Row className='tw-shadow-md tw-pb-6 tw-mt-3' gutter={[20, 20]}>
         <Col span={24}>
-          <Title className='tw-capitalize !tw-text-primary !tw-text-lg !tw-mb-0' level={3}>
-            Phương thức thanh toán{' '}
-          </Title>
+          <div className='tw-py-3 tw-bg-[#242424] tw-px-4'>
+            <Title level={3} className='tw-capitalize !tw-text-white !tw-text-base tw-mb-0'>
+              Phương thức thanh toán{' '}
+            </Title>
+          </div>
         </Col>
-        <Col span={24}>
+        <Col span={12} className='tw-px-[30px]'>
           <Radio.Group onChange={onSelectPaymentMethod} value={paymentMethod}>
             <Space direction='vertical'>
-              <Radio value={'cod'}>COD - Thanh toán trực tiếp khi nhận hàng</Radio>
-              <Radio value={'zalopay'}>ZaloPay - Thanh toán thông qua kênh ZaloPay</Radio>
+              <Radio value={'COD'}>COD - Thanh toán trực tiếp khi nhận hàng</Radio>
+              <Radio value={'ZALO_PAY'}>ZaloPay - Thanh toán thông qua kênh ZaloPay</Radio>
             </Space>
           </Radio.Group>
         </Col>
-        <Col span={6} offset={18} className=''>
+        <Col span={12} className='tw-text-right'>
           <Space direction='vertical'>
-            <div className='tw-grid tw-grid-cols-2'>
-              <Text className='tw-capitalize tw-text-base tw-text-secondary'>Tổng tiền hàng:</Text>
-              <Text className='tw-text-right tw-text-base tw-text-secondary tw-font-bold'>{totalProductPrice} VNĐ</Text>
-            </div>
-            <div className='tw-grid tw-grid-cols-2'>
-              <Text className='tw-capitalize tw-text-base tw-text-secondary'>phí vận chuyển:</Text>
-              <Text className='tw-text-right tw-text-base tw-text-secondary tw-font-bold'>{totalProductPrice} VNĐ</Text>
-            </div>
-            <div className='tw-grid tw-grid-cols-2'>
-              <Text className='tw-text-lg tw-text-secondary tw-font-bold'>Tổng thanh toán</Text>
-              <Text className='tw-text-right tw-text-base tw-text-primary tw-font-bold'>{totalProductPrice} VNĐ</Text>
-            </div>
+            <Space className='tw-flex tw-items-center tw-justify-between tw-mb-2'>
+              <Text className='tw-text-lg tw-text-secondary tw-font-bold'>Thành tiền</Text>
+              <Text className='tw-text-right tw-text-base tw-text-primary tw-font-bold'>
+                {format3P(totalProductPrice)} VNĐ
+              </Text>
+            </Space>
             <Button
+              disabled={loading}
+              loading={loading}
               size='large'
               onClick={() => handleCheckout()}
-              className='tw-block tw-w-full tw-bg-primary !tw-text-white tw-font-semibold hover:tw-text-white'
+              className='tw-block tw-w-full tw-bg-black hover:tw-bg-primary !tw-text-white tw-font-semibold hover:tw-text-white'
             >
               Thanh toán
             </Button>
@@ -239,6 +258,19 @@ const Checkout = () => {
           setAddressModalVisibility(false)
         }}
       />
+
+      <Modal open={resultModalVisible} onCancel={() => {}} footer={false} closable={false}>
+        <Result
+          status='success'
+          title='Đặt hàng thành công!'
+          subTitle='Chúng tôi đã ghi nhận đơn hàng của bạn và sẽ liên hệ trong thời gian gần nhất.'
+          extra={[
+            <Button type='primary' key='console' onClick={() => navigate('/')}>
+              Tiếp tục mua hàng
+            </Button>
+          ]}
+        />
+      </Modal>
     </div>
   )
 }
