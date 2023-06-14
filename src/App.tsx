@@ -74,7 +74,6 @@ function App() {
     getDeviceBreakPoint(screens)
   }, [screens])
 
-  console.log('cartMessages', cartMessages)
   useEffect(() => {
     if (appNotification) {
       api.open(appNotification)

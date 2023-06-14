@@ -21,7 +21,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { format3P } from '~/utils'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
-import { cartState, removeAllItems } from '~/redux/reducers/cartSlice'
+import { cartState, removeAllItems, removeItemInCart } from '~/redux/reducers/cartSlice'
 import { Icon } from '~/components/Generals'
 import { ProductServices } from '~/services'
 
@@ -205,7 +205,7 @@ const Cart = () => {
             role='button'
             icon={faTrashCan}
             onClick={() => {
-              // dispatch(removeItemFromCart(record.keyInCart))
+              dispatch(removeItemInCart(_record.id))
             }}
           />
         </Space>
@@ -233,7 +233,10 @@ const Cart = () => {
           <Table
             className='tw-border-2 first:!tw-fixedtw-border-b-4'
             columns={columns}
-            dataSource={items}
+            dataSource={items?.map((item: any) => ({
+              ...item,
+              key: item.id
+            }))}
             pagination={false}
             scroll={{ y: 524 }}
             footer={() => {

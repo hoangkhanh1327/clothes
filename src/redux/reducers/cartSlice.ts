@@ -37,6 +37,7 @@ export interface CartState {
     message: string
     description?: string
   }
+  checkoutData?: any
 }
 
 const initialState: CartState = {
@@ -49,6 +50,12 @@ export const cartSlice = createSlice({
   reducers: {
     clearCart: (state) => {
       state.items = []
+    },
+    setCheckoutData: (state, action) => {
+      state.checkoutData = action.payload
+    },
+    clearCheckoutData: (state) => {
+      state.checkoutData = null
     }
   },
   extraReducers: (builder) => {
@@ -100,6 +107,6 @@ export const cartSlice = createSlice({
 })
 
 export const cartState = (state: RootState) => state.cart
-export const { clearCart } = cartSlice.actions
+export const { clearCart, setCheckoutData, clearCheckoutData } = cartSlice.actions
 
 export default cartSlice.reducer
