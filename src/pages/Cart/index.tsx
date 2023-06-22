@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '~/redux/hooks'
 import { cartState, removeAllItems } from '~/redux/reducers/cartSlice'
 import { Icon } from '~/components/Generals'
-import { ProductServices } from '~/services'
+import { ProductServices, UserServices } from '~/services'
 
 const { Title, Text } = Typography
 const Tax = 10
@@ -102,6 +102,18 @@ const Cart = () => {
         messageApi.error('Mã không hợp lệ !')
       }
       setCouponCode('')
+    }
+  }
+
+  const handleCheckout = async () => {
+    try {
+      const params = {
+        address_info: '6/1 thanh hoa ho nai 3 trang bom dong nai',
+        payment_method: 'ZALO_PAY'
+      }
+      const res = await UserServices.checkout(params)
+    } catch (error) {
+      console.error(error)
     }
   }
 
