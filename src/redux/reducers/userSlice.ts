@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { UserAddress, WishlistItem } from '../../interfaces'
 import { UserServices } from '../../services'
 import { RootState } from '../store'
-
+import type {RcFile, UploadFile  } from 'antd/es/upload/interface'
+import { UploadChangeParam } from 'antd/es/upload'
 export enum StatusTypes {
   SUCCESS = 'success',
   ERROR = 'error',
@@ -22,6 +23,30 @@ export const addItemToWishlistAsync = createAsyncThunk('addWishlist', async (id:
 export const removeItemFromWishlistAsync = createAsyncThunk('removeWishlist', async (ids: string[]) => {
   const response = await UserServices.removeItemFromWishlist(ids)
   return response.data
+})
+
+export const uploadFile = createAsyncThunk('upload', async (info: UploadChangeParam<UploadFile>) => {
+  const formData = new FormData()
+  formData.append('file', info.file.originFileObj as RcFile)
+  const res = await UserServices.uploadFile(formData)
+  return res.data
+})
+
+export type UserInfo = {
+  fullname: string,
+  phone_number: string,
+  photo: string
+}
+
+export const updateUserInfo = createAsyncThunk('uploadUserInfo', async (data: UserInfo) => {
+  const resBody = {
+    fullname: data.fullname,
+    phone_number: data.phone_number,
+    photo: data.photo
+  } 
+  const res = await UserServices.updateUserData(resBody)
+
+  return res.data
 })
 
 export const getUserAddress = createAsyncThunk('getUserAddress', async () => {
@@ -67,7 +92,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getWishList.fulfilled, (state, action) => {
-      state.wishlist = action.payload
+      state.wishlist = action.payload || []
     })
     builder.addCase(getWishList.rejected, (state) => {
       state.wishlist = []

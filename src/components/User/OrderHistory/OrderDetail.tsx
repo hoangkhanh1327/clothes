@@ -1,5 +1,6 @@
 import { Col, Image, Modal, Row, Space, Table, Tag, Typography } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { render } from 'react-dom'
 import { Icon } from '~/components/Generals'
 import { format3P } from '~/utils'
 const { Text, Title } = Typography
@@ -12,8 +13,8 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       render(value, _record, _index) {
         return (
           <Space>
-            <Image placeholder width={70} height={100} />
-            <Text>{value}</Text>
+            <Image placeholder width={70} height={100} src={_record?.product_detail?.photos ? _record.product_detail?.photos[0] : ''} alt='Product Image'/>
+            <Text>{_record.product_detail.name}</Text>
           </Space>
         )
       }
@@ -25,8 +26,8 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       render(value, _record, _index) {
         return (
           <Space direction='vertical'>
-            <Text>Màu sắc: {value?.color}</Text>
-            <Text>Kích thước: {value?.size}</Text>
+            <Text>Màu sắc: {_record?.color}</Text>
+            <Text>Kích thước: {_record?.size}</Text>
           </Space>
         )
       }
@@ -39,12 +40,19 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
     {
       title: 'Thành tiền',
       dataIndex: 'total',
-      key: 'total'
+      key: 'total',
+      render(value, _record, _index) {
+        return (
+          <Space direction='vertical'>
+            <Text>{_record?.quantity * (_record?.product_detail.price * (1 - _record?.product_detail.discount_percent))}đ</Text>
+          </Space>
+        )
+      }
     }
   ]
   return (
     <Modal
-      title={<Title level={2}>Chi tiết đơn hàng {orderDetail?.id}</Title>}
+      title={<Title level={2}>Chi tiết đơn hàng </Title>}
       width={`70vw`}
       open={open}
       onCancel={() => onClose()}
@@ -63,7 +71,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
           </div>
         </Col>
       </Row>
-      <Row className='tw-mb-2'>
+      {/* <Row className='tw-mb-2'>
         <Col span={24} md={{ span: 4 }}>
           <Title level={5} className='tw-mb-0'>
             Tên khách hàng
@@ -74,7 +82,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
             <Text className='tw-text-tertiary'>{orderDetail?.custommerName}</Text>
           </div>
         </Col>
-      </Row>
+      </Row> */}
       <Row className='tw-mb-2'>
         <Col span={24} md={{ span: 4 }}>
           <Title level={5} className='tw-mb-0'>
@@ -83,7 +91,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
         </Col>
         <Col span={24} md={{ span: 20 }}>
           <div className='tw-flex tw-h-full tw-items-end'>
-            <Text className='tw-text-tertiary'>Khu CNPM ITP, Linh Trung, Thủ Đức</Text>
+            <Text className='tw-text-tertiary'>{orderDetail?.address}</Text>
           </div>
         </Col>
       </Row>
@@ -107,7 +115,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
         </Col>
         <Col span={24} md={{ span: 20 }}>
           <div className='tw-flex tw-h-full tw-items-end'>
-            <Text className='tw-text-tertiary'>Thanh toán trực tuyến thông qua ZaloPay</Text>
+            <Text className='tw-text-tertiary'>{orderDetail?.payment_info.payment_method === "COD" ? "Thanh toán trực tiếp khi nhận hàng (COD)." : "Thanh toán trưc tuyến qua ZaloPay."}</Text>
           </div>
         </Col>
       </Row>
@@ -139,7 +147,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       </Row>
       <Row className='tw-mb-2'>
         <Col span={24}>
-          <Title level={5} className='tw-mb-0'>
+          <Title level={5} className='tw-mb-2'>
             Chi tiết đơn hàng
           </Title>
         </Col>

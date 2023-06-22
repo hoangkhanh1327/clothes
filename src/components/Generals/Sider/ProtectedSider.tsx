@@ -36,7 +36,13 @@ const ProtectedRoutes = {
     parentId: 0,
     id: 1
   },
-
+  ChangePassword: {
+    name: 'Thay đổi mật khẩu',
+    path: '/ca-nhan/thay-doi-mat-khau',
+    icon: 'SafetyOutlined',
+    parentId: 0,
+    id: 4
+  },
   Order: {
     name: 'Lịch sử mua hàng',
     path: '/ca-nhan/lich-su-mua-hang',
