@@ -20,6 +20,10 @@ const items: MenuProps['items'] = [
     key: '1'
   },
   {
+    label: <Link to={'/ca-nhan/doi-mat-khau'}>Thay đổi mật khẩu</Link>,
+    key: '3'
+  },
+  {
     type: 'divider'
   },
   {

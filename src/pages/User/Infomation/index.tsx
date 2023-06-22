@@ -8,7 +8,7 @@ import { AddressForm } from '~/components/Checkout'
 import type { UploadChangeParam } from 'antd/es/upload'
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { getBase64 } from '~/utils'
-import { createUserAddress, getUserAddress, userState } from '~/redux/reducers/userSlice'
+import { UserInfo, createUserAddress, getUserAddress, updateUserInfo, uploadFile, userState } from '~/redux/reducers/userSlice'
 import { User, UserAddress } from '~/interfaces'
 
 const { Title, Paragraph, Text } = Typography
@@ -36,20 +36,41 @@ const Infomation = () => {
       message.error('Chỉ có thể sử dụng file có đuôi JPG/PNG!')
     }
 
-    const isLt2M = file.size / 1024 / 1024 < 1
+    const isLt2M = file.size / 1024 / 1024 < 10
     if (!isLt2M) {
-      message.error('Hình ảnh phải nhỏ hơn 1MB!')
+      message.error('Hình ảnh phải nhỏ hơn 10MB!')
     }
 
     return isJpgOrPng
   }
 
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
+
+
     if (info.file.status === 'uploading') {
       setLoading(true)
       return
     }
     if (info.file.status === 'done' || info.file.status === 'error') {
+      dispatch(uploadFile(info)).then((res) => {
+        if (res.payload) {
+          const data : UserInfo = {
+            photo: res.payload as string,
+            fullname: user?.fullname as string,
+            phone_number: user?.phoneNumber as string
+          }
+
+          console.log(data)
+          dispatch(updateUserInfo(data)).then((resp) => {
+            if (resp.payload) {
+              message.success('Cập nhật thông tin thành công!')
+            } else {
+              message.error('Cập nhật thông tin thất bại!')
+            }
+          })
+        }
+      })
+
       getBase64(info.file.originFileObj as RcFile, (url) => {
         setLoading(false)
         setImageUrl(url)
@@ -150,7 +171,7 @@ const Infomation = () => {
             </Upload>
 
             <Paragraph className='tw-mt-4 tw-text-center tw-w-2/3'>
-              Dụng lượng file tối đa 1 MB.
+              Dụng lượng file tối đa 10 MB.
               <br />
               Định dạng: .JPEG, .PNG
             </Paragraph>
