@@ -32,9 +32,29 @@ export const logout = () => {
   store.dispatch(clearCart())
 }
 
+export const register = ({
+  fullname,
+  email,
+  password,
+  password_confirm
+}: {
+  fullname: string
+  email: string
+  password: string
+  password_confirm: string
+}) => {
+  return api.post(`/auth/sign-up`, {
+    fullname,
+    email,
+    password,
+    password_confirm
+  })
+}
+
 const AuthServices = {
   login,
   logout,
+  register,
   refreshToken
 }
 

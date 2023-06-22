@@ -38,7 +38,7 @@ export const updateUserAddress = async (params: Partial<UserAddress>) => {
 export const deleteUserAddress = async (addressId: string) => {
   return apiWithToken.delete(`/users/address/${addressId}`, {
     headers: {
-      Authorization: authHeader(),
+      Authorization: authHeader()
     }
   })
 }
@@ -47,7 +47,7 @@ export const uploadFile = async (params: any) => {
   return apiWithToken.post('/upload', params, {
     headers: {
       Authorization: authHeader(),
-      "Content-Type": "multipart/form-data"
+      'Content-Type': 'multipart/form-data'
     }
   })
 }
@@ -169,14 +169,6 @@ export const getMessages = () => {
 
 export const sendMegessage = (params: any) => {
   return apiWithToken.post('/send-message', params, {
-    headers: {
-      Authorization: authHeader()
-    }
-  })
-}
-
-export const createOrder = (params: any) => {
-  return apiWithToken.put('/order/', params, {
     headers: {
       Authorization: authHeader()
     }

@@ -1,11 +1,12 @@
 import { Image, Space, Typography, Tabs } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { config } from '../../utils'
 import { SignInForm, RegisterForm } from '../../components/Authentication'
 
 const { Text } = Typography
 
 const Authentication: React.FC<{}> = () => {
+  const [activeTab, setAccitveTab] = useState<string>('1')
   return (
     <main className='tw-h-screen tw-overflow-auto tw-flex tw-flex-col'>
       <header className='tw-h-10'></header>
@@ -27,6 +28,8 @@ const Authentication: React.FC<{}> = () => {
           <div className='tw-min-w-[328px] max-w-[500px] tw-mx-auto'>
             <Tabs
               defaultActiveKey='1'
+              activeKey={activeTab}
+              onChange={(activeKey: string) => setAccitveTab(activeKey)}
               centered
               items={[
                 {
@@ -37,7 +40,7 @@ const Authentication: React.FC<{}> = () => {
                 {
                   key: '2',
                   label: <Text className='tw-capitalize tw-font-semibold'>Đăng ký</Text>,
-                  children: <RegisterForm />
+                  children: <RegisterForm refreshTab={() => setAccitveTab('1')} />
                 }
               ]}
             />
