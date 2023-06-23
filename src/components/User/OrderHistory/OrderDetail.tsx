@@ -10,10 +10,16 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       title: 'Sản phẩm',
       dataIndex: 'name',
       key: 'name',
-      render(value, _record, _index) {
+      render(_value, _record, _index) {
         return (
           <Space>
-            <Image placeholder width={70} height={100} src={_record?.product_detail?.photos ? _record.product_detail?.photos[0] : ''} alt='Product Image'/>
+            <Image
+              placeholder
+              width={70}
+              height={100}
+              src={_record?.product_detail?.photos ? _record.product_detail?.photos[0] : ''}
+              alt='Product Image'
+            />
             <Text>{_record.product_detail.name}</Text>
           </Space>
         )
@@ -23,7 +29,7 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       title: 'Thông tin',
       dataIndex: 'info',
       key: 'info',
-      render(value, _record, _index) {
+      render(_value, _record, _index) {
         return (
           <Space direction='vertical'>
             <Text>Màu sắc: {_record?.color}</Text>
@@ -41,10 +47,12 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
       title: 'Thành tiền',
       dataIndex: 'total',
       key: 'total',
-      render(value, _record, _index) {
+      render(_value, _record, _index) {
         return (
           <Space direction='vertical'>
-            <Text>{_record?.quantity * (_record?.product_detail.price * (1 - _record?.product_detail.discount_percent))}đ</Text>
+            <Text>
+              {_record?.quantity * (_record?.product_detail.price * (1 - _record?.product_detail.discount_percent))}đ
+            </Text>
           </Space>
         )
       }
@@ -115,7 +123,11 @@ const OrderDetail = ({ open, onClose, orderDetail }: { open: boolean; onClose: F
         </Col>
         <Col span={24} md={{ span: 20 }}>
           <div className='tw-flex tw-h-full tw-items-end'>
-            <Text className='tw-text-tertiary'>{orderDetail?.payment_info.payment_method === "COD" ? "Thanh toán trực tiếp khi nhận hàng (COD)." : "Thanh toán trưc tuyến qua ZaloPay."}</Text>
+            <Text className='tw-text-tertiary'>
+              {orderDetail?.payment_info.payment_method === 'COD'
+                ? 'Thanh toán trực tiếp khi nhận hàng (COD).'
+                : 'Thanh toán trưc tuyến qua ZaloPay.'}
+            </Text>
           </div>
         </Col>
       </Row>
